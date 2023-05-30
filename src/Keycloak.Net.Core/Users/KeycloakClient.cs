@@ -6,13 +6,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Keycloak.Net.Common.Extensions;
+using Keycloak.Net.Interfaces;
 using Keycloak.Net.Models.Groups;
 using Keycloak.Net.Models.Users;
 using Newtonsoft.Json;
 
 namespace Keycloak.Net
 {
-	public partial class KeycloakClient
+    public partial class KeycloakClient : IKeycloakClient
 	{
 		public async Task<bool> CreateUserAsync(string realm, User user, CancellationToken cancellationToken = default)
 		{

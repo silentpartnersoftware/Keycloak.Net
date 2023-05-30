@@ -3,11 +3,12 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
+using Keycloak.Net.Interfaces;
 using Keycloak.Net.Models.UserStorageProvider;
 
 namespace Keycloak.Net
 {
-    public partial class KeycloakClient
+    public partial class KeycloakClient : IKeycloakClient
     {
         [Obsolete("Not working yet")]
         public async Task<bool> RemoveImportedUsersAsync(string realm, string storageProviderId, CancellationToken cancellationToken = default)

@@ -3,11 +3,12 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
+using Keycloak.Net.Interfaces;
 using Keycloak.Net.Models.ClientAttributeCertificate;
 
 namespace Keycloak.Net
 {
-    public partial class KeycloakClient
+    public partial class KeycloakClient : IKeycloakClient
     {
         public async Task<Certificate> GetKeyInfoAsync(string realm, string clientId, string attribute, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/certificates/{attribute}")

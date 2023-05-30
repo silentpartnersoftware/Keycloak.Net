@@ -1,4 +1,5 @@
 ﻿using Flurl.Http;
+using Keycloak.Net.Interfaces;
 using Keycloak.Net.Models.AuthorizationPermissions;
 using Keycloak.Net.Models.AuthorizationScopes;
 using Keycloak.Net.Models.Clients;
@@ -10,7 +11,7 @@ using AuthorizationResource = Keycloak.Net.Models.AuthorizationResources.Authori
 
 namespace Keycloak.Net
 {
-    public partial class KeycloakClient
+    public partial class KeycloakClient : IKeycloakClient
     {
         #region Permissions
         public async Task<AuthorizationPermission> CreateAuthorizationPermissionAsync(string realm, string clientId, AuthorizationPermission permission, CancellationToken cancellationToken = default) =>

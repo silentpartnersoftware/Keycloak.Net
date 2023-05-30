@@ -3,12 +3,13 @@ using Flurl;
 using Flurl.Http;
 using Flurl.Http.Configuration;
 using Keycloak.Net.Common.Extensions;
+using Keycloak.Net.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Keycloak.Net
 {
-    public partial class KeycloakClient
+    public partial class KeycloakClient : IKeycloakClient
     {
         private ISerializer _serializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings
         {

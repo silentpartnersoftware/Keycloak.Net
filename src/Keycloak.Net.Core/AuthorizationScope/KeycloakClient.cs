@@ -1,4 +1,5 @@
 ﻿using Flurl.Http;
+using Keycloak.Net.Interfaces;
 using Keycloak.Net.Models.AuthorizationScopes;
 using System.Collections.Generic;
 using System.Threading;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Keycloak.Net
 {
-    public partial class KeycloakClient
+    public partial class KeycloakClient : IKeycloakClient
     {
         public async Task<bool> CreateAuthorizationScopeAsync(string realm, string resourceServerId, AuthorizationScope scope, CancellationToken cancellationToken = default)
         {

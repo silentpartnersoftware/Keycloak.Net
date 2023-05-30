@@ -4,12 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Flurl.Http.Content;
+using Keycloak.Net.Interfaces;
 using Keycloak.Net.Models.Common;
 using Keycloak.Net.Models.Roles;
 
 namespace Keycloak.Net
 {
-    public partial class KeycloakClient
+    public partial class KeycloakClient : IKeycloakClient
     {
         public async Task<Role> GetRoleByIdAsync(string realm, string roleId, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/roles-by-id/{roleId}")

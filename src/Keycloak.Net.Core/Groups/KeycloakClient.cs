@@ -4,13 +4,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Keycloak.Net.Common.Extensions;
+using Keycloak.Net.Interfaces;
 using Keycloak.Net.Models.Common;
 using Keycloak.Net.Models.Groups;
 using Keycloak.Net.Models.Users;
 
 namespace Keycloak.Net
 {
-    public partial class KeycloakClient
+    public partial class KeycloakClient : IKeycloakClient
     {
         public async Task<bool> CreateGroupAsync(string realm, Group group, CancellationToken cancellationToken = default)
         {

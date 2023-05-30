@@ -2,11 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
+using Keycloak.Net.Interfaces;
 using Keycloak.Net.Models.ProtocolMappers;
 
 namespace Keycloak.Net
 {
-    public partial class KeycloakClient
+    public partial class KeycloakClient : IKeycloakClient
     {
         public async Task<bool> CreateMultipleProtocolMappersAsync(string realm, string clientScopeId, IEnumerable<ProtocolMapper> protocolMapperRepresentations, CancellationToken cancellationToken = default)
         {

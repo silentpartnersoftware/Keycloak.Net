@@ -4,11 +4,12 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
+using Keycloak.Net.Interfaces;
 using Keycloak.Net.Models.AuthenticationManagement;
 
 namespace Keycloak.Net
 {
-    public partial class KeycloakClient
+    public partial class KeycloakClient : IKeycloakClient
     {
         public async Task<IEnumerable<IDictionary<string, object>>> GetAuthenticatorProvidersAsync(string realm, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/authentication/authenticator-providers")

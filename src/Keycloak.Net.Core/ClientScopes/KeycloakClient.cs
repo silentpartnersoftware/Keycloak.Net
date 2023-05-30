@@ -2,11 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
+using Keycloak.Net.Interfaces;
 using Keycloak.Net.Models.ClientScopes;
 
 namespace Keycloak.Net
 {
-    public partial class KeycloakClient
+    public partial class KeycloakClient : IKeycloakClient
     {
         public async Task<bool> CreateClientScopeAsync(string realm, ClientScope clientScope, CancellationToken cancellationToken = default)
         {

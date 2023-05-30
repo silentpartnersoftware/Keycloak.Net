@@ -3,12 +3,13 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
+using Keycloak.Net.Interfaces;
 using Keycloak.Net.Models.Common;
 using Keycloak.Net.Models.Roles;
 
 namespace Keycloak.Net
 {
-	public partial class KeycloakClient
+    public partial class KeycloakClient : IKeycloakClient
 	{
 		public async Task<Mapping> GetScopeMappingsAsync(string realm, string clientScopeId, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
 			.AppendPathSegment($"/admin/realms/{realm}/client-scopes/{clientScopeId}/scope-mappings")
