@@ -9,8 +9,8 @@ namespace Keycloak.Net.Models.RealmsAdmin
         public bool? AdminEventsDetailsEnabled { get; set; }
         [JsonProperty("adminEventsEnabled")]
         public bool? AdminEventsEnabled { get; set; }
-        [JsonProperty("enabledEventsTypes")]
-        public IEnumerable<string> EnabledEventsTypes { get; set; }
+        [JsonProperty("enabledEventTypes")]
+        public IEnumerable<string> EnabledEventTypes { get; set; }
         [JsonProperty("eventsEnabled")]
         public bool? EventsEnabled { get; set; }
         [JsonProperty("eventsExpiration")]
