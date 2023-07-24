@@ -22,13 +22,14 @@ namespace Keycloak.Net
             return response.ResponseMessage.IsSuccessStatusCode;
         }
 
-        public async Task<IEnumerable<Role>> GetRolesAsync(string realm, string clientId, int? first = null, int? max = null, string search = null, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Role>> GetRolesAsync(string realm, string clientId, int? first = null, int? max = null, string search = null, bool? briefRepresentation = null, CancellationToken cancellationToken = default)
         {
             var queryParams = new Dictionary<string, object>
             {
                 [nameof(first)] = first,
                 [nameof(max)] = max,
-                [nameof(search)] = search
+                [nameof(search)] = search,
+                [nameof(briefRepresentation)] = briefRepresentation
             };
 
             return await GetBaseUrl(realm)
@@ -146,13 +147,14 @@ namespace Keycloak.Net
             return response.ResponseMessage.IsSuccessStatusCode;
         }
 
-        public async Task<IEnumerable<Role>> GetRolesAsync(string realm, int? first = null, int? max = null, string search = null, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Role>> GetRolesAsync(string realm, int? first = null, int? max = null, string search = null, bool? briefRepresentation = null, CancellationToken cancellationToken = default)
         {
             var queryParams = new Dictionary<string, object>
             {
                 [nameof(first)] = first,
                 [nameof(max)] = max,
-                [nameof(search)] = search
+                [nameof(search)] = search,
+                [nameof(briefRepresentation)] = briefRepresentation
             };
 
             return await GetBaseUrl(realm)

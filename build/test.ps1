@@ -1,4 +1,4 @@
-foreach ($test in ls $PSScriptRoot\..\test/*) {
+foreach ($test in ls $PSScriptRoot/../test/*) {
     Push-Location $test
 
     Write-Output "build: Testing project in $test"

@@ -5,9 +5,12 @@ using Keycloak.Net.Models.Users;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Keycloak.Net.Models;
+using Newtonsoft.Json.Linq;
 
 namespace Keycloak.Net
 {
@@ -123,7 +126,7 @@ namespace Keycloak.Net
             return response.ResponseMessage.IsSuccessStatusCode;
         }
 
-        public async Task<bool> SendUserUpdateAccountEmailAsync(string realm, string userId, IEnumerable<string> requiredActions, string clientId = null, int? lifespan = null, string redirectUri = null, CancellationToken cancellationToken = default)
+        public async Task<Response<bool>> SendUserUpdateAccountEmailAsync(string realm, string userId, IEnumerable<string> requiredActions, string clientId = null, int? lifespan = null, string redirectUri = null, CancellationToken cancellationToken = default)
         {
             var queryParams = new Dictionary<string, object>
             {
@@ -131,13 +134,19 @@ namespace Keycloak.Net
                 [nameof(lifespan)] = lifespan,
                 ["redirect_uri"] = redirectUri
             };
-
-            var response = await GetBaseUrl(realm)
-                .AppendPathSegment($"/admin/realms/{realm}/users/{userId}/execute-actions-email")
-                .SetQueryParams(queryParams)
-                .PutJsonAsync(requiredActions, cancellationToken)
-                .ConfigureAwait(false);
-            return response.ResponseMessage.IsSuccessStatusCode;
+            try
+            {
+                var response = await GetBaseUrl(realm)
+                    .AppendPathSegment($"/admin/realms/{realm}/users/{userId}/execute-actions-email")
+                    .SetQueryParams(queryParams)
+                    .PutJsonAsync(requiredActions, cancellationToken)
+                    .ConfigureAwait(false);
+                return new Response<bool>(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
+            }
+            catch (FlurlHttpException ex)
+            {
+                return await HandleErrorResponse<bool>(ex);
+            }
         }
 
         public async Task<IEnumerable<FederatedIdentity>> GetUserSocialLoginsAsync(string realm, string userId, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
@@ -227,40 +236,40 @@ namespace Keycloak.Net
 
         public async Task<bool> ResetUserPasswordAsync(string realm, string userId, Credentials credentials, CancellationToken cancellationToken = default)
         {
-            var response = await GetBaseUrl(realm)
-                .AppendPathSegment($"/admin/realms/{realm}/users/{userId}/reset-password")
-                .PutJsonAsync(credentials, cancellationToken)
-                .ConfigureAwait(false);
+            var response = await InternalResetUserPasswordAsync(realm, userId, credentials, cancellationToken);
             return response.ResponseMessage.IsSuccessStatusCode;
         }
 
-        public async Task<bool> ResetUserPasswordAsync(string realm, string userId, string password, bool temporary = true, CancellationToken cancellationToken = default)
+        public async Task<Response<bool>> ResetUserPasswordAsync(string realm, string userId, string password, bool temporary = true, CancellationToken cancellationToken = default)
         {
-            HttpResponseMessage response = await InternalResetUserPasswordAsync(realm, userId, password, temporary, cancellationToken).ConfigureAwait(false);
-            return response.IsSuccessStatusCode;
+            var credentials = new Credentials { Value = password, Temporary = temporary };
+            try
+            {
+                var response = await InternalResetUserPasswordAsync(realm, userId, credentials, cancellationToken);
+                return new Response<bool>(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
+            }
+            catch (FlurlHttpException ex)
+            {
+                return await HandleErrorResponse<bool>(ex);
+            }
         }
 
-        private async Task<HttpResponseMessage> InternalResetUserPasswordAsync(string realm, string userId, string password, bool temporary, CancellationToken cancellationToken)
+        private async Task<IFlurlResponse> InternalResetUserPasswordAsync(string realm, string userId, Credentials credentials, CancellationToken cancellationToken)
         {
-            var credentials = new Credentials
-            {
-                Value = password,
-                Temporary = temporary
-            };
-            var response = await GetBaseUrl(realm)
+            return await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/users/{userId}/reset-password")
                 .PutJsonAsync(credentials, cancellationToken)
                 .ConfigureAwait(false);
-            return response.ResponseMessage;
         }
 
         public async Task<SetPasswordResponse> SetUserPasswordAsync(string realm, string userId, string password, CancellationToken cancellationToken = default)
         {
-            var response = await InternalResetUserPasswordAsync(realm, userId, password, false, cancellationToken);
-            if (response.IsSuccessStatusCode)
-                return new SetPasswordResponse { Success = response.IsSuccessStatusCode };
+            var credentials = new Credentials { Value = password, Temporary = false };
+            var response = await InternalResetUserPasswordAsync(realm, userId, credentials, cancellationToken);
+            if (response.ResponseMessage.IsSuccessStatusCode)
+                return new SetPasswordResponse{ Success = response.ResponseMessage.IsSuccessStatusCode };
 
-            var jsonString = await response.Content.ReadAsStringAsync();
+            var jsonString = await response.ResponseMessage.Content.ReadAsStringAsync(cancellationToken);
             return JsonConvert.DeserializeObject<SetPasswordResponse>(jsonString);
         }
 
@@ -289,5 +298,23 @@ namespace Keycloak.Net
             .AppendPathSegment($"/admin/realms/{realm}/users/{userId}/sessions")
             .GetJsonAsync<IEnumerable<UserSession>>(cancellationToken)
             .ConfigureAwait(false);
+        
+        public async Task<Response<bool>> IsUserTemporarilyLockedAsync(string realm, string userId)
+        {
+            try
+            {
+                JObject json = await GetBaseUrl(realm)
+                    .AppendPathSegment($"/admin/realms/{realm}/attack-detection/brute-force/users/{userId}")
+                    .GetJsonAsync<JObject>()
+                    .ConfigureAwait(false);
+
+                bool disabled = json.GetValue("disabled")?.Value<bool>() ?? false;
+                return new Response<bool>(HttpStatusCode.OK, disabled);
+            }
+            catch (FlurlHttpException ex)
+            {
+                return await HandleErrorResponse<bool>(ex);
+            }
+        }
     }
 }

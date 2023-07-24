@@ -3,6 +3,7 @@
   <PropertyGroup>
       <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <RootNamespace>Keycloak.Net.Core.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Keycloak.Net.Core\Keycloak.Net.Core.csproj" />
+    <ProjectReference Include="..\..\src\Embrace.Keycloak.Net\Embrace.Keycloak.Net.csproj" />
   </ItemGroup>
 
   <ItemGroup>

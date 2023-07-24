@@ -20,6 +20,6 @@ namespace Keycloak.Net.Models.Roles
         [JsonProperty("containerId")]
         public string ContainerId { get; set; }
         [JsonProperty("attributes")]
-        public IDictionary<string, object> Attributes { get; set; }
+        public IDictionary<string, IEnumerable<string>> Attributes { get; set; }
     }
 }

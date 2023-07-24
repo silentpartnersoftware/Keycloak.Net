@@ -1,0 +1,63 @@
+variables:
+  Version.MajorMinor: 21.0
+  Version.Revision: $[counter(variables['Version.MajorMinor'], 0)]
+  Version.SemverNumber: $(Version.MajorMinor).$(Version.Revision)  
+
+name: $(Version.SemverNumber) # this sets the build_buildnumber variable
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: nettasks
+  jobs:
+  - job: test
+    steps:
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'restore'
+          restoreArguments: 
+          projects: 'test/**/*.csproj'
+
+      - task: DotNetCoreCLI@2
+        continueOnError: true
+        inputs:
+          command: 'test'
+          projects: 'test/**/*.csproj'
+
+  - job: build
+    dependsOn: test
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest')) # only for pr's
+    steps:
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'build'
+          projects: 'src/**/*.csproj'
+
+  - job: deploy
+    dependsOn: test
+    condition: and(succeeded(), not(eq(variables['Build.Reason'], 'PullRequest'))) # dont't run for pr's
+    steps:
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'restore'
+          projects: 'src/**/*.csproj'
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'pack'
+          packagesToPack: 'src/**/*.csproj'
+          versioningScheme: 'byBuildNumber'          
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'push'
+          packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+          nuGetFeedType: 'internal'
+          publishVstsFeed: '53b99a77-b93a-4904-8ad0-8004a351c673'
