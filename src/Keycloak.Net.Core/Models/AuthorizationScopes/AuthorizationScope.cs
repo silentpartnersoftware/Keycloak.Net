@@ -8,5 +8,7 @@ namespace Keycloak.Net.Models.AuthorizationScopes
         public string Id { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
+        [JsonProperty("displayName")]
+        public string DisplayName { get; set; }
     }
 }

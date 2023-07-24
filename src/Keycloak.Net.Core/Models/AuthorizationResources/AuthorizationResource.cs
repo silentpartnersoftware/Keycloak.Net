@@ -22,5 +22,7 @@ namespace Keycloak.Net.Models.AuthorizationResources
         public string DisplayName { get; set; }
         [JsonProperty("type")]
         public string Type { get; set; }
+        [JsonProperty("owner")]
+        public AuthorizationResourceOwner Owner { get; set; }
     }
 }
