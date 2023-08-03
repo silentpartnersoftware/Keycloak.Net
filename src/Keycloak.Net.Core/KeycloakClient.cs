@@ -56,7 +56,7 @@ namespace Keycloak.Net
         private IFlurlRequest GetBaseUrl(string authenticationRealm) => new Url(_url)
             .AppendPathSegment(_options.Prefix)
             .ConfigureRequest(settings => settings.JsonSerializer = _serializer)
-            .WithAuthentication(_getToken, _url, authenticationRealm, _userName, _password, _clientSecret, _options);
+            .WithAuthentication(_getToken, _url, _options.AuthenticationRealm ?? authenticationRealm, _userName, _password, _clientSecret, _options);
     }
 
     public class KeycloakOptions
@@ -64,10 +64,16 @@ namespace Keycloak.Net
         public string Prefix { get; }
         public string AdminClientId { get; }
 
-        public KeycloakOptions(string prefix = "", string adminClientId = "admin-cli")
+        /// <summary>
+        /// It is used only when the authorization realm differs from the target one
+        /// </summary>
+        public string AuthenticationRealm { get; }
+        
+        public KeycloakOptions(string prefix = "", string adminClientId = "admin-cli", string authenticationRealm = default)
         {
             Prefix = prefix.TrimStart('/').TrimEnd('/');
             AdminClientId = adminClientId;
+            AuthenticationRealm = authenticationRealm;
         }
     }
 }
