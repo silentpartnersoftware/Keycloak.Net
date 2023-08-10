@@ -16,7 +16,21 @@ namespace Keycloak.Net
         public async Task<bool> CreateUserAsync(string realm, User user, CancellationToken cancellationToken = default)
         {
             var response = await InternalCreateUserAsync(realm, user, cancellationToken).ConfigureAwait(false);
-            return response.IsSuccessStatusCode;
+            
+            if (!response.IsSuccessStatusCode)
+                return false;
+
+            var locationHeader = response.Headers.Location;
+
+            if (locationHeader == null) 
+                return true;
+            
+            var urlString = locationHeader.ToString();
+                
+            var userId = urlString[(urlString.LastIndexOf("/", StringComparison.Ordinal) + 1)..];
+            user.Id = userId;
+
+            return true;
         }
 
         private async Task<HttpResponseMessage> InternalCreateUserAsync(string realm, User user, CancellationToken cancellationToken) => (await GetBaseUrl(realm)
