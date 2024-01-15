@@ -62,6 +62,66 @@ namespace Keycloak.Net.Models.Clients
         public bool Required { get; set; }
     }
 
+    public class UserPolicy
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
+
+        [JsonConverter(typeof(PolicyTypeConverter))]
+        public PolicyType Type { get; set; } = PolicyType.User;
+
+        [JsonConverter(typeof(PolicyDecisionLogicConverter))]
+        public PolicyDecisionLogic Logic { get; set; }
+
+        [JsonConverter(typeof(DecisionStrategiesConverter))]
+        public DecisionStrategy DecisionStrategy { get; set; }
+
+        [JsonProperty("users")]
+        public IEnumerable<string> Users { get; set; }
+    }
+
+    public class GroupPolicy
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
+
+        [JsonConverter(typeof(PolicyTypeConverter))]
+        public PolicyType Type { get; set; } = PolicyType.Group;
+
+        [JsonConverter(typeof(PolicyDecisionLogicConverter))]
+        public PolicyDecisionLogic Logic { get; set; }
+
+        [JsonConverter(typeof(DecisionStrategiesConverter))]
+        public DecisionStrategy DecisionStrategy { get; set; }
+
+        [JsonProperty("groups")]
+        public IEnumerable<GroupConfig> GroupConfigs { get; set; }
+
+        [JsonProperty("groupsClaim")]
+        public string GroupsClaim { get; set; }
+    }
+
+    public class GroupConfig
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("path")]
+        public string Path { get; set; }
+    }
+
     public enum PolicyType
     {
         Role,

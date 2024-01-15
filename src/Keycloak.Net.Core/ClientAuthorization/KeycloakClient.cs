@@ -112,11 +112,47 @@ namespace Keycloak.Net
             return response;
         }
 
+        public async Task<UserPolicy> CreateUserPolicyAsync(string realm, string clientId, UserPolicy policy, CancellationToken cancellationToken = default)
+        {
+            var response = await GetBaseUrl(realm)
+                .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/authz/resource-server/policy")
+                .AppendPathSegment(policy.Type == PolicyType.User ? "/user" : string.Empty)
+                .PostJsonAsync(policy, cancellationToken)
+                .ReceiveJson<UserPolicy>()
+                .ConfigureAwait(false);
+            return response;
+        }
+
+        public async Task<GroupPolicy> CreateGroupPolicyAsync(string realm, string clientId, GroupPolicy policy, CancellationToken cancellationToken = default)
+        {
+            var response = await GetBaseUrl(realm)
+                .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/authz/resource-server/policy")
+                .AppendPathSegment(policy.Type == PolicyType.User ? "/group" : string.Empty)
+                .PostJsonAsync(policy, cancellationToken)
+                .ReceiveJson<GroupPolicy>()
+                .ConfigureAwait(false);
+            return response;
+        }
+
         public async Task<RolePolicy> GetRolePolicyByIdAsync(string realm, string clientId, PolicyType policyType, string rolePolicyId, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/authz/resource-server/policy")
             .AppendPathSegment(policyType == PolicyType.Role ? "/role" : string.Empty)
             .AppendPathSegment($"/{rolePolicyId}")
             .GetJsonAsync<RolePolicy>(cancellationToken)
+            .ConfigureAwait(false);
+        
+        public async Task<UserPolicy> GetUserPolicyByIdAsync(string realm, string clientId, PolicyType policyType, string userPolicyId, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
+            .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/authz/resource-server/policy")
+            .AppendPathSegment(policyType == PolicyType.User ? "/user" : string.Empty)
+            .AppendPathSegment($"/{userPolicyId}")
+            .GetJsonAsync<UserPolicy>(cancellationToken)
+            .ConfigureAwait(false);
+
+        public async Task<GroupPolicy> GetGroupPolicyByIdAsync(string realm, string clientId, PolicyType policyType, string groupPolicyId, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
+            .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/authz/resource-server/policy")
+            .AppendPathSegment(policyType == PolicyType.Group ? "/group" : string.Empty)
+            .AppendPathSegment($"/{groupPolicyId}")
+            .GetJsonAsync<GroupPolicy>(cancellationToken)
             .ConfigureAwait(false);
 
         public async Task<IEnumerable<Policy>> GetAuthorizationPoliciesAsync(string realm, string clientId,
@@ -174,12 +210,56 @@ namespace Keycloak.Net
             return response.ResponseMessage.IsSuccessStatusCode;
         }
 
+        public async Task<bool> UpdateUserPolicyAsync(string realm, string clientId, UserPolicy policy, CancellationToken cancellationToken = default)
+        {
+            var response = await GetBaseUrl(realm)
+                .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/authz/resource-server/policy")
+                .AppendPathSegment(policy.Type == PolicyType.User ? "/user" : string.Empty)
+                .AppendPathSegment($"/{policy.Id}")
+                .PutJsonAsync(policy, cancellationToken)
+                .ConfigureAwait(false);
+            return response.ResponseMessage.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdateGroupPolicyAsync(string realm, string clientId, GroupPolicy policy, CancellationToken cancellationToken = default)
+        {
+            var response = await GetBaseUrl(realm)
+                .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/authz/resource-server/policy")
+                .AppendPathSegment(policy.Type == PolicyType.Group ? "/group" : string.Empty)
+                .AppendPathSegment($"/{policy.Id}")
+                .PutJsonAsync(policy, cancellationToken)
+                .ConfigureAwait(false);
+            return response.ResponseMessage.IsSuccessStatusCode;
+        }
+
         public async Task<bool> DeleteRolePolicyAsync(string realm, string clientId, PolicyType policyType, string rolePolicyId, CancellationToken cancellationToken = default)
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/authz/resource-server/policy")
                 .AppendPathSegment(policyType == PolicyType.Role ? "/role" : string.Empty)
                 .AppendPathSegment($"/{rolePolicyId}")
+                .DeleteAsync(cancellationToken)
+                .ConfigureAwait(false);
+            return response.ResponseMessage.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteUserPolicyAsync(string realm, string clientId, PolicyType policyType, string userPolicyId, CancellationToken cancellationToken = default)
+        {
+            var response = await GetBaseUrl(realm)
+                .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/authz/resource-server/policy")
+                .AppendPathSegment(policyType == PolicyType.User ? "/user" : string.Empty)
+                .AppendPathSegment($"/{userPolicyId}")
+                .DeleteAsync(cancellationToken)
+                .ConfigureAwait(false);
+            return response.ResponseMessage.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteGroupPolicyAsync(string realm, string clientId, PolicyType policyType, string groupPolicyId, CancellationToken cancellationToken = default)
+        {
+            var response = await GetBaseUrl(realm)
+                .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/authz/resource-server/policy")
+                .AppendPathSegment(policyType == PolicyType.Group ? "/group" : string.Empty)
+                .AppendPathSegment($"/{groupPolicyId}")
                 .DeleteAsync(cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
