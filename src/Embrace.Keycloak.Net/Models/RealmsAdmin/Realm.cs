@@ -132,6 +132,8 @@ namespace Keycloak.Net.Models.RealmsAdmin
         public string DockerAuthenticationFlow { get; set; }
         [JsonProperty("attributes")]
         public Attributes Attributes { get; set; }
+        [JsonProperty("attributes")]
+        public IDictionary<string, string> AttributesRaw { get; set; }
         [JsonProperty("userManagedAccessAllowed")]
         public bool? UserManagedAccessAllowed { get; set; }
         [JsonProperty("passwordPolicy")]
