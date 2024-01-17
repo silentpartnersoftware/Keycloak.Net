@@ -104,5 +104,26 @@ namespace Keycloak.Net
                 return await HandleErrorResponse<bool>(ex);
             }
         }
+        
+        public async Task<Response<bool>> SendReminderEmail(string realm, string userId, string link)
+        {
+            try
+            {
+                await GetBaseUrl(realm)
+                    .AppendPathSegment($"/realms/{realm}/spi-account/users/{userId}/send-reminder")
+                    .WithHeader(HttpConstants.ContentType, HttpConstants.FormUrlEncoded)
+                    .PostUrlEncodedAsync(new List<KeyValuePair<string, string>>
+                    {
+                        new("link", link)
+                    })
+                    .ConfigureAwait(false);
+
+                return new Response<bool>(HttpStatusCode.OK, true);
+            }
+            catch (FlurlHttpException ex)
+            {
+                return await HandleErrorResponse<bool>(ex);
+            }
+        }
     }
 }

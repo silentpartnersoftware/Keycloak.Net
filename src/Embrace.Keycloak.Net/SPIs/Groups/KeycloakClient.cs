@@ -14,6 +14,7 @@ namespace Keycloak.Net
         public async Task<Response<IEnumerable<Group>>> GetRootGroupsOnlyAsync(
             string realm,
             string search = null,
+            bool? exact = false,
             int? first = null,
             int? max = null,
             bool? briefRepresentation = false)
@@ -21,6 +22,7 @@ namespace Keycloak.Net
             Dictionary<string, object> queryParams = new()
             {
                 [nameof(search)] = search,
+                [nameof(exact)] = exact,
                 [nameof(first)] = first,
                 [nameof(max)] = max,
                 [nameof(briefRepresentation)] = briefRepresentation
@@ -63,6 +65,7 @@ namespace Keycloak.Net
             string realm,
             string groupId,
             string search = null,
+            bool? exact = false,
             int? first = null,
             int? max = null,
             bool? briefRepresentation = false)
@@ -70,6 +73,7 @@ namespace Keycloak.Net
             Dictionary<string, object> queryParams = new()
             {
                 [nameof(search)] = search,
+                [nameof(exact)] = exact,
                 [nameof(first)] = first,
                 [nameof(max)] = max,
                 [nameof(briefRepresentation)] = briefRepresentation
