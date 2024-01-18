@@ -77,7 +77,7 @@ namespace Keycloak.Net
             return request;
         }
         
-        private async Task<Response<T>> HandleErrorResponse<T>(FlurlHttpException ex)
+        public async Task<Response<T>> HandleErrorResponse<T>(FlurlHttpException ex)
         {
             if (ex.Call.Response == null)
             {
