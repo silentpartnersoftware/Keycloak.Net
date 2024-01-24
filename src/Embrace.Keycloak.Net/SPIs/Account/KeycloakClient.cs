@@ -105,13 +105,14 @@ namespace Keycloak.Net
             }
         }
         
-        public async Task<Response<bool>> SendReminderEmail(string realm, string userId, string link)
+        public async Task<Response<bool>> SendReminderEmail(string realm, string userId, string link, string themeId = null)
         {
             try
             {
                 await GetBaseUrl(realm)
                     .AppendPathSegment($"/realms/{realm}/spi-account/users/{userId}/send-reminder")
                     .WithHeader(HttpConstants.ContentType, HttpConstants.FormUrlEncoded)
+                    .SetQueryParam("theme_id", themeId)
                     .PostUrlEncodedAsync(new List<KeyValuePair<string, string>>
                     {
                         new("link", link)
