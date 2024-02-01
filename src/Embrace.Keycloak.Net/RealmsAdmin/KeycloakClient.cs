@@ -1,13 +1,16 @@
-﻿using Flurl.Http;
+﻿using System;
+using Flurl.Http;
 using Keycloak.Net.Models.Clients;
 using Keycloak.Net.Models.ClientScopes;
 using Keycloak.Net.Models.Common;
 using Keycloak.Net.Models.Groups;
 using Keycloak.Net.Models.RealmsAdmin;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Keycloak.Net.Models;
 
 namespace Keycloak.Net
 {
@@ -326,6 +329,109 @@ namespace Keycloak.Net
                 .PutJsonAsync(managementPermission, cancellationToken)
                 .ReceiveJson<ManagementPermission>()
                 .ConfigureAwait(false);
+        }
+        
+        public async Task<Response<bool>> CreateOrUpdateRealmLocalizationTexts(string realm, string locale, IDictionary<string, string> localizationTexts, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var response = await GetBaseUrl(realm)
+                    .AppendPathSegment($"/admin/realms/{realm}/localization/{locale}")
+                    .PostJsonAsync(localizationTexts, cancellationToken)
+                    .ConfigureAwait(false);
+                
+                return Response<bool>.Success(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
+            }
+            catch (FlurlHttpException ex)
+            {
+                return await HandleErrorResponse<bool>(ex);
+            }
+        }
+        
+        public async Task<Response<bool>> DeleteRealmLocalizationTexts(string realm, string locale, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var response = await GetBaseUrl(realm)
+                    .AppendPathSegment($"/admin/realms/{realm}/localization/{locale}")
+                    .DeleteAsync(cancellationToken)
+                    .ConfigureAwait(false);
+                
+                return Response<bool>.Success(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
+            }
+            catch (FlurlHttpException ex)
+            {
+                return await HandleErrorResponse<bool>(ex);
+            }
+        }
+        
+        public async Task<Response<bool>> DeleteRealmLocalizationText(string realm, string locale, string key, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var response = await GetBaseUrl(realm)
+                    .AppendPathSegment($"/admin/realms/{realm}/localization/{locale}/{key}")
+                    .DeleteAsync(cancellationToken)
+                    .ConfigureAwait(false);
+                
+                return Response<bool>.Success(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
+            }
+            catch (FlurlHttpException ex)
+            {
+                return await HandleErrorResponse<bool>(ex);
+            }
+        }
+        
+        public async Task<Response<IDictionary<string, string>>> GetRealmLocalizationTexts(string realm, string locale, bool? useRealmDefaultLocaleFallback = null, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var localizationTexts = await GetBaseUrl(realm)
+                    .AppendPathSegment($"/admin/realms/{realm}/localization/{locale}")
+                    .SetQueryParam(nameof(useRealmDefaultLocaleFallback), useRealmDefaultLocaleFallback)
+                    .GetJsonAsync<IDictionary<string, string>>(cancellationToken)
+                    .ConfigureAwait(false);
+                
+                return Response<IDictionary<string, string>>.Success(HttpStatusCode.OK, localizationTexts);
+            }
+            catch (FlurlHttpException ex)
+            {
+                return await HandleErrorResponse<IDictionary<string, string>>(ex);
+            }
+        }
+        
+        public async Task<Response<string>> GetRealmLocalizationText(string realm, string locale, string key, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var localizationText = await GetBaseUrl(realm)
+                    .AppendPathSegment($"/admin/realms/{realm}/localization/{locale}/{key}")
+                    .GetStringAsync(cancellationToken)
+                    .ConfigureAwait(false);
+                
+                return Response<string>.Success(HttpStatusCode.OK, localizationText);
+            }
+            catch (FlurlHttpException ex)
+            {
+                return await HandleErrorResponse<string>(ex);
+            }
+        }
+        
+        public async Task<Response<IEnumerable<string>>> GetRealmLocalizationLocales(string realm, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var locales = await GetBaseUrl(realm)
+                    .AppendPathSegment($"/admin/realms/{realm}/localization")
+                    .GetJsonAsync<IEnumerable<string>>(cancellationToken)
+                    .ConfigureAwait(false);
+                
+                return Response<IEnumerable<string>>.Success(HttpStatusCode.OK, locales);
+            }
+            catch (FlurlHttpException ex)
+            {
+                return await HandleErrorResponse<IEnumerable<string>>(ex);
+            }
         }
     }
 }

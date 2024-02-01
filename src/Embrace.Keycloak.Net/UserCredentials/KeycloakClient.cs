@@ -53,7 +53,7 @@ namespace Keycloak.Net
                     })
                     .ConfigureAwait(false);
 
-                return new Response<bool>(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
+                return Response<bool>.Success(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
             }
             catch (FlurlHttpException ex)
             {

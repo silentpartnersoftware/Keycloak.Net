@@ -141,7 +141,7 @@ namespace Keycloak.Net
                     .SetQueryParams(queryParams)
                     .PutJsonAsync(requiredActions, cancellationToken)
                     .ConfigureAwait(false);
-                return new Response<bool>(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
+                return Response<bool>.Success(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
             }
             catch (FlurlHttpException ex)
             {
@@ -246,7 +246,7 @@ namespace Keycloak.Net
             try
             {
                 var response = await InternalResetUserPasswordAsync(realm, userId, credentials, cancellationToken);
-                return new Response<bool>(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
+                return Response<bool>.Success(response.StatusCode, response.ResponseMessage.IsSuccessStatusCode);
             }
             catch (FlurlHttpException ex)
             {
@@ -309,7 +309,7 @@ namespace Keycloak.Net
                     .ConfigureAwait(false);
 
                 bool disabled = json.GetValue("disabled")?.Value<bool>() ?? false;
-                return new Response<bool>(HttpStatusCode.OK, disabled);
+                return Response<bool>.Success(HttpStatusCode.OK, disabled);
             }
             catch (FlurlHttpException ex)
             {

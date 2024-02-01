@@ -34,7 +34,7 @@ namespace Keycloak.Net
                     .ReceiveJson<ExternalIdpToken>()
                     .ConfigureAwait(false);
 
-                return new Response<ExternalIdpToken>(HttpStatusCode.OK, response);
+                return Response<ExternalIdpToken>.Success(HttpStatusCode.OK, response);
             }
             catch (FlurlHttpException ex)
             {

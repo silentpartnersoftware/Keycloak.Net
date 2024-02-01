@@ -36,7 +36,7 @@ namespace Keycloak.Net
                     })
                     .ConfigureAwait(false);
 
-                return new Response<bool>(HttpStatusCode.OK, true);
+                return Response<bool>.Success(HttpStatusCode.OK, true);
             }
             catch (FlurlHttpException ex)
             {
@@ -53,7 +53,7 @@ namespace Keycloak.Net
                     .GetJsonAsync<MfaCode>()
                     .ConfigureAwait(false);
 
-                return new Response<MfaCode>(HttpStatusCode.OK, mfaCode);
+                return Response<MfaCode>.Success(HttpStatusCode.OK, mfaCode);
             }
             catch (FlurlHttpException ex)
             {
@@ -76,7 +76,7 @@ namespace Keycloak.Net
                     })
                     .ConfigureAwait(false);
 
-                return new Response<bool>(HttpStatusCode.OK, true);
+                return Response<bool>.Success(HttpStatusCode.OK, true);
             }
             catch (FlurlHttpException ex)
             {
@@ -97,7 +97,7 @@ namespace Keycloak.Net
                     })
                     .ConfigureAwait(false);
 
-                return new Response<bool>(HttpStatusCode.OK, true);
+                return Response<bool>.Success(HttpStatusCode.OK, true);
             }
             catch (FlurlHttpException ex)
             {
@@ -119,7 +119,7 @@ namespace Keycloak.Net
                     })
                     .ConfigureAwait(false);
 
-                return new Response<bool>(HttpStatusCode.OK, true);
+                return Response<bool>.Success(HttpStatusCode.OK, true);
             }
             catch (FlurlHttpException ex)
             {

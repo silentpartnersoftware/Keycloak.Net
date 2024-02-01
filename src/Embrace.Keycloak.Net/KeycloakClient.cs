@@ -66,6 +66,10 @@ namespace Keycloak.Net
 
         private IFlurlRequest GetBaseUrl(string authenticationRealm)
         {
+            // Uncomment the line below when using admin-cli client to authenticate:
+            // authenticationRealm = "master";
+            // TODO: Find a proper way to configure this  
+            
             var request = new Url(_url)
                 .AppendPathSegment(_options.Prefix)
                 .ConfigureRequest(settings => settings.JsonSerializer = _serializer)
@@ -81,7 +85,7 @@ namespace Keycloak.Net
         {
             if (ex.Call.Response == null)
             {
-                return new Response<T>(HttpStatusCode.InternalServerError, ex.Call.Exception.Message);
+                return Response<T>.Failure(HttpStatusCode.InternalServerError, ex.Call.Exception.Message);
             }
 
             var kcStatus = ex.Call.Response.StatusCode;
@@ -100,7 +104,7 @@ namespace Keycloak.Net
                 };
             }
 
-            return new Response<T>(kcStatus, $"{kcStatus} | {kcError.ErrorDetails}");
+            return Response<T>.Failure(kcStatus, $"{kcStatus} | {kcError.ErrorDetails}");
         }
     }
 

@@ -36,7 +36,7 @@ namespace Keycloak.Net
                     .GetJsonAsync<IEnumerable<Group>>()
                     .ConfigureAwait(false);
 
-                return new Response<IEnumerable<Group>>(HttpStatusCode.OK, groups);
+                return Response<IEnumerable<Group>>.Success(HttpStatusCode.OK, groups);
             }
             catch (FlurlHttpException ex)
             {
@@ -53,7 +53,7 @@ namespace Keycloak.Net
                     .GetJsonAsync<Group>()
                     .ConfigureAwait(false);
 
-                return new Response<Group>(HttpStatusCode.OK, group);
+                return Response<Group>.Success(HttpStatusCode.OK, group);
             }
             catch (FlurlHttpException ex)
             {
@@ -87,7 +87,7 @@ namespace Keycloak.Net
                     .GetJsonAsync<IEnumerable<Group>>()
                     .ConfigureAwait(false);
 
-                return new Response<IEnumerable<Group>>(HttpStatusCode.OK, groups);
+                return Response<IEnumerable<Group>>.Success(HttpStatusCode.OK, groups);
             }
             catch (FlurlHttpException ex)
             {
