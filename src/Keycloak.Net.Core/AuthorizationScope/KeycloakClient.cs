@@ -8,13 +8,14 @@ namespace Keycloak.Net
 {
     public partial class KeycloakClient
     {
-        public async Task<bool> CreateAuthorizationScopeAsync(string realm, string resourceServerId, AuthorizationScope scope, CancellationToken cancellationToken = default)
+        public async Task<string> CreateAuthorizationScopeAsync(string realm, string resourceServerId, AuthorizationScope scope, CancellationToken cancellationToken = default)
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/clients/{resourceServerId}/authz/resource-server/scope")
                 .PostJsonAsync(scope, cancellationToken)
+                .ReceiveJson<AuthorizationScope>()
                 .ConfigureAwait(false);
-            return response.ResponseMessage.IsSuccessStatusCode;
+            return response.Id;
         }
 
         public async Task<IEnumerable<AuthorizationScope>> GetAuthorizationScopesAsync(string realm, string resourceServerId = null,

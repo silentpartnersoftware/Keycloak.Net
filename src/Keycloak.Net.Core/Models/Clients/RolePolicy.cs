@@ -120,6 +120,9 @@ namespace Keycloak.Net.Models.Clients
 
         [JsonProperty("path")]
         public string Path { get; set; }
+
+        [JsonProperty("extendChildren")]
+        public bool ExtendChildren { get; set; }
     }
 
     public enum PolicyType
