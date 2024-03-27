@@ -127,7 +127,7 @@ namespace Keycloak.Net
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/authz/resource-server/policy")
-                .AppendPathSegment(policy.Type == PolicyType.User ? "/group" : string.Empty)
+                .AppendPathSegment(policy.Type == PolicyType.Group ? "/group" : string.Empty)
                 .PostJsonAsync(policy, cancellationToken)
                 .ReceiveJson<GroupPolicy>()
                 .ConfigureAwait(false);
