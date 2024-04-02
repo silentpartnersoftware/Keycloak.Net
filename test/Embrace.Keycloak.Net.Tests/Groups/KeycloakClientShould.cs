@@ -10,7 +10,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetGroupHierarchyAsync(string realm)
         {
-            var result = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
+            var result = await _client.GetGroupsAsync(realm).ConfigureAwait(false);
             Assert.NotNull(result);
         }
 
@@ -26,7 +26,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetGroupAsync(string realm)
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
+            var groups = await _client.GetGroupsAsync(realm).ConfigureAwait(false);
             string groupId = groups.FirstOrDefault()?.Id;
             if (groupId != null)
             {
@@ -39,7 +39,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetGroupClientAuthorizationPermissionsInitializedAsync(string realm)
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
+            var groups = await _client.GetGroupsAsync(realm).ConfigureAwait(false);
             string groupId = groups.FirstOrDefault()?.Id;
             if (groupId != null)
             {
@@ -52,7 +52,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetGroupUsersAsync(string realm)
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
+            var groups = await _client.GetGroupsAsync(realm).ConfigureAwait(false);
             string groupId = groups.FirstOrDefault()?.Id;
             if (groupId != null)
             {

@@ -10,7 +10,7 @@ namespace Keycloak.Net.Tests
         [InlineData("Insurance", "insurance-product")]
         public async Task GetClientRoleMappingsForGroupAsync(string realm, string clientId)
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
+            var groups = await _client.GetGroupsAsync(realm).ConfigureAwait(false);
             string groupId = groups.FirstOrDefault()?.Id;
             if (groupId != null)
             {
@@ -28,7 +28,7 @@ namespace Keycloak.Net.Tests
         [InlineData("Insurance", "insurance-product")]
         public async Task GetAvailableClientRoleMappingsForGroupAsync(string realm, string clientId)
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
+            var groups = await _client.GetGroupsAsync(realm).ConfigureAwait(false);
             string groupId = groups.FirstOrDefault()?.Id;
             if (groupId != null)
             {
@@ -46,7 +46,7 @@ namespace Keycloak.Net.Tests
         [InlineData("Insurance", "insurance-product")]
         public async Task GetEffectiveClientRoleMappingsForGroupAsync(string realm, string clientId)
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
+            var groups = await _client.GetGroupsAsync(realm).ConfigureAwait(false);
             string groupId = groups.FirstOrDefault()?.Id;
             if (groupId != null)
             {

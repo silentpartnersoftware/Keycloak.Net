@@ -10,7 +10,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetRoleMappingsForGroupAsync(string realm)
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
+            var groups = await _client.GetGroupsAsync(realm).ConfigureAwait(false);
             string groupId = groups.FirstOrDefault()?.Id;
             if (groupId != null)
             {
@@ -23,7 +23,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetRealmRoleMappingsForGroupAsync(string realm)
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
+            var groups = await _client.GetGroupsAsync(realm).ConfigureAwait(false);
             string groupId = groups.FirstOrDefault()?.Id;
             if (groupId != null)
             {
@@ -36,7 +36,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetAvailableRealmRoleMappingsForGroupAsync(string realm)
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
+            var groups = await _client.GetGroupsAsync(realm).ConfigureAwait(false);
             string groupId = groups.FirstOrDefault()?.Id;
             if (groupId != null)
             {
@@ -49,7 +49,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetEffectiveRealmRoleMappingsForGroupAsync(string realm)
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
+            var groups = await _client.GetGroupsAsync(realm).ConfigureAwait(false);
             string groupId = groups.FirstOrDefault()?.Id;
             if (groupId != null)
             {
