@@ -22,7 +22,8 @@ namespace Keycloak.Net
         }
 
         public async Task<IEnumerable<Group>> GetGroupsAsync(string realm, int? first = null, int? max = null, string search = null, 
-            bool? exact = null, string q = null, bool? briefRepresentation = null, CancellationToken cancellationToken = default)
+            bool? exact = null, string q = null, bool? briefRepresentation = null, bool? populateHierarchy = null, 
+            CancellationToken cancellationToken = default)
         {
             var queryParams = new Dictionary<string, object>
             {
@@ -31,7 +32,8 @@ namespace Keycloak.Net
                 [nameof(search)] = search,
                 [nameof(exact)] = exact,
                 [nameof(q)] = q,
-                [nameof(briefRepresentation)] = briefRepresentation
+                [nameof(briefRepresentation)] = briefRepresentation,
+                [nameof(populateHierarchy)] = populateHierarchy
             };
 
             return await GetBaseUrl(realm)

@@ -11,6 +11,8 @@ namespace Keycloak.Net.Models.Groups
         public string Name { get; set; }
         [JsonProperty("path")]
         public string Path { get; set; }
+        [JsonProperty("subGroupCount")]
+        public int SubgroupCount { get; set; }
         [JsonProperty("subGroups")]
         public IEnumerable<Group> Subgroups { get; set; }
         [JsonProperty("realmRoles")]
