@@ -92,6 +92,24 @@ namespace Keycloak.Net
             return response.ResponseMessage.IsSuccessStatusCode;
         }
 
+        public async Task<IEnumerable<Group>> GetGroupChildrenAsync(string realm, string groupId, int? first = null, int? max = null, CancellationToken cancellationToken = default)
+        {
+            var queryParams = new Dictionary<string, object>
+            {
+                [nameof(first)] = first,
+                [nameof(max)] = max,
+                ["briefRepresentation"] = false
+            };
+
+            var result = await GetBaseUrl(realm)
+                .AppendPathSegment($"/admin/realms/{realm}/groups/{groupId}/children")
+                .SetQueryParams(queryParams)
+                .GetJsonAsync<IEnumerable<Group>>(cancellationToken)
+                .ConfigureAwait(false);
+            
+            return result;
+        }
+
         public async Task<ManagementPermission> GetGroupClientAuthorizationPermissionsInitializedAsync(string realm, string groupId, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/groups/{groupId}/management/permissions")
             .GetJsonAsync<ManagementPermission>(cancellationToken)
