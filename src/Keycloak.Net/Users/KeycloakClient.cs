@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Keycloak.Net.Common.Extensions;
@@ -54,12 +55,28 @@ namespace Keycloak.Net
 				.ConfigureAwait(false);
 		}
 
-		public async Task<int> GetUsersCountAsync(string realm) => await GetBaseUrl(realm)
-			.AppendPathSegment($"/admin/realms/{realm}/users/count")
-			.GetJsonAsync<int>()
-			.ConfigureAwait(false);
+        public async Task<int> GetUsersCountAsync(string realm, string email = null, bool? emailVerified = null, bool? enabled = null,
+               string firstName = null, string lastName = null, string q = null, string search = null, string username = null, CancellationToken cancellationToken = default)
+        {
+            var queryParams = new Dictionary<string, object>
+            {
+                [nameof(email)] = email,
+                [nameof(emailVerified)] = emailVerified,
+                [nameof(enabled)] = enabled,
+                [nameof(firstName)] = firstName,
+                [nameof(lastName)] = lastName,
+                [nameof(q)] = q,
+                [nameof(search)] = search,
+                [nameof(username)] = username,
+            };
+            return await GetBaseUrl(realm)
+            .AppendPathSegment($"/admin/realms/{realm}/users/count")
+            .SetQueryParams(queryParams)
+            .GetJsonAsync<int>(cancellationToken)
+            .ConfigureAwait(false);
+        }
 
-		public async Task<User> GetUserAsync(string realm, string userId) => await GetBaseUrl(realm)
+        public async Task<User> GetUserAsync(string realm, string userId) => await GetBaseUrl(realm)
 			.AppendPathSegment($"/admin/realms/{realm}/users/{userId}")
 			.GetJsonAsync<User>()
 			.ConfigureAwait(false);
