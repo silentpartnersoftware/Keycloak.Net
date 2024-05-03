@@ -265,7 +265,6 @@ namespace Keycloak.Net
             .ReceiveJson<Client>()
             .ConfigureAwait(false);
 
-        [Obsolete("Not working yet")]
         public async Task<User> GetUserForServiceAccountAsync(string realm, string clientId, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/clients/{clientId}/service-account-user")
             .GetJsonAsync<User>(cancellationToken)
