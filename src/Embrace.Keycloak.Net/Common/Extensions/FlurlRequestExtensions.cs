@@ -3,6 +3,7 @@ using Flurl.Http;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Flurl.Http.Newtonsoft;
 
 namespace Keycloak.Net.Common.Extensions
 {

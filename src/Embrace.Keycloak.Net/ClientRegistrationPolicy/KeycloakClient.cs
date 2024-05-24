@@ -10,7 +10,7 @@ namespace Keycloak.Net
     {
         public async Task<IEnumerable<ComponentType>> GetRetrieveProvidersBasePathAsync(string realm, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/client-registration-policy/providers")
-            .GetJsonAsync<IEnumerable<ComponentType>>(cancellationToken)
+            .GetJsonAsync<IEnumerable<ComponentType>>(cancellationToken: cancellationToken)
             .ConfigureAwait(false);
     }
 }

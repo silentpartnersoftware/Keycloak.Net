@@ -9,7 +9,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetRetrieveProvidersBasePathAsync(string realm)
         {
-            var result = await _client.GetRetrieveProvidersBasePathAsync(realm).ConfigureAwait(false);
+            var result = await _client.GetRetrieveProvidersBasePathAsync(realm);
             Assert.NotNull(result);
         }
     }

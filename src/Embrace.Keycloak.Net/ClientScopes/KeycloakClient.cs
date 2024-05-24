@@ -12,26 +12,26 @@ namespace Keycloak.Net
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/client-scopes")
-                .PostJsonAsync(clientScope, cancellationToken)
+                .PostJsonAsync(clientScope, cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }
 
         public async Task<IEnumerable<ClientScope>> GetClientScopesAsync(string realm, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/client-scopes")
-            .GetJsonAsync<IEnumerable<ClientScope>>(cancellationToken)
+            .GetJsonAsync<IEnumerable<ClientScope>>(cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         public async Task<ClientScope> GetClientScopeAsync(string realm, string clientScopeId, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/client-scopes/{clientScopeId}")
-            .GetJsonAsync<ClientScope>(cancellationToken)
+            .GetJsonAsync<ClientScope>(cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         public async Task<bool> UpdateClientScopeAsync(string realm, string clientScopeId, ClientScope clientScope, CancellationToken cancellationToken = default)
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/client-scopes/{clientScopeId}")
-                .PutJsonAsync(clientScope, cancellationToken)
+                .PutJsonAsync(clientScope, cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }
@@ -40,7 +40,7 @@ namespace Keycloak.Net
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/client-scopes/{clientScopeId}")
-                .DeleteAsync(cancellationToken)
+                .DeleteAsync(cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }

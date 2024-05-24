@@ -12,7 +12,7 @@ namespace Keycloak.Net
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/clients/{resourceServerId}/authz/resource-server/resource")
-                .PostJsonAsync(resource, cancellationToken)
+                .PostJsonAsync(resource, cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }
@@ -35,20 +35,20 @@ namespace Keycloak.Net
             return await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/clients/{resourceServerId}/authz/resource-server/resource")
                 .SetQueryParams(queryParams)
-                .GetJsonAsync<IEnumerable<AuthorizationResource>>(cancellationToken)
+                .GetJsonAsync<IEnumerable<AuthorizationResource>>(cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
         }
 
         public async Task<AuthorizationResource> GetResourceAsync(string realm, string resourceServerId, string resourceId, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/clients/{resourceServerId}/authz/resource-server/resource/{resourceId}")
-            .GetJsonAsync<AuthorizationResource>(cancellationToken)
+            .GetJsonAsync<AuthorizationResource>(cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         public async Task<bool> UpdateResourceAsync(string realm, string resourceServerId, string resourceId, AuthorizationResource resource, CancellationToken cancellationToken = default)
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/clients/{resourceServerId}/authz/resource-server/resource/{resourceId}")
-                .PutJsonAsync(resource, cancellationToken)
+                .PutJsonAsync(resource, cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }
@@ -57,7 +57,7 @@ namespace Keycloak.Net
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/clients/{resourceServerId}/authz/resource-server/resource/{resourceId}")
-                .DeleteAsync(cancellationToken)
+                .DeleteAsync(cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }

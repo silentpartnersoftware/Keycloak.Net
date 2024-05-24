@@ -7,6 +7,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Flurl.Http.Newtonsoft;
 using Keycloak.Net.Models;
 
 namespace Keycloak.Net
@@ -72,7 +73,7 @@ namespace Keycloak.Net
             
             var request = new Url(_url)
                 .AppendPathSegment(_options.Prefix)
-                .ConfigureRequest(settings => settings.JsonSerializer = _serializer)
+                .WithSettings(s => s.JsonSerializer = _serializer)
                 .WithAuthentication(_getToken, _url, authenticationRealm, _userName, _password, _clientSecret, _options);
 
             if (_forwardedHeaders != null)

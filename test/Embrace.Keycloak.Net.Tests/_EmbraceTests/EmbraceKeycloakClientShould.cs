@@ -33,7 +33,7 @@ namespace Keycloak.Net.EmbraceTests
         [InlineData("embracecloud")]
         public async Task GetRealmLocalizationLocales(string realm)
         {
-            var response = await _client.GetRealmLocalizationLocales(realm).ConfigureAwait(false);
+            var response = await _client.GetRealmLocalizationLocales(realm);
             Assert.True(response.IsSuccessful);
 
             var locales = response.Payload;
@@ -44,7 +44,7 @@ namespace Keycloak.Net.EmbraceTests
         [InlineData("embracecloud", "en")]
         public async Task GetRealmLocalizationTexts(string realm, string locale)
         {
-            var response = await _client.GetRealmLocalizationTexts(realm, locale).ConfigureAwait(false);
+            var response = await _client.GetRealmLocalizationTexts(realm, locale);
             Assert.True(response.IsSuccessful);
 
             var locales = response.Payload;
@@ -55,7 +55,7 @@ namespace Keycloak.Net.EmbraceTests
         [InlineData("embracecloud", "en", "key1")]
         public async Task GetRealmLocalizationText(string realm, string locale, string key)
         {
-            var response = await _client.GetRealmLocalizationText(realm, locale, key).ConfigureAwait(false);
+            var response = await _client.GetRealmLocalizationText(realm, locale, key);
             Assert.True(response.IsSuccessful);
 
             var locales = response.Payload;

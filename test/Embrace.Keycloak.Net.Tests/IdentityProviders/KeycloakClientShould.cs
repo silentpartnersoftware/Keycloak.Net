@@ -10,7 +10,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetIdentityProviderInstancesAsync(string realm)
         {
-            var result = await _client.GetIdentityProviderInstancesAsync(realm).ConfigureAwait(false);
+            var result = await _client.GetIdentityProviderInstancesAsync(realm);
             Assert.NotNull(result);
         }
 
@@ -18,11 +18,11 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetIdentityProviderAsync(string realm)
         {
-            var identityProviderInstances = await _client.GetIdentityProviderInstancesAsync(realm).ConfigureAwait(false);
+            var identityProviderInstances = await _client.GetIdentityProviderInstancesAsync(realm);
             string identityProviderAlias = identityProviderInstances.FirstOrDefault()?.Alias;
             if (identityProviderAlias != null)
             {
-                var result = await _client.GetIdentityProviderAsync(realm, identityProviderAlias).ConfigureAwait(false);
+                var result = await _client.GetIdentityProviderAsync(realm, identityProviderAlias);
                 Assert.NotNull(result);
             }
         }
@@ -31,7 +31,7 @@ namespace Keycloak.Net.Tests
         //[InlineData("Insurance")]
         //public async Task GetIdentityProviderTokenAsync(string realm)
         //{
-        //    var token = await _client.GetIdentityProviderTokenAsync(realm).ConfigureAwait(false);
+        //    var token = await _client.GetIdentityProviderTokenAsync(realm);
         //    Assert.NotNull(token);
         //}
 
@@ -39,11 +39,11 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetIdentityProviderAuthorizationPermissionsInitializedAsync(string realm)
         {
-            var identityProviderInstances = await _client.GetIdentityProviderInstancesAsync(realm).ConfigureAwait(false);
+            var identityProviderInstances = await _client.GetIdentityProviderInstancesAsync(realm);
             string identityProviderAlias = identityProviderInstances.FirstOrDefault()?.Alias;
             if (identityProviderAlias != null)
             {
-                var result = await _client.GetIdentityProviderAuthorizationPermissionsInitializedAsync(realm, identityProviderAlias).ConfigureAwait(false);
+                var result = await _client.GetIdentityProviderAuthorizationPermissionsInitializedAsync(realm, identityProviderAlias);
                 Assert.NotNull(result);
             }
         }
@@ -52,11 +52,11 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetIdentityProviderMapperTypesAsync(string realm)
         {
-            var identityProviderInstances = await _client.GetIdentityProviderInstancesAsync(realm).ConfigureAwait(false);
+            var identityProviderInstances = await _client.GetIdentityProviderInstancesAsync(realm);
             string identityProviderAlias = identityProviderInstances.FirstOrDefault()?.Alias;
             if (identityProviderAlias != null)
             {
-                var result = await _client.GetIdentityProviderMapperTypesAsync(realm, identityProviderAlias).ConfigureAwait(false);
+                var result = await _client.GetIdentityProviderMapperTypesAsync(realm, identityProviderAlias);
                 Assert.NotNull(result);
             }
         }
@@ -65,11 +65,11 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetIdentityProviderMappersAsync(string realm)
         {
-            var identityProviderInstances = await _client.GetIdentityProviderInstancesAsync(realm).ConfigureAwait(false);
+            var identityProviderInstances = await _client.GetIdentityProviderInstancesAsync(realm);
             string identityProviderAlias = identityProviderInstances.FirstOrDefault()?.Alias;
             if (identityProviderAlias != null)
             {
-                var result = await _client.GetIdentityProviderMappersAsync(realm, identityProviderAlias).ConfigureAwait(false);
+                var result = await _client.GetIdentityProviderMappersAsync(realm, identityProviderAlias);
                 Assert.NotNull(result);
             }
         }
@@ -78,15 +78,15 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetIdentityProviderMapperByIdAsync(string realm)
         {
-            var identityProviderInstances = await _client.GetIdentityProviderInstancesAsync(realm).ConfigureAwait(false);
+            var identityProviderInstances = await _client.GetIdentityProviderInstancesAsync(realm);
             string identityProviderAlias = identityProviderInstances.FirstOrDefault()?.Alias;
             if (identityProviderAlias != null)
             {
-                var mappers = await _client.GetIdentityProviderMappersAsync(realm, identityProviderAlias).ConfigureAwait(false);
+                var mappers = await _client.GetIdentityProviderMappersAsync(realm, identityProviderAlias);
                 string mapperId = mappers.FirstOrDefault()?.Id;
                 if (mapperId != null)
                 {
-                    var result = await _client.GetIdentityProviderMapperByIdAsync(realm, identityProviderAlias, mapperId).ConfigureAwait(false);
+                    var result = await _client.GetIdentityProviderMapperByIdAsync(realm, identityProviderAlias, mapperId);
                     Assert.NotNull(result);
                 }
             }
@@ -96,11 +96,11 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetIdentityProviderByProviderIdAsync(string realm)
         {
-            var identityProviderInstances = await _client.GetIdentityProviderInstancesAsync(realm).ConfigureAwait(false);
+            var identityProviderInstances = await _client.GetIdentityProviderInstancesAsync(realm);
             string identityProviderId = identityProviderInstances.FirstOrDefault()?.ProviderId;
             if (identityProviderId != null)
             {
-                var result = await _client.GetIdentityProviderByProviderIdAsync(realm, identityProviderId).ConfigureAwait(false);
+                var result = await _client.GetIdentityProviderByProviderIdAsync(realm, identityProviderId);
                 Assert.NotNull(result);
             }
         }

@@ -1,7 +1,7 @@
 {
-  "projects": [ "src", "test" ],
   "sdk": {
-    "version": "6.0.200",
-    "rollForward": "latestFeature"
+    "version": "8.0.0",
+    "rollForward": "latestMajor",
+    "allowPrerelease": true
   }
 }

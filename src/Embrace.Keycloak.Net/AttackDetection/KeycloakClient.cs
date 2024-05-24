@@ -11,7 +11,7 @@ namespace Keycloak.Net
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/attack-detection/brute-force/users")
-                .DeleteAsync(cancellationToken)
+                .DeleteAsync(cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }
@@ -20,14 +20,14 @@ namespace Keycloak.Net
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/attack-detection/brute-force/users/{userId}")
-                .DeleteAsync(cancellationToken)
+                .DeleteAsync(cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }
 
         public async Task<UserNameStatus> GetUserNameStatusInBruteForceDetectionAsync(string realm, string userId, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/attack-detection/brute-force/users/{userId}")
-            .GetJsonAsync<UserNameStatus>(cancellationToken)
+            .GetJsonAsync<UserNameStatus>(cancellationToken: cancellationToken)
             .ConfigureAwait(false);
     }
 }

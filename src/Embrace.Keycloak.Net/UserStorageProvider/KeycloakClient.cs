@@ -14,7 +14,7 @@ namespace Keycloak.Net
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/user-storage/{storageProviderId}/remove-imported-users")
-                .PostAsync(new StringContent(""), cancellationToken)
+                .PostAsync(new StringContent(""), cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }
@@ -23,7 +23,7 @@ namespace Keycloak.Net
         public async Task<SynchronizationResult> TriggerUserSynchronizationAsync(string realm, string storageProviderId, UserSyncActions action, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/user-storage/{storageProviderId}/sync")
             .SetQueryParam(nameof(action), action == UserSyncActions.Full ? "triggerFullSync" : "triggerChangedUsersSync")
-            .PostAsync(new StringContent(""), cancellationToken)
+            .PostAsync(new StringContent(""), cancellationToken: cancellationToken)
             .ReceiveJson<SynchronizationResult>()
             .ConfigureAwait(false);
 
@@ -32,7 +32,7 @@ namespace Keycloak.Net
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/user-storage/{storageProviderId}/unlink-users")
-                .PostAsync(new StringContent(""), cancellationToken)
+                .PostAsync(new StringContent(""), cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }
@@ -41,7 +41,7 @@ namespace Keycloak.Net
         public async Task<SynchronizationResult> TriggerLdapMapperSynchronizationAsync(string realm, string storageProviderId, string mapperId, LdapMapperSyncActions direction, CancellationToken cancellationToken = default) => await GetBaseUrl(realm)
             .AppendPathSegment($"/admin/realms/{realm}/user-storage/{storageProviderId}/mappers/{mapperId}/sync")
             .SetQueryParam(nameof(direction), direction == LdapMapperSyncActions.FedToKeycloak ? "fedToKeycloak" : "keycloakToFed")
-            .PostAsync(new StringContent(""), cancellationToken)
+            .PostAsync(new StringContent(""), cancellationToken: cancellationToken)
             .ReceiveJson<SynchronizationResult>()
             .ConfigureAwait(false);
     }

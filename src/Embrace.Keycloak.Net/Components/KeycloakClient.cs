@@ -12,7 +12,7 @@ namespace Keycloak.Net
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/components")
-                .PostJsonAsync(componentRepresentation, cancellationToken)
+                .PostJsonAsync(componentRepresentation, cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }
@@ -29,7 +29,7 @@ namespace Keycloak.Net
             return await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/components")
                 .SetQueryParams(queryParams)
-                .GetJsonAsync<IEnumerable<Component>>(cancellationToken)
+                .GetJsonAsync<IEnumerable<Component>>(cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
         }
 
@@ -37,7 +37,7 @@ namespace Keycloak.Net
         {
             return await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/components/{componentId}")
-                .GetJsonAsync<Component>(cancellationToken)
+                .GetJsonAsync<Component>(cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
         }
 
@@ -45,7 +45,7 @@ namespace Keycloak.Net
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/components/{componentId}")
-                .PutJsonAsync(componentRepresentation, cancellationToken)
+                .PutJsonAsync(componentRepresentation, cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }
@@ -54,7 +54,7 @@ namespace Keycloak.Net
         {
             var response = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/components/{componentId}")
-                .DeleteAsync(cancellationToken)
+                .DeleteAsync(cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return response.ResponseMessage.IsSuccessStatusCode;
         }
@@ -69,7 +69,7 @@ namespace Keycloak.Net
             var result = await GetBaseUrl(realm)
                 .AppendPathSegment($"/admin/realms/{realm}/components/{componentId}/sub-component-types")
                 .SetQueryParams(queryParams)
-                .GetJsonAsync<IEnumerable<ComponentType>>(cancellationToken)
+                .GetJsonAsync<IEnumerable<ComponentType>>(cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return result;
         }

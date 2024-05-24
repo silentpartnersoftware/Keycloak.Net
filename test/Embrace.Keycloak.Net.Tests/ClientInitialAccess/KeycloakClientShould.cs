@@ -9,7 +9,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetClientInitialAccessAsync(string realm)
         {
-            var result = await _client.GetClientInitialAccessAsync(realm).ConfigureAwait(false);
+            var result = await _client.GetClientInitialAccessAsync(realm);
             Assert.NotNull(result);
         }
     }

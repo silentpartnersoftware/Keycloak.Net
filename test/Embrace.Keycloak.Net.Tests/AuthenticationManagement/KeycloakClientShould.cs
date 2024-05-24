@@ -10,7 +10,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetAuthenticatorProvidersAsync(string realm)
         {
-            var result = await _client.GetAuthenticatorProvidersAsync(realm).ConfigureAwait(false);
+            var result = await _client.GetAuthenticatorProvidersAsync(realm);
             Assert.NotNull(result);
         }
 
@@ -18,7 +18,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetClientAuthenticatorProvidersAsync(string realm)
         {
-            var result = await _client.GetClientAuthenticatorProvidersAsync(realm).ConfigureAwait(false);
+            var result = await _client.GetClientAuthenticatorProvidersAsync(realm);
             Assert.NotNull(result);
         }
 
@@ -26,11 +26,11 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetAuthenticatorProviderConfigurationDescriptionAsync(string realm)
         {
-            var providers = await _client.GetAuthenticatorProvidersAsync(realm).ConfigureAwait(false);
+            var providers = await _client.GetAuthenticatorProvidersAsync(realm);
             string providerId = providers.FirstOrDefault()?.FirstOrDefault(x => x.Key == "id").Value.ToString();
             if (providerId != null)
             {
-                var result = await _client.GetAuthenticatorProviderConfigurationDescriptionAsync(realm, providerId).ConfigureAwait(false);
+                var result = await _client.GetAuthenticatorProviderConfigurationDescriptionAsync(realm, providerId);
                 Assert.NotNull(result);
             }
         }
@@ -42,7 +42,7 @@ namespace Keycloak.Net.Tests
             string configurationId = ""; //TODO
             if (configurationId != null)
             {
-                var result = await _client.GetAuthenticatorConfigurationAsync(realm, configurationId).ConfigureAwait(false);
+                var result = await _client.GetAuthenticatorConfigurationAsync(realm, configurationId);
                 Assert.NotNull(result);
             }
         }
@@ -51,15 +51,15 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetAuthenticationExecutionAsync(string realm)
         {
-            var flows = await _client.GetAuthenticationFlowsAsync(realm).ConfigureAwait(false);
+            var flows = await _client.GetAuthenticationFlowsAsync(realm);
             string flowAlias = flows.FirstOrDefault()?.Alias;
             if (flowAlias != null)
             {
-                var executions = await _client.GetAuthenticationFlowExecutionsAsync(realm, flowAlias).ConfigureAwait(false);
+                var executions = await _client.GetAuthenticationFlowExecutionsAsync(realm, flowAlias);
                 string executionId = executions.FirstOrDefault()?.Id;
                 if (executionId != null)
                 {
-                    var result = await _client.GetAuthenticationExecutionAsync(realm, executionId).ConfigureAwait(false);
+                    var result = await _client.GetAuthenticationExecutionAsync(realm, executionId);
                     Assert.NotNull(result);
                 }
             }
@@ -69,7 +69,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetAuthenticationFlowsAsync(string realm)
         {
-            var result = await _client.GetAuthenticationFlowsAsync(realm).ConfigureAwait(false);
+            var result = await _client.GetAuthenticationFlowsAsync(realm);
             Assert.NotNull(result);
         }
 
@@ -77,11 +77,11 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetAuthenticationFlowExecutionsAsync(string realm)
         {
-            var flows = await _client.GetAuthenticationFlowsAsync(realm).ConfigureAwait(false);
+            var flows = await _client.GetAuthenticationFlowsAsync(realm);
             string flowAlias = flows.FirstOrDefault()?.Alias;
             if (flowAlias != null)
             {
-                var result = await _client.GetAuthenticationFlowExecutionsAsync(realm, flowAlias).ConfigureAwait(false);
+                var result = await _client.GetAuthenticationFlowExecutionsAsync(realm, flowAlias);
                 Assert.NotNull(result);
             }
         }
@@ -90,11 +90,11 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetAuthenticationFlowByIdAsync(string realm)
         {
-            var flows = await _client.GetAuthenticationFlowsAsync(realm).ConfigureAwait(false);
+            var flows = await _client.GetAuthenticationFlowsAsync(realm);
             string flowId = flows.FirstOrDefault()?.Id;
             if (flowId != null)
             {
-                var result = await _client.GetAuthenticationFlowByIdAsync(realm, flowId).ConfigureAwait(false);
+                var result = await _client.GetAuthenticationFlowByIdAsync(realm, flowId);
                 Assert.NotNull(result);
             }
         }
@@ -103,7 +103,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetFormActionProvidersAsync(string realm)
         {
-            var result = await _client.GetFormActionProvidersAsync(realm).ConfigureAwait(false);
+            var result = await _client.GetFormActionProvidersAsync(realm);
             Assert.NotNull(result);
         }
 
@@ -111,7 +111,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetFormProvidersAsync(string realm)
         {
-            var result = await _client.GetFormProvidersAsync(realm).ConfigureAwait(false);
+            var result = await _client.GetFormProvidersAsync(realm);
             Assert.NotNull(result);
         }
 
@@ -119,7 +119,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetConfigurationDescriptionsForAllClientsAsync(string realm)
         {
-            var result = await _client.GetConfigurationDescriptionsForAllClientsAsync(realm).ConfigureAwait(false);
+            var result = await _client.GetConfigurationDescriptionsForAllClientsAsync(realm);
             Assert.NotNull(result);
         }
 
@@ -127,7 +127,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetRequiredActionsAsync(string realm)
         {
-            var result = await _client.GetRequiredActionsAsync(realm).ConfigureAwait(false);
+            var result = await _client.GetRequiredActionsAsync(realm);
             Assert.NotNull(result);
         }
 
@@ -135,11 +135,11 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetRequiredActionByAliasAsync(string realm)
         {
-            var requiredActions = await _client.GetRequiredActionsAsync(realm).ConfigureAwait(false);
+            var requiredActions = await _client.GetRequiredActionsAsync(realm);
             string requiredActionAlias = requiredActions.FirstOrDefault()?.Alias;
             if (requiredActionAlias != null)
             {
-                var result = await _client.GetRequiredActionByAliasAsync(realm, requiredActionAlias).ConfigureAwait(false);
+                var result = await _client.GetRequiredActionByAliasAsync(realm, requiredActionAlias);
                 Assert.NotNull(result);
             }
         }
@@ -148,7 +148,7 @@ namespace Keycloak.Net.Tests
         [InlineData("master")]
         public async Task GetUnregisteredRequiredActionsAsync(string realm)
         {
-            var result = await _client.GetUnregisteredRequiredActionsAsync(realm).ConfigureAwait(false);
+            var result = await _client.GetUnregisteredRequiredActionsAsync(realm);
             Assert.NotNull(result);
         }
     }
