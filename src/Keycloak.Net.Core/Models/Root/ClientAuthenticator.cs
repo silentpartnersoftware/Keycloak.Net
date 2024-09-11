@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class ClientAuthenticator
 {
-    public class ClientAuthenticator
-    {
-        [JsonProperty("internal")]
-        public bool? Internal { get; set; }
+	[JsonPropertyName("internal")]
+	public bool? Internal { get; set; }
 
-        [JsonProperty("providers")]
-        public ClientAuthenticatorProviders Providers { get; set; }
-    }
+	[JsonPropertyName("providers")]
+	public ClientAuthenticatorProviders Providers { get; set; }
 }

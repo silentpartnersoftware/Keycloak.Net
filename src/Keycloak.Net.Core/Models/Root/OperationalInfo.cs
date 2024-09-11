@@ -1,19 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class OperationalInfo
 {
-    public class OperationalInfo
-    {
-        [JsonProperty("databaseUrl")]
-        public string DatabaseUrl { get; set; }
+	[JsonPropertyName("databaseUrl")]
+	public string DatabaseUrl { get; set; }
 
-        [JsonProperty("databaseUser")]
-        public string DatabaseUser { get; set; }
+	[JsonPropertyName("databaseUser")]
+	public string DatabaseUser { get; set; }
 
-        [JsonProperty("databaseProduct")]
-        public string DatabaseProduct { get; set; }
+	[JsonPropertyName("databaseProduct")]
+	public string DatabaseProduct { get; set; }
 
-        [JsonProperty("databaseDriver")]
-        public string DatabaseDriver { get; set; }
-    }
+	[JsonPropertyName("databaseDriver")]
+	public string DatabaseDriver { get; set; }
 }

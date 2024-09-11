@@ -1,12 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.ClientInitialAccess;
 
-namespace Keycloak.Net.Models.ClientInitialAccess
+public class ClientInitialAccessCreatePresentation
 {
-    public class ClientInitialAccessCreatePresentation
-    {
-        [JsonProperty("count")]
-        public int? Count { get; set; }
-        [JsonProperty("expiration")]
-        public int? Expiration { get; set; }
-    }
+	[JsonPropertyName("count")]
+	public int? Count { get; set; }
+	[JsonPropertyName("expiration")]
+	public int? Expiration { get; set; }
 }

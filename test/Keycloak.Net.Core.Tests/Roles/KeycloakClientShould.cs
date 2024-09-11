@@ -91,7 +91,7 @@ namespace Keycloak.Net.Tests
             }
         }
 
-        [Theory(Skip = "Not working yet")]
+        [Theory]
         [InlineData("Insurance", "insurance-product")]
         public async Task GetGroupsWithRoleNameForClientAsync(string realm, string clientId)
         {
@@ -210,7 +210,7 @@ namespace Keycloak.Net.Tests
             }
         }
 
-        [Theory(Skip = "Not working yet")]
+        [Theory]
         [InlineData("master")]
         public async Task GetGroupsWithRoleNameForRealmAsync(string realm)
         {

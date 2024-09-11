@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class AccountProviders
 {
-    public class AccountProviders
-    {
-        [JsonProperty("freemarker")]
-        public HasOrder Freemarker { get; set; }
-    }
+	[JsonPropertyName("freemarker")]
+	public HasOrder Freemarker { get; set; }
 }

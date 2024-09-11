@@ -1,12 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.IdentityProviders;
 
-namespace Keycloak.Net.Models.IdentityProviders
+public class IdentityProviderInfo
 {
-    public class IdentityProviderInfo
-    {
-        [JsonProperty("name")]
-        public string Name { get; set; }
-        [JsonProperty("id")]
-        public string Id { get; set; }
-    }
+	[JsonPropertyName("name")]
+	public string Name { get; set; }
+	[JsonPropertyName("id")]
+	public string Id { get; set; }
 }

@@ -1,18 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.RealmsAdmin;
 
-namespace Keycloak.Net.Models.RealmsAdmin
+public class Config
 {
-    public class Config
-    {
-        [JsonProperty("hideOnLoginPage")]
-        public string HideOnLoginPage { get; set; }
-        [JsonProperty("clientSecret")]
-        public string ClientSecret { get; set; }
-        [JsonProperty("clientId")]
-        public string ClientId { get; set; }
-        [JsonProperty("disableUserInfo")]
-        public string DisableUserInfo { get; set; }
-        [JsonProperty("useJwksUrl")]
-        public string UseJwksUrl { get; set; }
-    }
+	[JsonPropertyName("hideOnLoginPage")]
+	public string HideOnLoginPage { get; set; }
+	[JsonPropertyName("clientSecret")]
+	public string ClientSecret { get; set; }
+	[JsonPropertyName("clientId")]
+	public string ClientId { get; set; }
+	[JsonPropertyName("disableUserInfo")]
+	public string DisableUserInfo { get; set; }
+	[JsonPropertyName("useJwksUrl")]
+	public string UseJwksUrl { get; set; }
 }

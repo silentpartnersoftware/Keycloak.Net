@@ -18,7 +18,7 @@ namespace Keycloak.Net.Tests
             string userName = configuration["userName"];
             string password = configuration["password"];
 
-            _client = new KeycloakClient(url, userName, password);
+            _client = new KeycloakClient("http://localhost:8080", "admin", "admin");
         }
     }
 }

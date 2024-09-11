@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class WellKnown
 {
-    public class WellKnown
-    {
-        [JsonProperty("internal")]
-        public bool? Internal { get; set; }
+	[JsonPropertyName("internal")]
+	public bool? Internal { get; set; }
 
-        [JsonProperty("providers")]
-        public WellKnownProviders Providers { get; set; }
-    }
+	[JsonPropertyName("providers")]
+	public WellKnownProviders Providers { get; set; }
 }

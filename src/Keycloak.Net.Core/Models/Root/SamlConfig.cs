@@ -1,22 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class SamlConfig
 {
-    public class SamlConfig
-    {
-        [JsonProperty("attribute.nameformat")]
-        public string AttributeNameformat { get; set; }
+	[JsonPropertyName("attribute.nameformat")]
+	public string AttributeNameformat { get; set; }
 
-        [JsonProperty("user.attribute")]
-        public string UserAttribute { get; set; }
+	[JsonPropertyName("user.attribute")]
+	public string UserAttribute { get; set; }
 
-        [JsonProperty("friendly.name")]
-        public string FriendlyName { get; set; }
+	[JsonPropertyName("friendly.name")]
+	public string FriendlyName { get; set; }
 
-        [JsonProperty("attribute.name")]
-        public string AttributeName { get; set; }
+	[JsonPropertyName("attribute.name")]
+	public string AttributeName { get; set; }
 
-        [JsonProperty("single")]
-        public bool? Single { get; set; }
-    }
+	[JsonPropertyName("single")]
+	public string? Single { get; set; }
 }

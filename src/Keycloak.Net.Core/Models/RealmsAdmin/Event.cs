@@ -1,27 +1,23 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿namespace Keycloak.Net.Models.RealmsAdmin;
 
-namespace Keycloak.Net.Models.RealmsAdmin
+public class Event
 {
-    public class Event
-    {
-        [JsonProperty("clientId")]
-        public string ClientId { get; set; }
-        [JsonProperty("details")]
-        public IDictionary<string, object> Details { get; set; }
-        [JsonProperty("error")]
-        public string Error { get; set; }
-        [JsonProperty("ipAddress")]
-        public string IpAddress { get; set; }
-        [JsonProperty("realmId")]
-        public string RealmId { get; set; }
-        [JsonProperty("sessionId")]
-        public string SessionId { get; set; }
-        [JsonProperty("time")]
-        public long Time { get; set; }
-        [JsonProperty("type")]
-        public string Type { get; set; }
-        [JsonProperty("userId")]
-        public string UserId { get; set; }
-    }
+	[JsonPropertyName("clientId")]
+	public string ClientId { get; set; }
+	[JsonPropertyName("details")]
+	public IDictionary<string, object> Details { get; set; }
+	[JsonPropertyName("error")]
+	public string Error { get; set; }
+	[JsonPropertyName("ipAddress")]
+	public string IpAddress { get; set; }
+	[JsonPropertyName("realmId")]
+	public string RealmId { get; set; }
+	[JsonPropertyName("sessionId")]
+	public string SessionId { get; set; }
+	[JsonPropertyName("time")]
+	public long Time { get; set; }
+	[JsonPropertyName("type")]
+	public string Type { get; set; }
+	[JsonPropertyName("userId")]
+	public string UserId { get; set; }
 }

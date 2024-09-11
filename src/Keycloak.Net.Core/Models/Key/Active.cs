@@ -1,14 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Key;
 
-namespace Keycloak.Net.Models.Key
+public class Active
 {
-    public class Active
-    {
-        [JsonProperty("HS256")]
-        public string Hs256 { get; set; }
-        [JsonProperty("RS256")]
-        public string Rs256 { get; set; }
-        [JsonProperty("AES")]
-        public string Aes { get; set; }
-    }
+	[JsonPropertyName("HS256")]
+	public string Hs256 { get; set; }
+	[JsonPropertyName("RS256")]
+	public string Rs256 { get; set; }
+	[JsonPropertyName("AES")]
+	public string Aes { get; set; }
 }

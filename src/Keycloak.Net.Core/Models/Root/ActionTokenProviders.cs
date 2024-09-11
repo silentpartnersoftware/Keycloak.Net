@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class ActionTokenProviders
 {
-    public class ActionTokenProviders
-    {
-        [JsonProperty("infinispan")]
-        public HasOrder Infinispan { get; set; }
-    }
+	[JsonPropertyName("infinispan")]
+	public HasOrder Infinispan { get; set; }
 }

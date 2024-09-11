@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class EventsListenerProviders
 {
-    public class EventsListenerProviders
-    {
-        [JsonProperty("jboss-logging")]
-        public HasOrder JbossLogging { get; set; }
+	[JsonPropertyName("jboss-logging")]
+	public HasOrder JbossLogging { get; set; }
 
-        [JsonProperty("email")]
-        public HasOrder Email { get; set; }
-    }
+	[JsonPropertyName("email")]
+	public HasOrder Email { get; set; }
 }

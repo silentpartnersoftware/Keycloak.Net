@@ -1,37 +1,34 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class PolicyProviders
 {
-    public class PolicyProviders
-    {
-        [JsonProperty("role")]
-        public HasOrder Role { get; set; }
+	[JsonPropertyName("role")]
+	public HasOrder Role { get; set; }
 
-        [JsonProperty("resource")]
-        public HasOrder Resource { get; set; }
+	[JsonPropertyName("resource")]
+	public HasOrder Resource { get; set; }
 
-        [JsonProperty("scope")]
-        public HasOrder Scope { get; set; }
+	[JsonPropertyName("scope")]
+	public HasOrder Scope { get; set; }
 
-        [JsonProperty("uma")]
-        public HasOrder Uma { get; set; }
+	[JsonPropertyName("uma")]
+	public HasOrder Uma { get; set; }
 
-        [JsonProperty("client")]
-        public HasOrder Client { get; set; }
+	[JsonPropertyName("client")]
+	public HasOrder Client { get; set; }
 
-        [JsonProperty("js")]
-        public HasOrder Js { get; set; }
+	[JsonPropertyName("js")]
+	public HasOrder Js { get; set; }
 
-        [JsonProperty("time")]
-        public HasOrder Time { get; set; }
+	[JsonPropertyName("time")]
+	public HasOrder Time { get; set; }
 
-        [JsonProperty("user")]
-        public HasOrder User { get; set; }
+	[JsonPropertyName("user")]
+	public HasOrder User { get; set; }
 
-        [JsonProperty("aggregate")]
-        public HasOrder Aggregate { get; set; }
+	[JsonPropertyName("aggregate")]
+	public HasOrder Aggregate { get; set; }
 
-        [JsonProperty("group")]
-        public HasOrder Group { get; set; }
-    }
+	[JsonPropertyName("group")]
+	public HasOrder Group { get; set; }
 }

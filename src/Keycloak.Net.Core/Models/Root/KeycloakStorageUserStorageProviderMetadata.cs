@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class KeycloakStorageUserStorageProviderMetadata
 {
-    public class KeycloakStorageUserStorageProviderMetadata
-    {
-        [JsonProperty("synchronizable")]
-        public bool? Synchronizable { get; set; }
-    }
+	[JsonPropertyName("synchronizable")]
+	public bool? Synchronizable { get; set; }
 }

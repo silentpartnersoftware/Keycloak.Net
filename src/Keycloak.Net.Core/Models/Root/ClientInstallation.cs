@@ -1,28 +1,25 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class ClientInstallation
 {
-    public class ClientInstallation
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
+	[JsonPropertyName("id")]
+	public string Id { get; set; }
 
-        [JsonProperty("protocol")]
-        public Protocol Protocol { get; set; }
+	[JsonPropertyName("protocol")]
+	public Protocol Protocol { get; set; }
 
-        [JsonProperty("downloadOnly")]
-        public bool? DownloadOnly { get; set; }
+	[JsonPropertyName("downloadOnly")]
+	public bool? DownloadOnly { get; set; }
 
-        [JsonProperty("displayType")]
-        public string DisplayType { get; set; }
+	[JsonPropertyName("displayType")]
+	public string DisplayType { get; set; }
 
-        [JsonProperty("helpText")]
-        public string HelpText { get; set; }
+	[JsonPropertyName("helpText")]
+	public string HelpText { get; set; }
 
-        [JsonProperty("filename")]
-        public string FileName { get; set; }
+	[JsonPropertyName("filename")]
+	public string FileName { get; set; }
 
-        [JsonProperty("mediaType")]
-        public string MediaType { get; set; }
-    }
+	[JsonPropertyName("mediaType")]
+	public string MediaType { get; set; }
 }

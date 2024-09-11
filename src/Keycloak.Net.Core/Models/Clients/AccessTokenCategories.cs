@@ -1,11 +1,10 @@
-﻿namespace Keycloak.Net.Models.Clients
+﻿namespace Keycloak.Net.Models.Clients;
+
+public enum AccessTokenCategories
 {
-    public enum AccessTokenCategories
-    {
-        Internal,
-        Access,
-        Id,
-        Admin,
-        Userinfo
-    }
+	Internal,
+	Access,
+	Id,
+	Admin,
+	Userinfo
 }

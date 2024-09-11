@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class HasOrder
 {
-    public class HasOrder
-    {
-        [JsonProperty("order")]
-        public long Order { get; set; }
-    }
+	[JsonPropertyName("order")]
+	public long Order { get; set; }
 }

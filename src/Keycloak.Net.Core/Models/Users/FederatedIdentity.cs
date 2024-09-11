@@ -1,14 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Users;
 
-namespace Keycloak.Net.Models.Users
+public class FederatedIdentity
 {
-    public class FederatedIdentity
-    {
-        [JsonProperty("identityProvider")]
-        public string IdentityProvider { get; set; }
-        [JsonProperty("userId")]
-        public string UserId { get; set; }
-        [JsonProperty("userName")]
-        public string UserName { get; set; }
-    }
+	[JsonPropertyName("identityProvider")]
+	public string IdentityProvider { get; set; }
+	[JsonPropertyName("userId")]
+	public string UserId { get; set; }
+	[JsonPropertyName("userName")]
+	public string UserName { get; set; }
 }

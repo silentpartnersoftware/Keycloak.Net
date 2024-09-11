@@ -1,21 +1,17 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿namespace Keycloak.Net.Models.Clients;
 
-namespace Keycloak.Net.Models.Clients
+public class ClientProtocolMapper
 {
-    public class ClientProtocolMapper
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-        [JsonProperty("name")]
-        public string Name { get; set; }
-        [JsonProperty("protocol")]
-        public string Protocol { get; set; }
-        [JsonProperty("protocolMapper")]
-        public string ProtocolMapper { get; set; }
-        [JsonProperty("consentRequired")]
-        public bool? ConsentRequired { get; set; }
-        [JsonProperty("config")]
-        public Dictionary<string, string> Config { get; set; }
-    }
+	[JsonPropertyName("id")]
+	public string Id { get; set; }
+	[JsonPropertyName("name")]
+	public string Name { get; set; }
+	[JsonPropertyName("protocol")]
+	public string Protocol { get; set; }
+	[JsonPropertyName("protocolMapper")]
+	public string ProtocolMapper { get; set; }
+	[JsonPropertyName("consentRequired")]
+	public bool? ConsentRequired { get; set; }
+	[JsonPropertyName("config")]
+	public Dictionary<string, string> Config { get; set; }
 }

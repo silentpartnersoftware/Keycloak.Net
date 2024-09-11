@@ -1,19 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class KeycloakStorageLdapMappersLdapStorageMapperMetadata
 {
-    public class KeycloakStorageLdapMappersLdapStorageMapperMetadata
-    {
-        [JsonProperty("fedToKeycloakSyncSupported")]
-        public bool? FedToKeycloakSyncSupported { get; set; }
+	[JsonPropertyName("fedToKeycloakSyncSupported")]
+	public bool? FedToKeycloakSyncSupported { get; set; }
 
-        [JsonProperty("keycloakToFedSyncSupported")]
-        public bool? KeycloakToFedSyncSupported { get; set; }
+	[JsonPropertyName("keycloakToFedSyncSupported")]
+	public bool? KeycloakToFedSyncSupported { get; set; }
 
-        [JsonProperty("fedToKeycloakSyncMessage")]
-        public string FedToKeycloakSyncMessage { get; set; }
+	[JsonPropertyName("fedToKeycloakSyncMessage")]
+	public string FedToKeycloakSyncMessage { get; set; }
 
-        [JsonProperty("keycloakToFedSyncMessage")]
-        public string KeycloakToFedSyncMessage { get; set; }
-    }
+	[JsonPropertyName("keycloakToFedSyncMessage")]
+	public string KeycloakToFedSyncMessage { get; set; }
 }

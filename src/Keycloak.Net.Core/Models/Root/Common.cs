@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Keycloak.Net.Common.Converters;
 
-namespace Keycloak.Net.Models.Root
+namespace Keycloak.Net.Models.Root;
+
+public class Common
 {
-    public class Common
-    {
-        [JsonProperty("name")]
-        public Name Name { get; set; }
-    }
+	[JsonPropertyName("name")]
+	[JsonConverter(typeof(EnumMemberJsonStringEnumConverter<Name>))]
+	public Name Name { get; set; }
 }

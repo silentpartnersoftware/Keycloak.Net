@@ -48,7 +48,7 @@ namespace Keycloak.Net.Tests
             }
         }
 
-        [Theory(Skip = "500 Internal server error")]
+        [Theory]
         [InlineData("master")]
         public async Task GetIdentityProviderMapperTypesAsync(string realm)
         {

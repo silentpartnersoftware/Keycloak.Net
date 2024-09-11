@@ -1,12 +1,12 @@
 ﻿using Keycloak.Net.Common.Converters;
-using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
-namespace Keycloak.Net.Models.Root
+namespace Keycloak.Net.Models.Root;
+
+[JsonConverter(typeof(EnumMemberJsonStringEnumConverter<GroupName>))]
+public enum GroupName
 {
-    [JsonConverter(typeof(GroupNameConverter))]
-    public enum GroupName
-    {
-        Social,
-        UserDefined
-    }
+	Social,
+	[EnumMember(Value = "User-defined")]
+	UserDefined
 }

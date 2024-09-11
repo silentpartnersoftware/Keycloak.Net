@@ -1,12 +1,9 @@
-using Newtonsoft.Json;
+namespace Keycloak.Net.Models.AuthorizationResources;
 
-namespace Keycloak.Net.Models.AuthorizationResources
+public class AuthorizationResourceOwner
 {
-    public class AuthorizationResourceOwner
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-        [JsonProperty("name")]
-        public string Name { get; set; }
-    }
+	[JsonPropertyName("id")]
+	public string Id { get; set; }
+	[JsonPropertyName("name")]
+	public string Name { get; set; }
 }

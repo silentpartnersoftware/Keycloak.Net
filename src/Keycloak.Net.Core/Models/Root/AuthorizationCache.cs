@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class AuthorizationCache
 {
-    public class AuthorizationCache
-    {
-        [JsonProperty("internal")]
-        public bool? Internal { get; set; }
+	[JsonPropertyName("internal")]
+	public bool? Internal { get; set; }
 
-        [JsonProperty("providers")]
-        public HasDefault Providers { get; set; }
-    }
+	[JsonPropertyName("providers")]
+	public HasDefault Providers { get; set; }
 }

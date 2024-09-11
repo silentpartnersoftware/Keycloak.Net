@@ -1,23 +1,19 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿namespace Keycloak.Net.Models.AuthenticationManagement;
 
-namespace Keycloak.Net.Models.AuthenticationManagement
+public class AuthenticationFlow
 {
-    public class AuthenticationFlow
-    {
-        [JsonProperty("alias")]
-        public string Alias { get; set; }
-        [JsonProperty("authenticationExecutions")]
-        public IEnumerable<AuthenticationExecutionExport> AuthenticationExecutions { get; set; }
-        [JsonProperty("builtIn")]
-        public bool? BuiltIn { get; set; }
-        [JsonProperty("description")]
-        public string Description { get; set; }
-        [JsonProperty("id")]
-        public string Id { get; set; }
-        [JsonProperty("providerId")]
-        public string ProviderId { get; set; }
-        [JsonProperty("topLevel")]
-        public bool? TopLevel { get; set; }
-    }
+	[JsonPropertyName("alias")]
+	public string Alias { get; set; }
+	[JsonPropertyName("authenticationExecutions")]
+	public IEnumerable<AuthenticationExecutionExport> AuthenticationExecutions { get; set; }
+	[JsonPropertyName("builtIn")]
+	public bool? BuiltIn { get; set; }
+	[JsonPropertyName("description")]
+	public string Description { get; set; }
+	[JsonPropertyName("id")]
+	public string Id { get; set; }
+	[JsonPropertyName("providerId")]
+	public string ProviderId { get; set; }
+	[JsonPropertyName("topLevel")]
+	public bool? TopLevel { get; set; }
 }

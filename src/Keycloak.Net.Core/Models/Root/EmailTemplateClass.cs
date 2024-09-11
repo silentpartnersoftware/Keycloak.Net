@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class EmailTemplateClass
 {
-    public class EmailTemplateClass
-    {
-        [JsonProperty("internal")]
-        public bool? Internal { get; set; }
+	[JsonPropertyName("internal")]
+	public bool? Internal { get; set; }
 
-        [JsonProperty("providers")]
-        public AccountProviders Providers { get; set; }
-    }
+	[JsonPropertyName("providers")]
+	public AccountProviders Providers { get; set; }
 }

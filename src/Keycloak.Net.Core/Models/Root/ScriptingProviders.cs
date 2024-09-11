@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class ScriptingProviders
 {
-    public class ScriptingProviders
-    {
-        [JsonProperty("script-based-auth")]
-        public HasOrder ScriptBasedAuth { get; set; }
-    }
+	[JsonPropertyName("script-based-auth")]
+	public HasOrder ScriptBasedAuth { get; set; }
 }

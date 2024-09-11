@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class Default
 {
-    public class Default
-    {
-        [JsonProperty("order")]
-        public long Order { get; set; }
+	[JsonPropertyName("order")]
+	public long Order { get; set; }
 
-        [JsonProperty("operationalInfo")]
-        public OperationalInfo OperationalInfo { get; set; }
-    }
+	[JsonPropertyName("operationalInfo")]
+	public OperationalInfo OperationalInfo { get; set; }
 }

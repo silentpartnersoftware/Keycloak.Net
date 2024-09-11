@@ -1,6 +1,5 @@
-﻿namespace Keycloak.Net.Models.Users
+﻿namespace Keycloak.Net.Models.Users;
+
+public class SessionClients
 {
-    public class SessionClients
-    {
-    }
 }

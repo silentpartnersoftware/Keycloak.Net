@@ -1,14 +1,10 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class Authenticator
 {
-    public class Authenticator
-    {
-        [JsonProperty("internal")]
-        public bool? Internal { get; set; }
+	[JsonPropertyName("internal")]
+	public bool? Internal { get; set; }
 
-        [JsonProperty("providers")]
-        public Dictionary<string, HasOrder> Providers { get; set; }
-    }
+	[JsonPropertyName("providers")]
+	public Dictionary<string, HasOrder> Providers { get; set; }
 }

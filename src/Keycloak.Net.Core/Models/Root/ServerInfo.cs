@@ -1,47 +1,43 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class ServerInfo
 {
-    public class ServerInfo
-    {
-        [JsonProperty("systemInfo")]
-        public SystemInfo SystemInfo { get; set; }
+	[JsonPropertyName("systemInfo")]
+	public SystemInfo SystemInfo { get; set; }
 
-        [JsonProperty("memoryInfo")]
-        public MemoryInfo MemoryInfo { get; set; }
+	[JsonPropertyName("memoryInfo")]
+	public MemoryInfo MemoryInfo { get; set; }
 
-        [JsonProperty("profileInfo")]
-        public ProfileInfo ProfileInfo { get; set; }
+	[JsonPropertyName("profileInfo")]
+	public ProfileInfo ProfileInfo { get; set; }
 
-        [JsonProperty("themes")]
-        public Themes Themes { get; set; }
+	[JsonPropertyName("themes")]
+	public Themes Themes { get; set; }
 
-        [JsonProperty("socialProviders")]
-        public List<Provider> SocialProviders { get; set; }
+	[JsonPropertyName("socialProviders")]
+	public List<Provider> SocialProviders { get; set; }
 
-        [JsonProperty("identityProviders")]
-        public List<Provider> IdentityProviders { get; set; }
+	[JsonPropertyName("identityProviders")]
+	public List<Provider> IdentityProviders { get; set; }
 
-        [JsonProperty("providers")]
-        public ServerInfoProviders Providers { get; set; }
+	[JsonPropertyName("providers")]
+	public ServerInfoProviders Providers { get; set; }
 
-        [JsonProperty("protocolMapperTypes")]
-        public ProtocolMapperTypes ProtocolMapperTypes { get; set; }
+	[JsonPropertyName("protocolMapperTypes")]
+	public ProtocolMapperTypes ProtocolMapperTypes { get; set; }
 
-        [JsonProperty("builtinProtocolMappers")]
-        public BuiltinProtocolMappers BuiltinProtocolMappers { get; set; }
+	[JsonPropertyName("builtinProtocolMappers")]
+	public BuiltinProtocolMappers BuiltinProtocolMappers { get; set; }
 
-        [JsonProperty("clientInstallations")]
-        public ClientInstallations ClientInstallations { get; set; }
+	[JsonPropertyName("clientInstallations")]
+	public ClientInstallations ClientInstallations { get; set; }
 
-        [JsonProperty("componentTypes")]
-        public ComponentTypes ComponentTypes { get; set; }
+	[JsonPropertyName("componentTypes")]
+	public ComponentTypes ComponentTypes { get; set; }
 
-        [JsonProperty("passwordPolicies")]
-        public List<PasswordPolicy> PasswordPolicies { get; set; }
+	[JsonPropertyName("passwordPolicies")]
+	public List<PasswordPolicy> PasswordPolicies { get; set; }
 
-        [JsonProperty("enums")]
-        public Enums Enums { get; set; }
-    }
+	[JsonPropertyName("enums")]
+	public Enums Enums { get; set; }
 }

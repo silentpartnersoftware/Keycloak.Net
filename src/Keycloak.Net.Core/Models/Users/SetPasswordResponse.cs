@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Users;
 
-namespace Keycloak.Net.Models.Users
+public class SetPasswordResponse
 {
-    public class SetPasswordResponse
-    {
-        public bool Success { get; set; }
-        [JsonProperty("error")]
-        public string Error { get; set; }
-        [JsonProperty("error_description")]
-        public string ErrorDescription { get; set; }
-    }
+	public bool Success { get; set; }
+	[JsonPropertyName("error")]
+	public string Error { get; set; }
+	[JsonPropertyName("error_description")]
+	public string ErrorDescription { get; set; }
 }

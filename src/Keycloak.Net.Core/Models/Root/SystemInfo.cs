@@ -1,61 +1,58 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class SystemInfo
 {
-    public class SystemInfo
-    {
-        [JsonProperty("version")]
-        public string Version { get; set; }
+	[JsonPropertyName("version")]
+	public string Version { get; set; }
 
-        [JsonProperty("serverTime")]
-        public string ServerTime { get; set; }
+	[JsonPropertyName("serverTime")]
+	public string ServerTime { get; set; }
 
-        [JsonProperty("uptime")]
-        public string Uptime { get; set; }
+	[JsonPropertyName("uptime")]
+	public string Uptime { get; set; }
 
-        [JsonProperty("uptimeMillis")]
-        public long UptimeMillis { get; set; }
+	[JsonPropertyName("uptimeMillis")]
+	public long UptimeMillis { get; set; }
 
-        [JsonProperty("javaVersion")]
-        public string JavaVersion { get; set; }
+	[JsonPropertyName("javaVersion")]
+	public string JavaVersion { get; set; }
 
-        [JsonProperty("javaVendor")]
-        public string JavaVendor { get; set; }
+	[JsonPropertyName("javaVendor")]
+	public string JavaVendor { get; set; }
 
-        [JsonProperty("javaVm")]
-        public string JavaVm { get; set; }
+	[JsonPropertyName("javaVm")]
+	public string JavaVm { get; set; }
 
-        [JsonProperty("javaVmVersion")]
-        public string JavaVmVersion { get; set; }
+	[JsonPropertyName("javaVmVersion")]
+	public string JavaVmVersion { get; set; }
 
-        [JsonProperty("javaRuntime")]
-        public string JavaRuntime { get; set; }
+	[JsonPropertyName("javaRuntime")]
+	public string JavaRuntime { get; set; }
 
-        [JsonProperty("javaHome")]
-        public string JavaHome { get; set; }
+	[JsonPropertyName("javaHome")]
+	public string JavaHome { get; set; }
 
-        [JsonProperty("osName")]
-        public string OsName { get; set; }
+	[JsonPropertyName("osName")]
+	public string OsName { get; set; }
 
-        [JsonProperty("osArchitecture")]
-        public string OsArchitecture { get; set; }
+	[JsonPropertyName("osArchitecture")]
+	public string OsArchitecture { get; set; }
 
-        [JsonProperty("osVersion")]
-        public string OsVersion { get; set; }
+	[JsonPropertyName("osVersion")]
+	public string OsVersion { get; set; }
 
-        [JsonProperty("fileEncoding")]
-        public string FileEncoding { get; set; }
+	[JsonPropertyName("fileEncoding")]
+	public string FileEncoding { get; set; }
 
-        [JsonProperty("userName")]
-        public string UserName { get; set; }
+	[JsonPropertyName("userName")]
+	public string UserName { get; set; }
 
-        [JsonProperty("userDir")]
-        public string UserDir { get; set; }
+	[JsonPropertyName("userDir")]
+	public string UserDir { get; set; }
 
-        [JsonProperty("userTimezone")]
-        public string UserTimezone { get; set; }
+	[JsonPropertyName("userTimezone")]
+	public string UserTimezone { get; set; }
 
-        [JsonProperty("userLocale")]
-        public string UserLocale { get; set; }
-    }
+	[JsonPropertyName("userLocale")]
+	public string UserLocale { get; set; }
 }

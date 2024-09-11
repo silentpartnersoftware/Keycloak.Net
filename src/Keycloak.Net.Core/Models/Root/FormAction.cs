@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class FormAction
 {
-    public class FormAction
-    {
-        [JsonProperty("internal")]
-        public bool? Internal { get; set; }
+	[JsonPropertyName("internal")]
+	public bool? Internal { get; set; }
 
-        [JsonProperty("providers")]
-        public FormActionProviders Providers { get; set; }
-    }
+	[JsonPropertyName("providers")]
+	public FormActionProviders Providers { get; set; }
 }

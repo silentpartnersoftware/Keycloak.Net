@@ -1,23 +1,19 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿namespace Keycloak.Net.Models.Groups;
 
-namespace Keycloak.Net.Models.Groups
+public class Group
 {
-    public class Group
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-        [JsonProperty("name")]
-        public string Name { get; set; }
-        [JsonProperty("path")]
-        public string Path { get; set; }
-        [JsonProperty("subGroups")]
-        public IEnumerable<Group> Subgroups { get; set; }
-        [JsonProperty("realmRoles")]
-        public IEnumerable<string> RealmRoles { get; set; }
-        [JsonProperty("clientRoles")]
-        public IDictionary<string, IEnumerable<string>> ClientRoles { get; set; }
-        [JsonProperty("attributes")]
-        public IDictionary<string, IEnumerable<string>> Attributes { get; set; }
-    }
+	[JsonPropertyName("id")]
+	public string Id { get; set; }
+	[JsonPropertyName("name")]
+	public string Name { get; set; }
+	[JsonPropertyName("path")]
+	public string Path { get; set; }
+	[JsonPropertyName("subGroups")]
+	public IEnumerable<Group> Subgroups { get; set; }
+	[JsonPropertyName("realmRoles")]
+	public IEnumerable<string> RealmRoles { get; set; }
+	[JsonPropertyName("clientRoles")]
+	public IDictionary<string, IEnumerable<string>> ClientRoles { get; set; }
+	[JsonPropertyName("attributes")]
+	public IDictionary<string, IEnumerable<string>> Attributes { get; set; }
 }

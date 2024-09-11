@@ -1,35 +1,31 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿namespace Keycloak.Net.Models.Users;
 
-namespace Keycloak.Net.Models.Users
+public class Credentials
 {
-    public class Credentials
-    {
-        [JsonProperty("algorithm")]
-        public string Algorithm { get; set; }
-        [JsonProperty("config")]
-        public IDictionary<string, string> Config { get; set; }
-        [JsonProperty("counter")]
-        public int? Counter { get; set; }
-        [JsonProperty("createdDate")]
-        public long? CreatedDate { get; set; }
-        [JsonProperty("device")]
-        public string Device { get; set; }
-        [JsonProperty("digits")]
-        public int? Digits { get; set; }
-        [JsonProperty("hashIterations")]
-        public int? HashIterations { get; set; }
-        [JsonProperty("hashSaltedValue")]
-        public string HashSaltedValue { get; set; }
-        [JsonProperty("period")]
-        public int? Period { get; set; }
-        [JsonProperty("salt")]
-        public string Salt { get; set; }
-        [JsonProperty("temporary")]
-        public bool? Temporary { get; set; }
-        [JsonProperty("type")]
-        public string Type { get; set; }
-        [JsonProperty("value")]
-        public string Value { get; set; }
-    }
+	[JsonPropertyName("algorithm")]
+	public string Algorithm { get; set; }
+	[JsonPropertyName("config")]
+	public IDictionary<string, string> Config { get; set; }
+	[JsonPropertyName("counter")]
+	public int? Counter { get; set; }
+	[JsonPropertyName("createdDate")]
+	public long? CreatedDate { get; set; }
+	[JsonPropertyName("device")]
+	public string Device { get; set; }
+	[JsonPropertyName("digits")]
+	public int? Digits { get; set; }
+	[JsonPropertyName("hashIterations")]
+	public int? HashIterations { get; set; }
+	[JsonPropertyName("hashSaltedValue")]
+	public string HashSaltedValue { get; set; }
+	[JsonPropertyName("period")]
+	public int? Period { get; set; }
+	[JsonPropertyName("salt")]
+	public string Salt { get; set; }
+	[JsonPropertyName("temporary")]
+	public bool? Temporary { get; set; }
+	[JsonPropertyName("type")]
+	public string Type { get; set; }
+	[JsonPropertyName("value")]
+	public string Value { get; set; }
 }

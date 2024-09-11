@@ -1,21 +1,18 @@
 ﻿using Keycloak.Net.Models.Common;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 
-namespace Keycloak.Net.Models.Root
+namespace Keycloak.Net.Models.Root;
+
+public class KeycloakAuthenticationAuthenticator
 {
-    public class KeycloakAuthenticationAuthenticator
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
+	[JsonPropertyName("id")]
+	public string Id { get; set; }
 
-        [JsonProperty("helpText")]
-        public string HelpText { get; set; }
+	[JsonPropertyName("helpText")]
+	public string HelpText { get; set; }
 
-        [JsonProperty("properties")]
-        public List<ConfigProperty> Properties { get; set; }
+	[JsonPropertyName("properties")]
+	public List<ConfigProperty> Properties { get; set; }
 
-        [JsonProperty("metadata")]
-        public MetadataClass Metadata { get; set; }
-    }
+	[JsonPropertyName("metadata")]
+	public MetadataClass Metadata { get; set; }
 }
