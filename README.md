@@ -61,3 +61,10 @@ See documentation at [https://www.keycloak.org/docs-api/6.0/rest-api/](https://w
 * [X] Users
 * [X] Root
 
+## Testing
+
+In order to run the tests, all it's needed is to have a running instance of Keycloak with (preferably) the `master` realm credentials admin/admin (as it's currently configured in the `/test/Keycloak.Net.Core.Tests/appsettings.json`) and create a new realm `Insurance` by importing the file in `/test/insurance-real-export.json`, which also has its admin user with the same credentials as mentioned before.
+
+Then it's just as easy as running the tests.
+
+If for some reason you want to change the credentials, you need to make sure both realms have the same user and password as the tests use the same credentials for both `master` and `Insurance` realms.
