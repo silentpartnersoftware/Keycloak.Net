@@ -1,9 +1,8 @@
-﻿namespace Keycloak.Net.Models.RealmsAdmin
+﻿namespace Keycloak.Net.Models.RealmsAdmin;
+
+public enum Policies
 {
-    public enum Policies
-    {
-        Skip,
-        Overwrite,
-        Fail
-    }
+	Skip,
+	Overwrite,
+	Fail
 }

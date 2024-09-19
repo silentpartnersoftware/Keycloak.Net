@@ -1,22 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.RealmsAdmin;
 
-namespace Keycloak.Net.Models.RealmsAdmin
+public class BrowserSecurityHeaders
 {
-    public class BrowserSecurityHeaders
-    {
-        [JsonProperty("contentSecurityPolicyReportOnly")]
-        public string ContentSecurityPolicyReportOnly { get; set; }
-        [JsonProperty("xContentTypeOptions")]
-        public string XContentTypeOptions { get; set; }
-        [JsonProperty("xRobotsTag")]
-        public string XRobotsTag { get; set; }
-        [JsonProperty("xFrameOptions")]
-        public string XFrameOptions { get; set; }
-        [JsonProperty("xXSSProtection")]
-        public string XXssProtection { get; set; }
-        [JsonProperty("contentSecurityPolicy")]
-        public string ContentSecurityPolicy { get; set; }
-        [JsonProperty("strictTransportSecurity")]
-        public string StrictTransportSecurity { get; set; }
-    }
+	[JsonPropertyName("contentSecurityPolicyReportOnly")]
+	public string ContentSecurityPolicyReportOnly { get; set; }
+	[JsonPropertyName("xContentTypeOptions")]
+	public string XContentTypeOptions { get; set; }
+	[JsonPropertyName("xRobotsTag")]
+	public string XRobotsTag { get; set; }
+	[JsonPropertyName("xFrameOptions")]
+	public string XFrameOptions { get; set; }
+	[JsonPropertyName("xXSSProtection")]
+	public string XXssProtection { get; set; }
+	[JsonPropertyName("contentSecurityPolicy")]
+	public string ContentSecurityPolicy { get; set; }
+	[JsonPropertyName("strictTransportSecurity")]
+	public string StrictTransportSecurity { get; set; }
 }

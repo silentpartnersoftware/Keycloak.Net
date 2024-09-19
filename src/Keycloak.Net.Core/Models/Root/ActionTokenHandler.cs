@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class ActionTokenHandler
 {
-    public class ActionTokenHandler
-    {
-        [JsonProperty("internal")]
-        public bool? Internal { get; set; }
+	[JsonPropertyName("internal")]
+	public bool? Internal { get; set; }
 
-        [JsonProperty("providers")]
-        public ActionTokenHandlerProviders Providers { get; set; }
-    }
+	[JsonPropertyName("providers")]
+	public ActionTokenHandlerProviders Providers { get; set; }
 }

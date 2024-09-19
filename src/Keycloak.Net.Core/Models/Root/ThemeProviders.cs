@@ -1,19 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class ThemeProviders
 {
-    public class ThemeProviders
-    {
-        [JsonProperty("folder")]
-        public HasOrder Folder { get; set; }
+	[JsonPropertyName("folder")]
+	public HasOrder Folder { get; set; }
 
-        [JsonProperty("module")]
-        public HasOrder Module { get; set; }
+	[JsonPropertyName("module")]
+	public HasOrder Module { get; set; }
 
-        [JsonProperty("jar")]
-        public HasOrder Jar { get; set; }
+	[JsonPropertyName("jar")]
+	public HasOrder Jar { get; set; }
 
-        [JsonProperty("extending")]
-        public HasOrder Extending { get; set; }
-    }
+	[JsonPropertyName("extending")]
+	public HasOrder Extending { get; set; }
 }

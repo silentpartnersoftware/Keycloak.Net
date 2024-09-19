@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class AuthorizationPersister
 {
-    public class AuthorizationPersister
-    {
-        [JsonProperty("internal")]
-        public bool? Internal { get; set; }
+	[JsonPropertyName("internal")]
+	public bool? Internal { get; set; }
 
-        [JsonProperty("providers")]
-        public AuthorizationPersisterProviders Providers { get; set; }
-    }
+	[JsonPropertyName("providers")]
+	public AuthorizationPersisterProviders Providers { get; set; }
 }

@@ -1,23 +1,19 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿namespace Keycloak.Net.Models.Users;
 
-namespace Keycloak.Net.Models.Users
+public class UserSession
 {
-    public class UserSession
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-        [JsonProperty("username")]
-        public string UserName { get; set; }
-        [JsonProperty("userId")]
-        public string UserId { get; set; }
-        [JsonProperty("ipAddress")]
-        public string IpAddress { get; set; }
-        [JsonProperty("start")]
-        public long Start { get; set; }
-        [JsonProperty("lastAccess")]
-        public long LastAccess { get; set; }
-        [JsonProperty("clients")]
-        public IDictionary<string, string> Clients { get; set; }
-    }
+	[JsonPropertyName("id")]
+	public string Id { get; set; }
+	[JsonPropertyName("username")]
+	public string UserName { get; set; }
+	[JsonPropertyName("userId")]
+	public string UserId { get; set; }
+	[JsonPropertyName("ipAddress")]
+	public string IpAddress { get; set; }
+	[JsonPropertyName("start")]
+	public long Start { get; set; }
+	[JsonPropertyName("lastAccess")]
+	public long LastAccess { get; set; }
+	[JsonPropertyName("clients")]
+	public IDictionary<string, string> Clients { get; set; }
 }

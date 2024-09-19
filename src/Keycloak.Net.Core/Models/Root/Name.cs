@@ -1,13 +1,14 @@
-﻿using Keycloak.Net.Common.Converters;
-using Newtonsoft.Json;
+﻿using System.Runtime.Serialization;
 
-namespace Keycloak.Net.Models.Root
+namespace Keycloak.Net.Models.Root;
+
+public enum Name
 {
-    [JsonConverter(typeof(NameConverter))]
-    public enum Name
-    {
-        Base,
-        Keycloak,
-        RhSso
-    }
+	Base,
+	Keycloak,
+	[EnumMember(Value = "keycloak.v2")]
+	KeycloakV2,
+	[EnumMember(Value = "keycloak.v3")]
+	KeycloakV3,
+	RhSso
 }

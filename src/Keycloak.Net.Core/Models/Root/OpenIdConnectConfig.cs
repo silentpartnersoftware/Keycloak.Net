@@ -1,49 +1,49 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class OpenIdConnectConfig
 {
-    public class OpenIdConnectConfig
-    {
-        [JsonProperty("userinfo.token.claim")]
-        public bool? UserInfoTokenClaim { get; set; }
+	[JsonPropertyName("userinfo.token.claim")]
+	public string? UserInfoTokenClaim { get; set; }
 
-        [JsonProperty("user.attribute")]
-        public string UserAttribute { get; set; }
+	[JsonPropertyName("user.attribute")]
+	public string UserAttribute { get; set; }
 
-        [JsonProperty("id.token.claim")]
-        public bool? IdTokenClaim { get; set; }
+	[JsonPropertyName("id.token.claim")]
+	public string? IdTokenClaim { get; set; }
 
-        [JsonProperty("access.token.claim")]
-        public bool? AccessTokenClaim { get; set; }
+	[JsonPropertyName(("introspection.token.claim"))]
+	public string? IntrospectionTokenClaim { get; set; }
 
-        [JsonProperty("claim.name")]
-        public string ClaimName { get; set; }
+	[JsonPropertyName("access.token.claim")]
+	public string? AccessTokenClaim { get; set; }
 
-        [JsonProperty("jsonType.label")]
-        public JsonTypeLabel? JsonTypeLabel { get; set; }
+	[JsonPropertyName("claim.name")]
+	public string ClaimName { get; set; }
 
-        [JsonProperty("user.attribute.formatted")]
-        public string UserAttributeFormatted { get; set; }
+	[JsonPropertyName("jsonType.label")]
+	public JsonTypeLabel? JsonTypeLabel { get; set; }
 
-        [JsonProperty("user.attribute.country")]
-        public string UserAttributeCountry { get; set; }
+	[JsonPropertyName("user.attribute.formatted")]
+	public string UserAttributeFormatted { get; set; }
 
-        [JsonProperty("user.attribute.postal_code")]
-        public string UserAttributePostalCode { get; set; }
+	[JsonPropertyName("user.attribute.country")]
+	public string UserAttributeCountry { get; set; }
 
-        [JsonProperty("user.attribute.street")]
-        public string UserAttributeStreet { get; set; }
+	[JsonPropertyName("user.attribute.postal_code")]
+	public string UserAttributePostalCode { get; set; }
 
-        [JsonProperty("user.attribute.region")]
-        public string UserAttributeRegion { get; set; }
+	[JsonPropertyName("user.attribute.street")]
+	public string UserAttributeStreet { get; set; }
 
-        [JsonProperty("user.attribute.locality")]
-        public string UserAttributeLocality { get; set; }
+	[JsonPropertyName("user.attribute.region")]
+	public string UserAttributeRegion { get; set; }
 
-        [JsonProperty("user.session.note")]
-        public string UserSessionNote { get; set; }
+	[JsonPropertyName("user.attribute.locality")]
+	public string UserAttributeLocality { get; set; }
 
-        [JsonProperty("multivalued")]
-        public bool? Multivalued { get; set; }
-    }
+	[JsonPropertyName("user.session.note")]
+	public string UserSessionNote { get; set; }
+
+	[JsonPropertyName("multivalued")]
+	public string? Multivalued { get; set; }
 }

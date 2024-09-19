@@ -1,28 +1,25 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class MemoryInfo
 {
-    public class MemoryInfo
-    {
-        [JsonProperty("total")]
-        public long Total { get; set; }
+	[JsonPropertyName("total")]
+	public long Total { get; set; }
 
-        [JsonProperty("totalFormated")]
-        public string TotalFormatted { get; set; }
+	[JsonPropertyName("totalFormated")]
+	public string TotalFormatted { get; set; }
 
-        [JsonProperty("used")]
-        public long Used { get; set; }
+	[JsonPropertyName("used")]
+	public long Used { get; set; }
 
-        [JsonProperty("usedFormated")]
-        public string UsedFormatted { get; set; }
+	[JsonPropertyName("usedFormated")]
+	public string UsedFormatted { get; set; }
 
-        [JsonProperty("free")]
-        public long Free { get; set; }
+	[JsonPropertyName("free")]
+	public long Free { get; set; }
 
-        [JsonProperty("freePercentage")]
-        public long FreePercentage { get; set; }
+	[JsonPropertyName("freePercentage")]
+	public long FreePercentage { get; set; }
 
-        [JsonProperty("freeFormated")]
-        public string FreeFormatted { get; set; }
-    }
+	[JsonPropertyName("freeFormated")]
+	public string FreeFormatted { get; set; }
 }

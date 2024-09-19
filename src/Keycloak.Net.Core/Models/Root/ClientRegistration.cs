@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class ClientRegistration
 {
-    public class ClientRegistration
-    {
-        [JsonProperty("internal")]
-        public bool? Internal { get; set; }
+	[JsonPropertyName("internal")]
+	public bool? Internal { get; set; }
 
-        [JsonProperty("providers")]
-        public ClientRegistrationProviders Providers { get; set; }
-    }
+	[JsonPropertyName("providers")]
+	public ClientRegistrationProviders Providers { get; set; }
 }

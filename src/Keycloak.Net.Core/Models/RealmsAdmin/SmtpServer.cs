@@ -1,32 +1,29 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.RealmsAdmin;
 
-namespace Keycloak.Net.Models.RealmsAdmin
+public class SmtpServer
 {
-    public class SmtpServer
-    {
-        [JsonProperty("host")]
-        public string Host { get; set; }
-        [JsonProperty("port")]
-        public string Port { get; set; }
-        [JsonProperty("ssl")]
-        public string Ssl { get; set; }
-        [JsonProperty("starttls")]
-        public string StartTls { get; set; }
-        [JsonProperty("user")]
-        public string User { get; set; }
-        [JsonProperty("password")]
-        public string Password { get; set; }
-        [JsonProperty("auth")]
-        public string Auth { get; set; }
-        [JsonProperty("from")]
-        public string From { get; set; }
-        [JsonProperty("fromDisplayName")]
-        public string FromDisplayName { get; set; }
-        [JsonProperty("replyTo")]
-        public string ReplyTo { get; set; }
-        [JsonProperty("replyToDisplayName")]
-        public string ReplyToDisplayName { get; set; }
-        [JsonProperty("envelopeFrom")]
-        public string EnvelopeFrom { get; set; }
-    }
+	[JsonPropertyName("host")]
+	public string Host { get; set; }
+	[JsonPropertyName("port")]
+	public string Port { get; set; }
+	[JsonPropertyName("ssl")]
+	public string Ssl { get; set; }
+	[JsonPropertyName("starttls")]
+	public string StartTls { get; set; }
+	[JsonPropertyName("user")]
+	public string User { get; set; }
+	[JsonPropertyName("password")]
+	public string Password { get; set; }
+	[JsonPropertyName("auth")]
+	public string Auth { get; set; }
+	[JsonPropertyName("from")]
+	public string From { get; set; }
+	[JsonPropertyName("fromDisplayName")]
+	public string FromDisplayName { get; set; }
+	[JsonPropertyName("replyTo")]
+	public string ReplyTo { get; set; }
+	[JsonPropertyName("replyToDisplayName")]
+	public string ReplyToDisplayName { get; set; }
+	[JsonPropertyName("envelopeFrom")]
+	public string EnvelopeFrom { get; set; }
 }

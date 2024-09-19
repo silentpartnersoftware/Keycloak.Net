@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class CredentialProviders
 {
-    public class CredentialProviders
-    {
-        [JsonProperty("keycloak-otp")]
-        public HasOrder KeycloakOtp { get; set; }
+	[JsonPropertyName("keycloak-otp")]
+	public HasOrder KeycloakOtp { get; set; }
 
-        [JsonProperty("keycloak-password")]
-        public HasOrder KeycloakPassword { get; set; }
-    }
+	[JsonPropertyName("keycloak-password")]
+	public HasOrder KeycloakPassword { get; set; }
 }

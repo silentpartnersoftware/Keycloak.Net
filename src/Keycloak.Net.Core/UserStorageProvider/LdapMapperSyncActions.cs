@@ -1,8 +1,7 @@
-﻿namespace Keycloak.Net
+﻿namespace Keycloak.Net;
+
+public enum LdapMapperSyncActions
 {
-    public enum LdapMapperSyncActions
-    {
-        FedToKeycloak,
-        KeycloakToFed
-    }
+	FedToKeycloak,
+	KeycloakToFed
 }

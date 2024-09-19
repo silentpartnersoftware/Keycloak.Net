@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class JtaLookupProviders
 {
-    public class JtaLookupProviders
-    {
-        [JsonProperty("jboss")]
-        public HasOrder Jboss { get; set; }
-    }
+	[JsonPropertyName("jboss")]
+	public HasOrder Jboss { get; set; }
 }

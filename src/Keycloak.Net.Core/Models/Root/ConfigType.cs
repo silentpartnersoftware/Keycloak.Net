@@ -1,12 +1,8 @@
-﻿using Keycloak.Net.Common.Converters;
-using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum ConfigType
 {
-    [JsonConverter(typeof(ConfigTypeConverter))]
-    public enum ConfigType
-    {
-        Int,
-        String
-    }
+	Int,
+	String
 }

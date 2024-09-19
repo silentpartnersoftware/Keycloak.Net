@@ -1,6 +1,5 @@
-﻿namespace Keycloak.Net.Models.Root
+﻿namespace Keycloak.Net.Models.Root;
+
+public class MetadataClass
 {
-    public class MetadataClass
-    {
-    }
 }

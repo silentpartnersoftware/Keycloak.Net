@@ -1,8 +1,7 @@
-﻿namespace Keycloak.Net
+﻿namespace Keycloak.Net;
+
+public enum UserSyncActions
 {
-    public enum UserSyncActions
-    {
-        Full,
-        Changed
-    }
+	Full,
+	Changed
 }

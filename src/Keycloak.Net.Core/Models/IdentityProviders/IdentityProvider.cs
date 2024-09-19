@@ -1,32 +1,29 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.IdentityProviders;
 
-namespace Keycloak.Net.Models.IdentityProviders
+public class IdentityProvider
 {
-    public class IdentityProvider
-    {
-        [JsonProperty("alias")]
-        public string Alias { get; set; }
-        [JsonProperty("internalId")]
-        public string InternalId { get; set; }
-        [JsonProperty("providerId")]
-        public string ProviderId { get; set; }
-        [JsonProperty("enabled")]
-        public bool? Enabled { get; set; }
-        [JsonProperty("updateProfileFirstLoginMode")]
-        public string UpdateProfileFirstLoginMode { get; set; }
-        [JsonProperty("trustEmail")]
-        public bool? TrustEmail { get; set; }
-        [JsonProperty("storeToken")]
-        public bool? StoreToken { get; set; }
-        [JsonProperty("addReadTokenRoleOnCreate")]
-        public bool? AddReadTokenRoleOnCreate { get; set; }
-        [JsonProperty("authenticateByDefault")]
-        public bool? AuthenticateByDefault { get; set; }
-        [JsonProperty("linkOnly")]
-        public bool? LinkOnly { get; set; }
-        [JsonProperty("firstBrokerLoginFlowAlias")]
-        public string FirstBrokerLoginFlowAlias { get; set; }
-        [JsonProperty("config")]
-        public Config Config { get; set; }
-    }
+	[JsonPropertyName("alias")]
+	public string Alias { get; set; }
+	[JsonPropertyName("internalId")]
+	public string InternalId { get; set; }
+	[JsonPropertyName("providerId")]
+	public string ProviderId { get; set; }
+	[JsonPropertyName("enabled")]
+	public bool? Enabled { get; set; }
+	[JsonPropertyName("updateProfileFirstLoginMode")]
+	public string UpdateProfileFirstLoginMode { get; set; }
+	[JsonPropertyName("trustEmail")]
+	public bool? TrustEmail { get; set; }
+	[JsonPropertyName("storeToken")]
+	public bool? StoreToken { get; set; }
+	[JsonPropertyName("addReadTokenRoleOnCreate")]
+	public bool? AddReadTokenRoleOnCreate { get; set; }
+	[JsonPropertyName("authenticateByDefault")]
+	public bool? AuthenticateByDefault { get; set; }
+	[JsonPropertyName("linkOnly")]
+	public bool? LinkOnly { get; set; }
+	[JsonPropertyName("firstBrokerLoginFlowAlias")]
+	public string FirstBrokerLoginFlowAlias { get; set; }
+	[JsonPropertyName("config")]
+	public Config Config { get; set; }
 }

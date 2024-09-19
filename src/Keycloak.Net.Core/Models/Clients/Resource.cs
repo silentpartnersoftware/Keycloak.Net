@@ -1,17 +1,13 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿namespace Keycloak.Net.Models.Clients;
 
-namespace Keycloak.Net.Models.Clients
+public class Resource
 {
-    public class Resource
-    {
-        [JsonProperty("rsid")]
-        public string RsId { get; set; }
+	[JsonPropertyName("rsid")]
+	public string RsId { get; set; }
 
-        [JsonProperty("rsname")]
-        public string RsName { get; set; }
+	[JsonPropertyName("rsname")]
+	public string RsName { get; set; }
 
-        [JsonProperty("scopes")]
-        public IEnumerable<string> Scopes { get; set; }
-    }
+	[JsonPropertyName("scopes")]
+	public IEnumerable<string> Scopes { get; set; }
 }

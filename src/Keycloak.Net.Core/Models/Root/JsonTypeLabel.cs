@@ -1,21 +1,23 @@
 ﻿using Keycloak.Net.Common.Converters;
-using Newtonsoft.Json;
 
-namespace Keycloak.Net.Models.Root
+namespace Keycloak.Net.Models.Root;
+
+[JsonConverter(typeof(EnumMemberJsonStringEnumConverter<JsonTypeLabel>))]
+public enum JsonTypeLabel
 {
-    [JsonConverter(typeof(JsonTypeLabelConverter))]
-    public enum JsonTypeLabel
-    {
-        Boolean,
-        ClientList,
-        File,
-        List,
-        MultivaluedList,
-        MultivaluedString,
-        Password,
-        Role,
-        Script,
-        String,
-        Text
-    }
+	Boolean,
+	ClientList,
+	File,
+	List,
+	MultivaluedList,
+	MultivaluedString,
+	Password,
+	Role,
+	Script,
+	String,
+	Text,
+	Long,
+	UserProfileAttributeList,
+	Map,
+	Group
 }

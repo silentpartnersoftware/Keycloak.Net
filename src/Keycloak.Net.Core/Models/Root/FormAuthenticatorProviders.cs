@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.Root;
 
-namespace Keycloak.Net.Models.Root
+public class FormAuthenticatorProviders
 {
-    public class FormAuthenticatorProviders
-    {
-        [JsonProperty("registration-page-form")]
-        public HasOrder RegistrationPageForm { get; set; }
-    }
+	[JsonPropertyName("registration-page-form")]
+	public HasOrder RegistrationPageForm { get; set; }
 }

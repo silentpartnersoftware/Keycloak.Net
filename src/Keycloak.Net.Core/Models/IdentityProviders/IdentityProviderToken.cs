@@ -1,25 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿namespace Keycloak.Net.Models.IdentityProviders;
 
-namespace Keycloak.Net.Models.IdentityProviders
+public class IdentityProviderToken
 {
-    public class IdentityProviderToken
-    {
-        [JsonProperty("access_token")]
-        public string AccessToken { get; set; }
+	[JsonPropertyName("access_token")]
+	public string AccessToken { get; set; }
 
-        [JsonProperty("token_type")]
-        public string RequestingPartyToken { get; set; }
+	[JsonPropertyName("token_type")]
+	public string RequestingPartyToken { get; set; }
 
-        [JsonProperty("expires_in")]
-        public int ExpiresIn { get; set; }
+	[JsonPropertyName("expires_in")]
+	public int ExpiresIn { get; set; }
 
-        [JsonProperty("refresh_token")]
-        public string RefreshToken { get; set; }
+	[JsonPropertyName("refresh_token")]
+	public string RefreshToken { get; set; }
 
-        [JsonProperty("scope")]
-        public string Scope { get; set; }
+	[JsonPropertyName("scope")]
+	public string Scope { get; set; }
 
-        [JsonProperty("created_at")]
-        public long CreatedAt { get; set; }
-    }
+	[JsonPropertyName("created_at")]
+	public long CreatedAt { get; set; }
 }
