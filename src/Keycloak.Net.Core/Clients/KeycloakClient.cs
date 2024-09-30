@@ -1,4 +1,5 @@
-﻿using Keycloak.Net.Models.Clients;
+﻿using Keycloak.Net.Core.Models.Root;
+using Keycloak.Net.Models.Clients;
 using Keycloak.Net.Models.ClientScopes;
 using Keycloak.Net.Models.Common;
 using Keycloak.Net.Models.Roles;
@@ -371,4 +372,49 @@ public partial class KeycloakClient
 													cancellationToken: cancellationToken)
 							   .ReceiveJson<IEnumerable<Resource>>()
 							   .ConfigureAwait(false);
+
+    public async Task<Token> GetTokenExchangeResponseAsync(string realm,
+                                                           string clientId,
+                                                           string userId,
+                                                           string clientSecret,
+                                                           CancellationToken cancellationToken = default)
+    {
+        var parameters = new Dictionary<string, string>
+		{
+			{ "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
+			{ "client_id", clientId },
+			{ "client_secret", clientSecret },
+			{ "requested_subject", userId },
+			{ "scope", "openid" }
+		};
+
+        return await GetBaseUrl(realm)
+            .AppendPathSegment($"/realms/{realm}/protocol/openid-connect/token")
+            .PostUrlEncodedAsync(parameters, cancellationToken: cancellationToken)
+            .ReceiveJson<Token>()
+            .ConfigureAwait(false);
+    }
+
+    public async Task<Token> GetTokenWithResourceOwnerPasswordCredentialsAsync(string realm,
+																			   string clientId,
+																			   string username,
+																			   string password,
+																			   string clientSecret,
+																			   CancellationToken cancellationToken = default)
+    {
+        var parameters = new Dictionary<string, string>
+		{
+			{ "grant_type", "password" },
+			{ "client_id", clientId },
+			{ "client_secret", clientSecret },
+			{ "username", username },
+			{ "password", password }
+		};
+
+        return await GetBaseUrl(realm)
+            .AppendPathSegment($"/realms/{realm}/protocol/openid-connect/token")
+            .PostUrlEncodedAsync(parameters, cancellationToken: cancellationToken)
+            .ReceiveJson<Token>()
+            .ConfigureAwait(false);
+    }
 }
