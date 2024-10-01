@@ -192,6 +192,7 @@ public partial class KeycloakClient
 	}
 
 	public async Task<IEnumerable<Role>> GetRolesAsync(string realm,
+													   bool briefRepresentation = true,
 													   int? first = null,
 													   int? max = null,
 													   string? search = null,
@@ -201,7 +202,8 @@ public partial class KeycloakClient
 						  {
 							  [nameof(first)] = first,
 							  [nameof(max)] = max,
-							  [nameof(search)] = search
+							  [nameof(search)] = search,
+							  [nameof(briefRepresentation)] = briefRepresentation
 						  };
 
 		return await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/roles")
