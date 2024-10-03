@@ -195,13 +195,15 @@ public partial class KeycloakClient
 													   int? first = null,
 													   int? max = null,
 													   string? search = null,
+													   bool? briefRepresentation = null,
 													   CancellationToken cancellationToken = default)
 	{
 		var queryParams = new Dictionary<string, object?>
 						  {
 							  [nameof(first)] = first,
 							  [nameof(max)] = max,
-							  [nameof(search)] = search
+							  [nameof(search)] = search,
+							  [nameof(briefRepresentation)] = briefRepresentation
 						  };
 
 		return await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/roles")
