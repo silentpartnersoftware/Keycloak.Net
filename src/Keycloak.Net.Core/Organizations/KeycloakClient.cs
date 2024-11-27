@@ -1,4 +1,6 @@
-﻿using Keycloak.Net.Models.IdentityProviders;
+﻿using System;
+using System.Linq;
+using Keycloak.Net.Models.IdentityProviders;
 using Keycloak.Net.Models.Organizations;
 
 namespace Keycloak.Net;
@@ -57,14 +59,20 @@ public partial class KeycloakClient
 
 	}
 
-	public async Task<bool> CreateOrganizationAsync(string realm,
+	public async Task<string> CreateOrganizationAsync(string realm,
 												    Organization organization,
 												    CancellationToken cancellationToken = default)
 	{
 		var response = await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/organizations")
 											  .PostJsonAsync(organization, cancellationToken: cancellationToken)
 											  .ConfigureAwait(false);
-		return response.ResponseMessage.IsSuccessStatusCode;
+		
+		return GetResourceIdentifierFromLocation(response.ResponseMessage.Headers.Location);
+	}
+
+	private static string GetResourceIdentifierFromLocation(Uri? location)
+	{
+		return location?.Segments.LastOrDefault() ?? throw new InvalidOperationException($"\"{nameof(location)}\" is invalid.");
 	}
 
 	public async Task<bool> DeleteOrganizationIdentityProviderAsync(string realm,

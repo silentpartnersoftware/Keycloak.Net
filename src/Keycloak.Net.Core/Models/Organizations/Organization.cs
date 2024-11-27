@@ -21,17 +21,17 @@ public class Organization
 	public string? Description { get; set; }
 
 	[JsonPropertyName("redirectUrl")]
-	public bool? RedirectUrl { get; set; }
+	public string? RedirectUrl { get; set; }
 
 	[JsonPropertyName("attributes")]
-	public IDictionary<string, object>? Attributes { get; set; }
+	public IDictionary<string, IEnumerable<string>>? Attributes { get; set; }
 
 	[JsonPropertyName("domains")]
-	public OrganizationDomain? Domains { get; set; }
+	public IEnumerable<OrganizationDomain>? Domains { get; set; }
 
 	[JsonPropertyName("members")]
-	public Member? Members { get; set; }
+	public IEnumerable<Member>? Members { get; set; }
 
 	[JsonPropertyName("identityProviders")]
-	public IdentityProvider? IdentityProviders { get; set; }
+	public IEnumerable<IdentityProvider>? IdentityProviders { get; set; }
 }
