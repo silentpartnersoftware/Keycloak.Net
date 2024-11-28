@@ -162,14 +162,21 @@ public partial class KeycloakClient
 		return response.ResponseMessage.IsSuccessStatusCode;
 	}
 
-	
-
 	public async Task<List<Organization>> GetOrganizationsForMemberAsync(string realm,
 																		 string organizationId,
 																		 string memberId,
 																		 CancellationToken cancellationToken = default)
 	{
 		return await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/organizations/{organizationId}/members/{memberId}/organizations")
+									  .GetJsonAsync<List<Organization>>(cancellationToken: cancellationToken)
+									  .ConfigureAwait(false);
+	}
+
+	public async Task<List<Organization>> GetOrganizationsForMemberAsync(string realm,
+																		 string memberId,
+																		 CancellationToken cancellationToken = default)
+	{
+		return await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/organizations/members/{memberId}/organizations")
 									  .GetJsonAsync<List<Organization>>(cancellationToken: cancellationToken)
 									  .ConfigureAwait(false);
 	}
@@ -185,6 +192,14 @@ public partial class KeycloakClient
 		return response.ResponseMessage.IsSuccessStatusCode;
 	}
 
+	/// <summary>
+	/// Invites an existing user to the organization, using the specified user id.
+	/// </summary>
+	/// <param name="realm"></param>
+	/// <param name="organizationId"></param>
+	/// <param name="userId"></param>
+	/// <param name="cancellationToken"></param>
+	/// <returns></returns>
 	public async Task<bool> InviteUserToOrganizationAsync(string realm,
 														  string organizationId,
 														  string userId,
@@ -197,6 +212,17 @@ public partial class KeycloakClient
 		return response.ResponseMessage.IsSuccessStatusCode;
 	}
 
+	/// <summary>
+	/// Invites an existing user or sends a registration link to a new user, based on the provided e-mail address.
+	/// </summary>
+	/// <param name="realm"></param>
+	/// <param name="organizationId"></param>
+	/// <param name="email"></param>
+	/// <param name="firstName"></param>
+	/// <param name="lastName"></param>
+	/// <param name="cancellationToken"></param>
+	/// <returns></returns>
+	/// <remarks>If the user with the given e-mail address exists, it sends an invitation link, otherwise it sends a registration link.</remarks>
 	public async Task<bool> InviteUserToOrganizationAsync(string realm,
 														  string organizationId,
 														  string email,
