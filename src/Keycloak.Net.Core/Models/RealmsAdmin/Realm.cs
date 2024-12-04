@@ -1,4 +1,6 @@
-﻿namespace Keycloak.Net.Models.RealmsAdmin;
+﻿using Keycloak.Net.Models.Organizations;
+
+namespace Keycloak.Net.Models.RealmsAdmin;
 
 public class Realm
 {
@@ -147,4 +149,8 @@ public class Realm
 	public string? EmailTheme { get; set; }
 	[JsonPropertyName("loginTheme")]
 	public string? LoginTheme { get; set; }
+	[JsonPropertyName("organizations")]
+	public IEnumerable<Organization>? Organizations { get; set; }
+	[JsonPropertyName("organizationsEnabled")]
+	public bool? OrganizationsEnabled { get; set; }
 }
