@@ -42,14 +42,22 @@ public partial class KeycloakClient
 
 	public async Task<IEnumerable<Client>> GetClientsAsync(string realm,
 														   string? clientId = null,
+														   int? first = null,
+														   int? max = null,
+														   string? q = null,
+														   bool? search = null,
 														   bool? viewableOnly = null,
 														   CancellationToken cancellationToken = default)
 	{
 		var queryParams = new Dictionary<string, object?>
-						  {
-							  [nameof(clientId)] = clientId,
-							  [nameof(viewableOnly)] = viewableOnly
-						  };
+		{
+			[nameof(clientId)] = clientId,
+			[nameof(first)] = first,
+			[nameof(max)] = max,
+			[nameof(q)] = q,
+			[nameof(search)] = search,
+			[nameof(viewableOnly)] = viewableOnly
+		};
 
 		return await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/clients")
 									  .SetQueryParams(queryParams)
