@@ -2,6 +2,8 @@
 
 public class Credentials
 {
+	[JsonPropertyName("id")]
+	public string Id { get; set; }
 	[JsonPropertyName("algorithm")]
 	public string Algorithm { get; set; }
 	[JsonPropertyName("config")]

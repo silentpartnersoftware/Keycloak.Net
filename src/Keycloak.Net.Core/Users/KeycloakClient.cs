@@ -161,6 +161,18 @@ public partial class KeycloakClient
 							   .GetJsonAsync<IEnumerable<Credentials>>(cancellationToken: cancellationToken)
 							   .ConfigureAwait(false);
 
+    public async Task<bool> DeleteUserCredentialAsync(string realm,
+                                                        string userId,
+                                                        string credentialId,
+                                                        CancellationToken cancellationToken = default)
+    {
+        var response = await GetBaseUrl(realm)
+                            .AppendPathSegment($"/admin/realms/{realm}/users/{userId}/credentials/{credentialId}")
+                            .DeleteAsync(cancellationToken: cancellationToken)
+                            .ConfigureAwait(false);
+        return response.ResponseMessage.IsSuccessStatusCode;
+    }
+
 	public async Task<bool> DisableUserCredentialsAsync(string realm,
 														string userId,
 														IEnumerable<string> credentialTypes,
