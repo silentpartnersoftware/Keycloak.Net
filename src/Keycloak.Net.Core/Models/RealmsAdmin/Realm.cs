@@ -1,4 +1,5 @@
 ﻿using Keycloak.Net.Models.Organizations;
+using Keycloak.Net.Models.Roles;
 
 namespace Keycloak.Net.Models.RealmsAdmin;
 
@@ -79,8 +80,10 @@ public class Realm
 	public int? MaxDeltaTimeSeconds { get; set; }
 	[JsonPropertyName("failureFactor")]
 	public int? FailureFactor { get; set; }
+	[JsonPropertyName("defaultRole")]
+	public Role? DefaultRole { get; set;}
 	[JsonPropertyName("defaultRoles")]
-	public IEnumerable<string> DefaultRoles { get; set; }
+	public IEnumerable<string>? DefaultRoles { get; set; }
 	[JsonPropertyName("requiredCredentials")]
 	public IEnumerable<string> RequiredCredentials { get; set; }
 	[JsonPropertyName("otpPolicyType")]
