@@ -13,10 +13,12 @@ public partial class KeycloakClient
 																int? max = null,
 																string? q = null,
 																string? search = null,
+                                                                bool? briefRepresentation = null,
 																CancellationToken cancellationToken = default)
 	{
 		var queryParams = new Dictionary<string, object?>
 		{
+            [nameof(briefRepresentation)] = briefRepresentation,
 			[nameof(exact)] = exact,
 			[nameof(first)] = first,
 			[nameof(max)] = max,
@@ -174,9 +176,15 @@ public partial class KeycloakClient
 
 	public async Task<List<Organization>> GetOrganizationsForMemberAsync(string realm,
 																		 string memberId,
+                                                                         bool? briefRepresentation = null,
 																		 CancellationToken cancellationToken = default)
 	{
+        var queryParams = new Dictionary<string, object?>
+        {
+            [nameof(briefRepresentation)] = briefRepresentation,
+        };
 		return await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/organizations/members/{memberId}/organizations")
+                                      .SetQueryParams(queryParams)
 									  .GetJsonAsync<List<Organization>>(cancellationToken: cancellationToken)
 									  .ConfigureAwait(false);
 	}
