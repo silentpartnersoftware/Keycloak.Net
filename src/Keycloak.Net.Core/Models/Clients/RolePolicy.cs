@@ -16,10 +16,8 @@ public class Policy
 	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public PolicyType Type { get; set; }
 
-	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public PolicyDecisionLogic Logic { get; set; }
 
-	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public DecisionStrategy DecisionStrategy { get; set; }
 
 	[JsonPropertyName("config")]
@@ -40,10 +38,8 @@ public class RolePolicy
 	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public PolicyType Type { get; set; } = PolicyType.Role;
 
-	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public PolicyDecisionLogic Logic { get; set; }
 
-	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public DecisionStrategy DecisionStrategy { get; set; }
 
 	[JsonPropertyName("roles")]
@@ -73,10 +69,8 @@ public class UserPolicy
 	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public PolicyType Type { get; set; } = PolicyType.User;
 
-	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public PolicyDecisionLogic Logic { get; set; }
 
-	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public DecisionStrategy DecisionStrategy { get; set; }
 
 	[JsonPropertyName("users")]
@@ -97,10 +91,8 @@ public class GroupPolicy
 	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public PolicyType Type { get; set; } = PolicyType.Group;
 
-	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public PolicyDecisionLogic Logic { get; set; }
 
-	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public DecisionStrategy DecisionStrategy { get; set; }
 
 	[JsonPropertyName("groups")]

@@ -1,4 +1,5 @@
-﻿using Keycloak.Net.Common.Converters;
+﻿using System.Runtime.Serialization;
+using Keycloak.Net.Common.Converters;
 
 namespace Keycloak.Net.Models.AuthorizationPermissions;
 
@@ -16,10 +17,8 @@ public class AuthorizationPermission
 	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public AuthorizationPermissionType Type { get; set; }
 
-	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public PolicyDecisionLogic Logic { get; set; }
 
-	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public DecisionStrategy DecisionStrategy { get; set; }
 
 	[JsonPropertyName("resourceType")]
@@ -35,9 +34,14 @@ public class AuthorizationPermission
 	public IEnumerable<string> PolicyIds { get; set; }
 }
 
+[JsonConverter(typeof(EnumMemberJsonStringEnumConverter<PolicyDecisionLogic>))]
 public enum PolicyDecisionLogic
 {
+
+	[EnumMember(Value = "POSITIVE")]
 	Positive,
+
+	[EnumMember(Value = "NEGATIVE")]
 	Negative
 }
 
@@ -47,9 +51,15 @@ public enum AuthorizationPermissionType
 	Resource
 }
 
+[JsonConverter(typeof(EnumMemberJsonStringEnumConverter<DecisionStrategy>))]
 public enum DecisionStrategy
 {
+	[EnumMember(Value = "UNANIMOUS")]
 	Unanimous,
+
+	[EnumMember(Value = "AFFIRMATIVE")]
 	Affirmative,
+
+	[EnumMember(Value = "CONSENSUS")]
 	Consensus
 }
