@@ -66,9 +66,12 @@ public partial class KeycloakClient
 													   _clientSecret,
 													   _options);
 
-		return _options.TimeOut.HasValue
-				   ? request.WithTimeout(_options.TimeOut.Value)
-				   : request;
+		if (_options.Timeout.HasValue)
+		{
+			request = request.WithTimeout(_options.Timeout.Value);
+		}
+
+		return request;
 	}
 
 	internal record CountDto(int Count);
@@ -90,20 +93,20 @@ public class KeycloakOptions
     public IKeycloakAccessTokenCache? AccessTokenCache { get; }
 
 	/// <summary>
-	/// Specify a timeout for Keycloak requests.
+	/// Specify the maximum time to wait for HTTP requests.
 	/// </summary>
-	public TimeSpan? TimeOut { get; }
+	public TimeSpan? Timeout { get; }
 
     public KeycloakOptions(string prefix = "",
 						   string adminClientId = "admin-cli",
 						   string? authenticationRealm = null,
                            IKeycloakAccessTokenCache? accessTokenCache = null,
-						   TimeSpan? timeOut = null)
+						   TimeSpan? timeout = null)
 	{
 		Prefix = prefix.TrimStart('/').TrimEnd('/');
 		AdminClientId = adminClientId;
 		AuthenticationRealm = authenticationRealm;
 		AccessTokenCache = accessTokenCache;
-		TimeOut = timeOut;
+		Timeout = timeout;
 	}
 }
