@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Http;
 using Keycloak.Net.Models.Groups;
 using Keycloak.Net.Models.IdentityProviders;
 using Keycloak.Net.Models.Organizations;
@@ -149,7 +150,8 @@ public partial class KeycloakClient
 			[nameof(subGroupsCount)] = subGroupsCount
 		};
 
-		return await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/organizations/{organizationId}/groups/group-by-path/{path}")
+		return await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/organizations/{organizationId}/groups/group-by-path")
+									  .AppendPathSegment(path, true)
 									  .SetQueryParams(queryParams)
 									  .GetJsonAsync<Group>(cancellationToken: cancellationToken)
 									  .ConfigureAwait(false);
@@ -260,7 +262,7 @@ public partial class KeycloakClient
 															CancellationToken cancellationToken = default)
 	{
 		var response = await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/organizations/{organizationId}/groups/{groupId}/members/{userId}")
-											  .PutJsonAsync(null, cancellationToken: cancellationToken)
+											  .PutAsync(new StringContent(""), cancellationToken: cancellationToken)
 											  .ConfigureAwait(false);
 		return response.ResponseMessage.IsSuccessStatusCode;
 	}
@@ -396,7 +398,7 @@ public partial class KeycloakClient
 															  CancellationToken cancellationToken = default)
 	{
 		var response = await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/organizations/{organizationId}/invitations/{invitationId}/resend")
-											  .PostJsonAsync(null, cancellationToken: cancellationToken)
+											  .PostAsync(new StringContent(""), cancellationToken: cancellationToken)
 											  .ConfigureAwait(false);
 		return response.ResponseMessage.IsSuccessStatusCode;
 	}
@@ -414,31 +416,8 @@ public partial class KeycloakClient
 																int? first = null,
 																int? max = null,
 																string? search = null,
+																string? membershipType = null,
 																CancellationToken cancellationToken = default)
-	{
-		var queryParams = new Dictionary<string, object?>
-		{
-			[nameof(exact)] = exact,
-			[nameof(first)] = first,
-			[nameof(max)] = max,
-			[nameof(search)] = search
-		};
-		var response = await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/organizations/{organizationId}/members")
-											  .SetQueryParams(queryParams)
-											  .GetJsonAsync<List<Member>>(cancellationToken: cancellationToken)
-											  .ConfigureAwait(false);
-		return response;
-
-	}
-
-	public async Task<List<Member>> GetOrganizationMembersByMembershipTypeAsync(string realm,
-																				string organizationId,
-																				string membershipType,
-																				bool? exact = null,
-																				int? first = null,
-																				int? max = null,
-																				string? search = null,
-																				CancellationToken cancellationToken = default)
 	{
 		var queryParams = new Dictionary<string, object?>
 		{
@@ -474,16 +453,6 @@ public partial class KeycloakClient
 											  .ConfigureAwait(false);
 
 		return response.ResponseMessage.IsSuccessStatusCode;
-	}
-
-	public async Task<List<Organization>> GetOrganizationsForMemberAsync(string realm,
-																		 string organizationId,
-																		 string memberId,
-																		 CancellationToken cancellationToken = default)
-	{
-		return await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/organizations/{organizationId}/members/{memberId}/organizations")
-									  .GetJsonAsync<List<Organization>>(cancellationToken: cancellationToken)
-									  .ConfigureAwait(false);
 	}
 
 	public async Task<List<Organization>> GetOrganizationsForMemberAsync(string realm,
