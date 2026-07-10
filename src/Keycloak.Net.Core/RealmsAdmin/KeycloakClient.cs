@@ -265,7 +265,7 @@ public partial class KeycloakClient
 	public async Task<Group> GetRealmGroupByPathAsync(string realm,
 													  string path,
 													  CancellationToken cancellationToken = default) =>
-		await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/group-by-path/{path}")
+		await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/group-by-path/{path.TrimStart('/')}")
 							   .GetJsonAsync<Group>(cancellationToken: cancellationToken)
 							   .ConfigureAwait(false);
 

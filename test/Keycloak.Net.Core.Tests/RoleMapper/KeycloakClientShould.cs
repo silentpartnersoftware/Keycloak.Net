@@ -6,108 +6,106 @@ namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRoleMappingsForGroupAsync(string realm)
+        [Fact]
+        public async Task GetRoleMappingsForGroupAsync()
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
-            string groupId = groups.FirstOrDefault()?.Id;
-            if (groupId != null)
-            {
-                var result = await _client.GetRoleMappingsForGroupAsync(realm, groupId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var groupId = await _fixture.GroupIdAsync();
+
+            var result = await _client.GetRoleMappingsForGroupAsync(realm, groupId);
+            string[] expectedRealmRoleNames = ["keycloak-net-group-realm-mapped"];
+            string[] expectedClientRoleNames = ["keycloak-net-group-mapped"];
+
+            Assert.Equivalent(expectedRealmRoleNames, result.RealmMappings.Select(x => x.Name));
+            Assert.True(result.ClientMappings.TryGetValue("keycloak-net-fixture-group-client", out var clientMapping));
+            Assert.Equivalent(expectedClientRoleNames, clientMapping.Mappings.Select(x => x.Name));
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRealmRoleMappingsForGroupAsync(string realm)
+        [Fact]
+        public async Task GetRealmRoleMappingsForGroupAsync()
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
-            string groupId = groups.FirstOrDefault()?.Id;
-            if (groupId != null)
-            {
-                var result = await _client.GetRealmRoleMappingsForGroupAsync(realm, groupId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var groupId = await _fixture.GroupIdAsync();
+
+            var result = await _client.GetRealmRoleMappingsForGroupAsync(realm, groupId);
+            string[] expectedRoleNames = ["keycloak-net-group-realm-mapped"];
+
+            Assert.Equivalent(expectedRoleNames, result.Select(x => x.Name));
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetAvailableRealmRoleMappingsForGroupAsync(string realm)
+        [Fact]
+        public async Task GetAvailableRealmRoleMappingsForGroupAsync()
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
-            string groupId = groups.FirstOrDefault()?.Id;
-            if (groupId != null)
-            {
-                var result = await _client.GetAvailableRealmRoleMappingsForGroupAsync(realm, groupId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var groupId = await _fixture.GroupIdAsync();
+
+            var result = await _client.GetAvailableRealmRoleMappingsForGroupAsync(realm, groupId);
+            var roleNames = result.Select(x => x.Name).ToArray();
+
+            Assert.Contains("keycloak-net-realm-available", roleNames);
+            Assert.DoesNotContain("keycloak-net-group-realm-mapped", roleNames);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetEffectiveRealmRoleMappingsForGroupAsync(string realm)
+        [Fact]
+        public async Task GetEffectiveRealmRoleMappingsForGroupAsync()
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
-            string groupId = groups.FirstOrDefault()?.Id;
-            if (groupId != null)
-            {
-                var result = await _client.GetEffectiveRealmRoleMappingsForGroupAsync(realm, groupId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var groupId = await _fixture.GroupIdAsync();
+
+            var result = await _client.GetEffectiveRealmRoleMappingsForGroupAsync(realm, groupId);
+
+            Assert.Contains(result, x => x.Name == "keycloak-net-group-realm-mapped");
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRoleMappingsForUserAsync(string realm)
+        [Fact]
+        public async Task GetRoleMappingsForUserAsync()
         {
-            var users = await _client.GetUsersAsync(realm).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                var result = await _client.GetRoleMappingsForUserAsync(realm, userId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+
+            var result = await _client.GetRoleMappingsForUserAsync(realm, userId);
+            string[] expectedRoleNames = ["keycloak-net-user-realm-mapped"];
+            string[] expectedClientRoleNames = ["keycloak-net-user-mapped"];
+
+            Assert.Equivalent(expectedRoleNames, result.RealmMappings.Select(x => x.Name));
+            Assert.True(result.ClientMappings.TryGetValue("keycloak-net-fixture-user-client", out var clientMapping));
+            Assert.Equivalent(expectedClientRoleNames, clientMapping.Mappings.Select(x => x.Name));
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRealmRoleMappingsForUserAsync(string realm)
+        [Fact]
+        public async Task GetRealmRoleMappingsForUserAsync()
         {
-            var users = await _client.GetUsersAsync(realm).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                var result = await _client.GetRealmRoleMappingsForUserAsync(realm, userId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+
+            var result = await _client.GetRealmRoleMappingsForUserAsync(realm, userId);
+            string[] expectedRoleNames = ["keycloak-net-user-realm-mapped"];
+
+            Assert.Equivalent(expectedRoleNames, result.Select(x => x.Name));
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetAvailableRealmRoleMappingsForUserAsync(string realm)
+        [Fact]
+        public async Task GetAvailableRealmRoleMappingsForUserAsync()
         {
-            var users = await _client.GetUsersAsync(realm).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                var result = await _client.GetAvailableRealmRoleMappingsForUserAsync(realm, userId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+
+            var result = await _client.GetAvailableRealmRoleMappingsForUserAsync(realm, userId);
+            var roleNames = result.Select(x => x.Name).ToArray();
+
+            Assert.Contains("keycloak-net-realm-available", roleNames);
+            Assert.DoesNotContain("keycloak-net-user-realm-mapped", roleNames);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetEffectiveRealmRoleMappingsForUserAsync(string realm)
+        [Fact]
+        public async Task GetEffectiveRealmRoleMappingsForUserAsync()
         {
-            var users = await _client.GetUsersAsync(realm).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                var result = await _client.GetEffectiveRealmRoleMappingsForUserAsync(realm, userId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+
+            var result = await _client.GetEffectiveRealmRoleMappingsForUserAsync(realm, userId);
+
+            Assert.Contains(result, x => x.Name == "keycloak-net-user-realm-mapped");
         }
     }
 }

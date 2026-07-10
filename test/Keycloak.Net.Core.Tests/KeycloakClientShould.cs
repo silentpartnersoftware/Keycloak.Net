@@ -6,11 +6,12 @@ using System.Linq;
 
 namespace Keycloak.Net.Tests
 {
-	public partial class KeycloakClientShould
+    public partial class KeycloakClientShould
     {
-        private readonly KeycloakClient _client;
+        private static readonly KeycloakClient _client = CreateKeycloakClient();
+        private static readonly KeycloakTestFixture _fixture = new(_client);
 
-        public KeycloakClientShould()
+        private static KeycloakClient CreateKeycloakClient()
         {
             var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
 														  .AddJsonFile("appsettings.json",
@@ -22,16 +23,12 @@ namespace Keycloak.Net.Tests
             var userName = configuration["userName"]!;
             var password = configuration["password"]!;
 
-            _client = new(url, userName, password);
+            return new(url, userName, password);
         }
 
         private static readonly Lazy<HashSet<string>> _enabledFeatures = new(() =>
         {
-            var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                                                          .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
-                                                          .Build();
-            var client = new KeycloakClient(configuration["url"]!, configuration["userName"]!, configuration["password"]!);
-            var info = client.GetServerInfoAsync("master").GetAwaiter().GetResult();
+            var info = _client.GetServerInfoAsync("master").GetAwaiter().GetResult();
             return new HashSet<string>(
                 info.Features?.Where(f => f.Enabled).Select(f => f.Name) ?? Enumerable.Empty<string>(),
                 StringComparer.OrdinalIgnoreCase);

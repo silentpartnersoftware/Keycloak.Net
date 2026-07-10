@@ -21,6 +21,8 @@ public enum Locale
 	Fi,
 	Hr,
 	Hu,
+	Hy,
+	Id,
 	It,
 	Ja,
 	Kk,
@@ -42,6 +44,7 @@ public enum Locale
 	Th,
 	Tr,
 	Uk,
+	Vi,
 	[EnumMember(Value = "zh-CN")]
 	ZhCn,
 	[EnumMember(Value = "zh-TW")]

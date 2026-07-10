@@ -1,23 +1,30 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory]
-        [InlineData("master")]
-        public async Task GetServerInfoAsync(string realm)
+        [Fact]
+        public async Task GetServerInfoAsync()
         {
-            var result = await _client.GetServerInfoAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetServerInfoAsync(realm);
+            var enabledFeatures = result.Features.Where(x => x.Enabled).Select(x => x.Name).ToArray();
+
+            Assert.Contains("ADMIN_FINE_GRAINED_AUTHZ", enabledFeatures);
+            Assert.NotNull(result.SystemInfo);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task CorsPreflightAsync(string realm)
+        [Fact]
+        public async Task CorsPreflightAsync()
         {
+            var realm = KeycloakTestFixture.Realm;
+
             bool? result = await _client.CorsPreflightAsync(realm);
+
             Assert.True(result);
         }
     }

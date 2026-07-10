@@ -6,53 +6,53 @@ namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory]
-        [InlineData("master")]
-        public async Task GetProtocolMappersAsync(string realm)
+        [Fact]
+        public async Task GetProtocolMappersAsync()
         {
-            var clientScopes = await _client.GetClientScopesAsync(realm).ConfigureAwait(false);
-            string clientScopeId = clientScopes.FirstOrDefault(x => x.ProtocolMappers != null && x.ProtocolMappers.Any())?.Id;
-            if (clientScopeId != null)
-            {
-                var result = await _client.GetProtocolMappersAsync(realm, clientScopeId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientScopeId = await _fixture.ClientScopeIdAsync();
+            var protocolMapperId = await _fixture.ProtocolMapperIdAsync();
+
+            var result = await _client.GetProtocolMappersAsync(realm, clientScopeId);
+
+            var protocolMapper = Assert.Single(result);
+            Assert.Equal(protocolMapperId, protocolMapper.Id);
+            Assert.Equal("keycloak-net-fixture-protocol-mapper", protocolMapper.Name);
+            Assert.Equal("openid-connect", protocolMapper.Protocol);
+            Assert.Equal("oidc-hardcoded-claim-mapper", protocolMapper._ProtocolMapper);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetProtocolMapperAsync(string realm)
+        [Fact]
+        public async Task GetProtocolMapperAsync()
         {
-            var clientScopes = await _client.GetClientScopesAsync(realm).ConfigureAwait(false);
-            string clientScopeId = clientScopes.FirstOrDefault(x => x.ProtocolMappers != null && x.ProtocolMappers.Any())?.Id;
-            if (clientScopeId != null)
-            {
-                var protocolMappers = await _client.GetProtocolMappersAsync(realm, clientScopeId).ConfigureAwait(false);
-                string protocolMapperId = protocolMappers.FirstOrDefault()?.Id;
-                if (protocolMapperId != null)
-                {
-                    var result = await _client.GetProtocolMapperAsync(realm, clientScopeId, protocolMapperId).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                }
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientScopeId = await _fixture.ClientScopeIdAsync();
+            var protocolMapperId = await _fixture.ProtocolMapperIdAsync();
+
+            var result = await _client.GetProtocolMapperAsync(realm, clientScopeId, protocolMapperId);
+
+            Assert.Equal(protocolMapperId, result.Id);
+            Assert.Equal("keycloak-net-fixture-protocol-mapper", result.Name);
+            Assert.Equal("openid-connect", result.Protocol);
+            Assert.Equal("oidc-hardcoded-claim-mapper", result._ProtocolMapper);
+            Assert.Equal("keycloak_net_fixture", result.Config["claim.name"]);
+            Assert.Equal("phase1", result.Config["claim.value"]);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetProtocolMappersByNameAsync(string realm)
+        [Fact]
+        public async Task GetProtocolMappersByNameAsync()
         {
-            var clientScopes = await _client.GetClientScopesAsync(realm).ConfigureAwait(false);
-            string clientScopeId = clientScopes.FirstOrDefault(x => x.ProtocolMappers != null && x.ProtocolMappers.Any())?.Id;
-            if (clientScopeId != null)
-            {
-                var protocolMappers = await _client.GetProtocolMappersAsync(realm, clientScopeId).ConfigureAwait(false);
-                string protocol = protocolMappers.FirstOrDefault()?.Name;
-                if (protocol != null)
-                {
-                    var result = await _client.GetProtocolMappersByNameAsync(realm, clientScopeId, protocol).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                }
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientScopeId = await _fixture.ClientScopeIdAsync();
+            var protocolMapperId = await _fixture.ProtocolMapperIdAsync();
+
+            var result = await _client.GetProtocolMappersByNameAsync(realm, clientScopeId, "openid-connect");
+
+            var protocolMapper = Assert.Single(result);
+            Assert.Equal(protocolMapperId, protocolMapper.Id);
+            Assert.Equal("keycloak-net-fixture-protocol-mapper", protocolMapper.Name);
+            Assert.Equal("openid-connect", protocolMapper.Protocol);
+            Assert.Equal("oidc-hardcoded-claim-mapper", protocolMapper._ProtocolMapper);
         }
     }
 }

@@ -6,112 +6,82 @@ namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientRoleMappingsForGroupAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetClientRoleMappingsForGroupAsync()
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
-            string groupId = groups.FirstOrDefault()?.Id;
-            if (groupId != null)
-            {
-                var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-                string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-                if (clientId != null)
-                {
-                    var result = await _client.GetClientRoleMappingsForGroupAsync(realm, groupId, clientsId).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                }
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var groupId = await _fixture.GroupIdAsync();
+            var clientUuid = await _fixture.GroupClientUuidAsync();
+
+            var result = await _client.GetClientRoleMappingsForGroupAsync(realm, groupId, clientUuid);
+            string[] expectedRoleNames = ["keycloak-net-group-mapped"];
+
+            Assert.Equivalent(expectedRoleNames, result.Select(x => x.Name));
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetAvailableClientRoleMappingsForGroupAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetAvailableClientRoleMappingsForGroupAsync()
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
-            string groupId = groups.FirstOrDefault()?.Id;
-            if (groupId != null)
-            {
-                var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-                string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-                if (clientId != null)
-                {
-                    var result = await _client.GetAvailableClientRoleMappingsForGroupAsync(realm, groupId, clientsId).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                }
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var groupId = await _fixture.GroupIdAsync();
+            var clientUuid = await _fixture.GroupClientUuidAsync();
+
+            var result = await _client.GetAvailableClientRoleMappingsForGroupAsync(realm, groupId, clientUuid);
+            string[] expectedRoleNames = ["keycloak-net-group-available"];
+
+            Assert.Equivalent(expectedRoleNames, result.Select(x => x.Name));
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetEffectiveClientRoleMappingsForGroupAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetEffectiveClientRoleMappingsForGroupAsync()
         {
-            var groups = await _client.GetGroupHierarchyAsync(realm).ConfigureAwait(false);
-            string groupId = groups.FirstOrDefault()?.Id;
-            if (groupId != null)
-            {
-                var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-                string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-                if (clientId != null)
-                {
-                    var result = await _client.GetEffectiveClientRoleMappingsForGroupAsync(realm, groupId, clientsId).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                }
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var groupId = await _fixture.GroupIdAsync();
+            var clientUuid = await _fixture.GroupClientUuidAsync();
+
+            var result = await _client.GetEffectiveClientRoleMappingsForGroupAsync(realm, groupId, clientUuid);
+            string[] expectedRoleNames = ["keycloak-net-group-mapped"];
+
+            Assert.Equivalent(expectedRoleNames, result.Select(x => x.Name));
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientRoleMappingsForUserAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetClientRoleMappingsForUserAsync()
         {
-            var users = await _client.GetUsersAsync(realm).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-                string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-                if (clientId != null)
-                {
-                    var result = await _client.GetClientRoleMappingsForUserAsync(realm, userId, clientsId).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                }
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+            var clientUuid = await _fixture.UserClientUuidAsync();
+
+            var result = await _client.GetClientRoleMappingsForUserAsync(realm, userId, clientUuid);
+            string[] expectedRoleNames = ["keycloak-net-user-mapped"];
+
+            Assert.Equivalent(expectedRoleNames, result.Select(x => x.Name));
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetAvailableClientRoleMappingsForUserAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetAvailableClientRoleMappingsForUserAsync()
         {
-            var users = await _client.GetUsersAsync(realm).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-                string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-                if (clientId != null)
-                {
-                    var result = await _client.GetAvailableClientRoleMappingsForUserAsync(realm, userId, clientsId).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                }
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+            var clientUuid = await _fixture.UserClientUuidAsync();
+
+            var result = await _client.GetAvailableClientRoleMappingsForUserAsync(realm, userId, clientUuid);
+            string[] expectedRoleNames = ["keycloak-net-user-available"];
+
+            Assert.Equivalent(expectedRoleNames, result.Select(x => x.Name));
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetEffectiveClientRoleMappingsForUserAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetEffectiveClientRoleMappingsForUserAsync()
         {
-            var users = await _client.GetUsersAsync(realm).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-                string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-                if (clientId != null)
-                {
-                    var result = await _client.GetEffectiveClientRoleMappingsForUserAsync(realm, userId, clientsId).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                }
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+            var clientUuid = await _fixture.UserClientUuidAsync();
+
+            var result = await _client.GetEffectiveClientRoleMappingsForUserAsync(realm, userId, clientUuid);
+            string[] expectedRoleNames = ["keycloak-net-user-mapped"];
+
+            Assert.Equivalent(expectedRoleNames, result.Select(x => x.Name));
         }
     }
 }

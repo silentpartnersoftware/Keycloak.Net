@@ -5,22 +5,22 @@ namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory(Skip = "Not working yet")]
-        [InlineData("master")]
-        public async Task TriggerUserSynchronizationAsync(string realm)
+        [Fact(Skip = "Requires an LDAP/user-storage provider test server to be meaningfully tested.")]
+        public async Task TriggerUserSynchronizationAsync()
         {
+            var realm = KeycloakTestFixture.Realm;
             string storageProviderId = "";
-            var result = await _client.TriggerUserSynchronizationAsync(realm, storageProviderId, UserSyncActions.Full).ConfigureAwait(false);
+            var result = await _client.TriggerUserSynchronizationAsync(realm, storageProviderId, UserSyncActions.Full);
             Assert.NotNull(result);
         }
 
-        [Theory(Skip = "Not working yet")]
-        [InlineData("master")]
-        public async Task TriggerLdapMapperSynchronizationAsync(string realm)
+        [Fact(Skip = "Requires an LDAP/user-storage provider test server to be meaningfully tested.")]
+        public async Task TriggerLdapMapperSynchronizationAsync()
         {
+            var realm = KeycloakTestFixture.Realm;
             string storageProviderId = "";
             string mapperId = "";
-            var result = await _client.TriggerLdapMapperSynchronizationAsync(realm, storageProviderId, mapperId, LdapMapperSyncActions.KeycloakToFed).ConfigureAwait(false);
+            var result = await _client.TriggerLdapMapperSynchronizationAsync(realm, storageProviderId, mapperId, LdapMapperSyncActions.KeycloakToFed);
             Assert.NotNull(result);
         }
     }

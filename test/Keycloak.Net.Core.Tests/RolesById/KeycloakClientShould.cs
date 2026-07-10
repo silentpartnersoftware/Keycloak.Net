@@ -6,75 +6,62 @@ namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRoleByIdAsync(string realm)
+        [Fact]
+        public async Task GetRoleByIdAsync()
         {
-            var roles = await _client.GetRolesAsync(realm).ConfigureAwait(false);
-            string roleId = roles.FirstOrDefault()?.Id;
-            if (roleId != null)
-            {
-                var result = await _client.GetRoleByIdAsync(realm, roleId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var roleId = await _fixture.RealmRoleIdAsync();
+
+            var result = await _client.GetRoleByIdAsync(realm, roleId);
+
+            Assert.Equal(roleId, result.Id);
+            Assert.Equal("keycloak-net-realm-available", result.Name);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRoleChildrenAsync(string realm)
+        [Fact]
+        public async Task GetRoleChildrenAsync()
         {
-            var roles = await _client.GetRolesAsync(realm).ConfigureAwait(false);
-            string roleId = roles.FirstOrDefault()?.Id;
-            if (roleId != null)
-            {
-                var result = await _client.GetRoleChildrenAsync(realm, roleId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var roleId = await _fixture.RealmRoleIdAsync();
+
+            var result = await _client.GetRoleChildrenAsync(realm, roleId);
+
+            Assert.Empty(result);
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientRolesForCompositeByIdAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetClientRolesForCompositeByIdAsync()
         {
-            var roles = await _client.GetRolesAsync(realm).ConfigureAwait(false);
-            string roleId = roles.FirstOrDefault()?.Id;
-            if (roleId != null)
-            {
-                var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-                string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-                if (clientsId != null)
-                {
-                    var result = await _client.GetClientRolesForCompositeByIdAsync(realm, roleId, clientsId).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                }
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var roleId = await _fixture.RealmRoleIdAsync();
+            var clientUuid = await _fixture.GroupClientUuidAsync();
+
+            var result = await _client.GetClientRolesForCompositeByIdAsync(realm, roleId, clientUuid);
+
+            Assert.Empty(result);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRealmRolesForCompositeByIdAsync(string realm)
+        [Fact]
+        public async Task GetRealmRolesForCompositeByIdAsync()
         {
-            var roles = await _client.GetRolesAsync(realm).ConfigureAwait(false);
-            string roleId = roles.FirstOrDefault()?.Id;
-            if (roleId != null)
-            {
-                var result = await _client.GetRealmRolesForCompositeByIdAsync(realm, roleId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var roleId = await _fixture.RealmRoleIdAsync();
+
+            var result = await _client.GetRealmRolesForCompositeByIdAsync(realm, roleId);
+
+            Assert.Empty(result);
         }
 
-        [SkippableTheory]
-        [InlineData("master")]
-        public async Task GetRoleByIdAuthorizationPermissionsInitializedAsync(string realm)
+        [SkippableFact]
+        public async Task GetRoleByIdAuthorizationPermissionsInitializedAsync()
         {
             Skip.IfNot(IsServerFeatureEnabled("ADMIN_FINE_GRAINED_AUTHZ"), "Requires Keycloak feature ADMIN_FINE_GRAINED_AUTHZ (v1) to be enabled.");
-            var roles = await _client.GetRolesAsync(realm).ConfigureAwait(false);
-            string roleId = roles.FirstOrDefault()?.Id;
-            if (roleId != null)
-            {
-                var result = await _client.GetRoleByIdAuthorizationPermissionsInitializedAsync(realm, roleId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var roleId = await _fixture.RealmRoleIdAsync();
+
+            var result = await _client.GetRoleByIdAuthorizationPermissionsInitializedAsync(realm, roleId);
+
+            Assert.False(result.Enabled);
         }
     }
 }

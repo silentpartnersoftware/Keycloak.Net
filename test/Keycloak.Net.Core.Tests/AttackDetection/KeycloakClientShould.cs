@@ -6,17 +6,18 @@ namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory]
-        [InlineData("Insurance", "vermeulen")]
-        public async Task GetUserNameStatusInBruteForceDetectionAsync(string realm, string search)
+        [Fact]
+        public async Task GetUserNameStatusInBruteForceDetectionAsync()
         {
-            var users = await _client.GetUsersAsync(realm, search: search).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                var result = await _client.GetUserNameStatusInBruteForceDetectionAsync(realm, userId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+
+            var result = await _client.GetUserNameStatusInBruteForceDetectionAsync(realm, userId);
+
+            Assert.Equal(0, result.NumFailures);
+            Assert.False(result.Disabled);
+            Assert.Equal(0, result.LastFailure);
+            Assert.Equal("n/a", result.LastIpFailure);
         }
     }
 }

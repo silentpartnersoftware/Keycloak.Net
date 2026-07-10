@@ -6,98 +6,133 @@ namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRealmsAsync(string realm)
+        [Fact]
+        public async Task GetRealmsAsync()
         {
-            var result = await _client.GetRealmsAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetRealmsAsync(realm);
+
+            Assert.Contains(result, x => x._Realm == realm);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRealmAsync(string realm)
+        [Fact]
+        public async Task GetRealmAsync()
         {
-            var result = await _client.GetRealmAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetRealmAsync(realm);
+
+            Assert.Equal(realm, result._Realm);
+            Assert.True(result.Enabled);
+            Assert.False(result.RegistrationAllowed);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetAdminEventsAsync(string realm)
+        [Fact]
+        public async Task GetAdminEventsAsync()
         {
-            var result = await _client.GetAdminEventsAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetAdminEventsAsync(realm);
+
+            Assert.Empty(result);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetClientSessionStatsAsync(string realm)
+        [Fact]
+        public async Task GetClientSessionStatsAsync()
         {
-            var result = await _client.GetClientSessionStatsAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetClientSessionStatsAsync(realm);
+
+            var stats = Assert.Single(result);
+            Assert.Equal("admin-cli", stats["clientId"]?.ToString());
+            Assert.True(int.Parse(stats["active"]!.ToString()!) >= 0);
+            Assert.True(int.Parse(stats["offline"]!.ToString()!) >= 0);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRealmDefaultClientScopesAsync(string realm)
+        [Fact]
+        public async Task GetRealmDefaultClientScopesAsync()
         {
-            var result = await _client.GetRealmDefaultClientScopesAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetRealmDefaultClientScopesAsync(realm);
+            string[] expectedScopeNames = ["role_list", "saml_organization", "AuthnContextClassRef", "profile", "email", "roles", "web-origins", "acr", "basic"];
+
+            Assert.Equivalent(expectedScopeNames, result.Select(x => x.Name), strict: true);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRealmGroupHierarchyAsync(string realm)
+        [Fact]
+        public async Task GetRealmGroupHierarchyAsync()
         {
-            var result = await _client.GetRealmGroupHierarchyAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+            var defaultGroupId = await _fixture.DefaultGroupIdAsync();
+
+            var result = await _client.GetRealmGroupHierarchyAsync(realm);
+
+            var group = Assert.Single(result);
+            Assert.Equal(defaultGroupId, group.Id);
+            Assert.Equal("keycloak-net-fixture-default-group", group.Name);
+            Assert.Equal("/keycloak-net-fixture-default-group", group.Path);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRealmOptionalClientScopesAsync(string realm)
+        [Fact]
+        public async Task GetRealmOptionalClientScopesAsync()
         {
-            var result = await _client.GetRealmOptionalClientScopesAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetRealmOptionalClientScopesAsync(realm);
+            string[] expectedScopeNames = ["offline_access", "address", "phone", "microprofile-jwt", "organization"];
+
+            Assert.Equivalent(expectedScopeNames, result.Select(x => x.Name), strict: true);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetEventsAsync(string realm)
+        [Fact]
+        public async Task GetEventsAsync()
         {
-            var result = await _client.GetEventsAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetEventsAsync(realm);
+
+            Assert.Empty(result);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRealmEventsProviderConfigurationAsync(string realm)
+        [Fact]
+        public async Task GetRealmEventsProviderConfigurationAsync()
         {
-            var result = await _client.GetRealmEventsProviderConfigurationAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetRealmEventsProviderConfigurationAsync(realm);
+
+            Assert.False(result.EventsEnabled);
+            Assert.False(result.AdminEventsEnabled);
+            Assert.False(result.AdminEventsDetailsEnabled);
+            Assert.Contains("jboss-logging", result.EventsListeners);
+            Assert.Contains("LOGIN", result.EnabledEventTypes);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRealmGroupByPathAsync(string realm)
+        [Fact]
+        public async Task GetRealmGroupByPathAsync()
         {
-            var groups = await _client.GetRealmGroupHierarchyAsync(realm).ConfigureAwait(false);
-            string path = groups.FirstOrDefault()?.Path;
-            if (path != null)
-            {
-                var result = await _client.GetRealmGroupByPathAsync(realm, path).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var defaultGroupId = await _fixture.DefaultGroupIdAsync();
+
+            var result = await _client.GetRealmGroupByPathAsync(realm, KeycloakTestFixture.DefaultGroupPath);
+
+            Assert.Equal(defaultGroupId, result.Id);
+            Assert.Equal("keycloak-net-fixture-default-group", result.Name);
+            Assert.Equal("/keycloak-net-fixture-default-group", result.Path);
         }
 
-        [SkippableTheory]
-        [InlineData("master")]
-        public async Task GetRealmUsersManagementPermissionsAsync(string realm)
+        [SkippableFact]
+        public async Task GetRealmUsersManagementPermissionsAsync()
         {
             Skip.IfNot(IsServerFeatureEnabled("ADMIN_FINE_GRAINED_AUTHZ"), "Requires Keycloak feature ADMIN_FINE_GRAINED_AUTHZ (v1) to be enabled.");
-            var result = await _client.GetRealmUsersManagementPermissionsAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetRealmUsersManagementPermissionsAsync(realm);
+
+            Assert.False(result.Enabled);
         }
     }
 }
