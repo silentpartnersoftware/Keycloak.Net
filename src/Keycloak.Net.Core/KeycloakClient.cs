@@ -54,16 +54,25 @@ public partial class KeycloakClient
 	public void SetSerializer(ISerializer serializer) =>
 		_serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
 
-	private IFlurlRequest GetBaseUrl(string authenticationRealm) =>
-		new Url(_url).AppendPathSegment(_options.Prefix)
-					 .WithSettings(settings => settings.JsonSerializer = _serializer)
-					 .WithAuthentication(_getToken,
-										 _url,
-										 _options.AuthenticationRealm ?? authenticationRealm,
-										 _userName,
-										 _password,
-										 _clientSecret,
-										 _options);
+	private IFlurlRequest GetBaseUrl(string authenticationRealm)
+	{
+		var request = new Url(_url).AppendPathSegment(_options.Prefix)
+								   .WithSettings(settings => settings.JsonSerializer = _serializer)
+								   .WithAuthentication(_getToken,
+													   _url,
+													   _options.AuthenticationRealm ?? authenticationRealm,
+													   _userName,
+													   _password,
+													   _clientSecret,
+													   _options);
+
+		if (_options.Timeout.HasValue)
+		{
+			request = request.WithTimeout(_options.Timeout.Value);
+		}
+
+		return request;
+	}
 
 	internal record CountDto(int Count);
 }
@@ -83,14 +92,21 @@ public class KeycloakOptions
 	/// </summary>
     public IKeycloakAccessTokenCache? AccessTokenCache { get; }
 
+	/// <summary>
+	/// Specify the maximum time to wait for HTTP requests.
+	/// </summary>
+	public TimeSpan? Timeout { get; }
+
     public KeycloakOptions(string prefix = "",
 						   string adminClientId = "admin-cli",
 						   string? authenticationRealm = null,
-                           IKeycloakAccessTokenCache? accessTokenCache = null)
+                           IKeycloakAccessTokenCache? accessTokenCache = null,
+						   TimeSpan? timeout = null)
 	{
 		Prefix = prefix.TrimStart('/').TrimEnd('/');
 		AdminClientId = adminClientId;
 		AuthenticationRealm = authenticationRealm;
 		AccessTokenCache = accessTokenCache;
+		Timeout = timeout;
 	}
 }

@@ -36,17 +36,23 @@ public static class FlurlRequestExtensions
             }
         }
 
-		var result = await url.AppendPathSegment($"{options.Prefix}/realms/{realm}/protocol/openid-connect/token")
-							  .WithHeader("Accept", "application/json")
-							  .PostUrlEncodedAsync(new List<KeyValuePair<string, string>>
-												   {
-													   new("grant_type", "password"),
-													   new("username", userName),
-													   new("password", password),
-													   new("client_id", options.AdminClientId)
-												   })
-							  .ReceiveJson<AccessTokenDto>()
-							  .ConfigureAwait(false);
+		var request = url.AppendPathSegment($"{options.Prefix}/realms/{realm}/protocol/openid-connect/token")
+						 .WithHeader("Accept", "application/json");
+
+		if (options.Timeout.HasValue)
+		{
+			request = request.WithTimeout(options.Timeout.Value);
+		}
+
+		var result = await request.PostUrlEncodedAsync(new List<KeyValuePair<string, string>>
+													   {
+														   new("grant_type", "password"),
+														   new("username", userName),
+														   new("password", password),
+														   new("client_id", options.AdminClientId)
+													   })
+								  .ReceiveJson<AccessTokenDto>()
+								  .ConfigureAwait(false);
 
         if (canCache)
         {
@@ -88,16 +94,22 @@ public static class FlurlRequestExtensions
             }
         }
 
-        var result = await url.AppendPathSegment($"{options.Prefix}/realms/{realm}/protocol/openid-connect/token")
-							  .WithHeader("Content-Type", "application/x-www-form-urlencoded")
-							  .PostUrlEncodedAsync(new List<KeyValuePair<string, string>>
-												   {
-													   new("grant_type", "client_credentials"),
-													   new("client_secret", clientSecret),
-													   new("client_id", options.AdminClientId)
-												   })
-							  .ReceiveJson<AccessTokenDto>()
-							  .ConfigureAwait(false);
+        var request = url.AppendPathSegment($"{options.Prefix}/realms/{realm}/protocol/openid-connect/token")
+						 .WithHeader("Content-Type", "application/x-www-form-urlencoded");
+
+		if (options.Timeout.HasValue)
+		{
+			request = request.WithTimeout(options.Timeout.Value);
+		}
+
+        var result = await request.PostUrlEncodedAsync(new List<KeyValuePair<string, string>>
+													   {
+														   new("grant_type", "client_credentials"),
+														   new("client_secret", clientSecret),
+														   new("client_id", options.AdminClientId)
+													   })
+								  .ReceiveJson<AccessTokenDto>()
+								  .ConfigureAwait(false);
 
         if (canCache)
         {
