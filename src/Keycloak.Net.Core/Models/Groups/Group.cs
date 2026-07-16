@@ -6,8 +6,14 @@ public class Group
 	public string Id { get; set; }
 	[JsonPropertyName("name")]
 	public string Name { get; set; }
+	[JsonPropertyName("description")]
+	public string Description { get; set; }
 	[JsonPropertyName("path")]
 	public string Path { get; set; }
+	[JsonPropertyName("parentId")]
+	public string ParentId { get; set; }
+	[JsonPropertyName("subGroupCount")]
+	public long? SubGroupCount { get; set; }
 	[JsonPropertyName("subGroups")]
 	public IEnumerable<Group> Subgroups { get; set; }
 	[JsonPropertyName("realmRoles")]
@@ -16,4 +22,6 @@ public class Group
 	public IDictionary<string, IEnumerable<string>> ClientRoles { get; set; }
 	[JsonPropertyName("attributes")]
 	public IDictionary<string, IEnumerable<string>> Attributes { get; set; }
+	[JsonPropertyName("access")]
+	public IDictionary<string, bool> Access { get; set; }
 }

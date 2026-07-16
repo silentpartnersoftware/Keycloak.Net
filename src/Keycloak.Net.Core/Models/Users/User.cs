@@ -30,6 +30,8 @@ public class User
 	public UserAccess Access { get; set; }
 	[JsonPropertyName("attributes")]
 	public Dictionary<string, IEnumerable<string>> Attributes { get; set; }
+	[JsonPropertyName("userProfileMetadata")]
+	public UserProfileMetadata? UserProfileMetadata { get; set; }
 	[JsonPropertyName("clientConsents")]
 	public IEnumerable<UserConsent> ClientConsents { get; set; }
 	[JsonPropertyName("clientRoles")]
@@ -42,6 +44,10 @@ public class User
 	public string FederationLink { get; set; }
 	[JsonPropertyName("groups")]
 	public IEnumerable<string> Groups { get; set; }
+	[JsonPropertyName("applicationRoles")]
+	public IDictionary<string, IEnumerable<string>>? ApplicationRoles { get; set; }
+	[JsonPropertyName("socialLinks")]
+	public IEnumerable<SocialLink>? SocialLinks { get; set; }
 	[JsonPropertyName("origin")]
 	public string Origin { get; set; }
 	[JsonPropertyName("realmRoles")]

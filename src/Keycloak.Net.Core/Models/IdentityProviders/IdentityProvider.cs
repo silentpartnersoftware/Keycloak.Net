@@ -4,6 +4,8 @@ public class IdentityProvider
 {
 	[JsonPropertyName("alias")]
 	public string Alias { get; set; }
+	[JsonPropertyName("displayName")]
+	public string? DisplayName { get; set; }
 	[JsonPropertyName("internalId")]
 	public string InternalId { get; set; }
 	[JsonPropertyName("providerId")]
@@ -22,8 +24,18 @@ public class IdentityProvider
 	public bool? AuthenticateByDefault { get; set; }
 	[JsonPropertyName("linkOnly")]
 	public bool? LinkOnly { get; set; }
+	[JsonPropertyName("hideOnLogin")]
+	public bool? HideOnLogin { get; set; }
 	[JsonPropertyName("firstBrokerLoginFlowAlias")]
 	public string FirstBrokerLoginFlowAlias { get; set; }
+	[JsonPropertyName("postBrokerLoginFlowAlias")]
+	public string? PostBrokerLoginFlowAlias { get; set; }
+	[JsonPropertyName("organizationId")]
+	public string? OrganizationId { get; set; }
 	[JsonPropertyName("config")]
 	public Config Config { get; set; }
+	[JsonPropertyName("types")]
+	public IEnumerable<string>? Types { get; set; }
+	[JsonPropertyName("updateProfileFirstLogin")]
+	public bool? UpdateProfileFirstLogin { get; set; }
 }

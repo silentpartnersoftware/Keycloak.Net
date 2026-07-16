@@ -1,4 +1,5 @@
 ﻿using Keycloak.Net.Core.Models.Organizations;
+using Keycloak.Net.Models.Groups;
 using Keycloak.Net.Models.IdentityProviders;
 
 namespace Keycloak.Net.Models.Organizations;
@@ -34,4 +35,7 @@ public class Organization
 
 	[JsonPropertyName("identityProviders")]
 	public IEnumerable<IdentityProvider>? IdentityProviders { get; set; }
+
+	[JsonPropertyName("groups")]
+	public IEnumerable<Group>? Groups { get; set; }
 }
