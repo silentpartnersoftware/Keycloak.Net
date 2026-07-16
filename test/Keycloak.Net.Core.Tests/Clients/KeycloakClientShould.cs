@@ -6,263 +6,248 @@ namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory]
-        [InlineData("master")]
-        public async Task GetClientsAsync(string realm)
+        [Fact]
+        public async Task GetClientsAsync()
         {
-            var result = await _client.GetClientsAsync(realm).ConfigureAwait(false);
+            var realm = KeycloakTestFixture.Realm;
+            var fixtureClientUuid = await _fixture.FixtureClientUuidAsync();
+            var groupClientUuid = await _fixture.GroupClientUuidAsync();
+            var userClientUuid = await _fixture.UserClientUuidAsync();
+
+            var result = await _client.GetClientsAsync(realm);
+
+            Assert.Equal(fixtureClientUuid, result.Single(x => x.ClientId == KeycloakTestFixture.FixtureClientId).Id);
+            Assert.Equal(groupClientUuid, result.Single(x => x.ClientId == KeycloakTestFixture.GroupClientId).Id);
+            Assert.Equal(userClientUuid, result.Single(x => x.ClientId == KeycloakTestFixture.UserClientId).Id);
+        }
+
+        [Fact]
+        public async Task GetClientAsync()
+        {
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GetClientAsync(realm, clientUuid);
+
+            Assert.Equal(clientUuid, result.Id);
+            Assert.Equal("keycloak-net-fixture-client", result.ClientId);
+            Assert.True(result.Enabled);
+            Assert.Equal("openid-connect", result.Protocol);
+        }
+
+        [Fact]
+        public async Task GenerateClientSecretAsync()
+        {
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GenerateClientSecretAsync(realm, clientUuid);
+
+            Assert.Equal("secret", result.Type);
+            Assert.False(string.IsNullOrWhiteSpace(result.Value));
+        }
+
+        [Fact]
+        public async Task GetClientSecretAsync()
+        {
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GetClientSecretAsync(realm, clientUuid);
+
+            Assert.Equal("secret", result.Type);
+            Assert.False(string.IsNullOrWhiteSpace(result.Value));
+        }
+
+        [Fact]
+        public async Task GetDefaultClientScopesAsync()
+        {
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GetDefaultClientScopesAsync(realm, clientUuid);
+            string[] expectedScopeNames = ["web-origins", "service_account", "acr", "profile", "roles", "basic", "email"];
+
+            Assert.Equivalent(expectedScopeNames, result.Select(x => x.Name), strict: true);
+        }
+
+        [Fact(Skip = "Not working yet")]
+        public async Task GenerateClientExampleAccessTokenAsync()
+        {
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GenerateClientExampleAccessTokenAsync(realm, clientUuid);
+
             Assert.NotNull(result);
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetProtocolMappersInTokenGenerationAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GetClientAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GetProtocolMappersInTokenGenerationAsync(realm, clientUuid);
+            var mapperNames = result.Select(x => x.MapperName).ToArray();
+
+            Assert.Contains("Client IP Address", mapperNames);
+            Assert.Contains("Client Host", mapperNames);
+            Assert.Contains("Client ID", mapperNames);
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GenerateClientSecretAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetClientGrantedScopeMappingsAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GenerateClientSecretAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var realmRoles = await _client.GetClientGrantedScopeMappingsAsync(realm, clientUuid, realm);
+            var clientRoles = await _client.GetClientGrantedScopeMappingsAsync(realm, clientUuid, clientUuid);
+
+            Assert.Contains(realmRoles, x => x.Name == "default-roles-keycloak-net-fixture");
+            Assert.Contains(realmRoles, x => x.Name == "offline_access");
+            Assert.Empty(clientRoles);
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientSecretAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetClientNotGrantedScopeMappingsAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GetClientSecretAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var realmRoles = await _client.GetClientNotGrantedScopeMappingsAsync(realm, clientUuid, realm);
+            var clientRoles = await _client.GetClientNotGrantedScopeMappingsAsync(realm, clientUuid, clientUuid);
+
+            Assert.Empty(realmRoles);
+            Assert.Empty(clientRoles);
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetDefaultClientScopesAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetClientProviderAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GetDefaultClientScopesAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GetClientProviderAsync(realm, clientUuid, "keycloak-oidc-keycloak-json");
+
+            Assert.Contains("\"realm\" : \"keycloak-net-fixture\"", result);
+            Assert.Contains("\"resource\" : \"keycloak-net-fixture-client\"", result);
+            Assert.Contains("\"credentials\"", result);
         }
 
-        [Theory(Skip = "Not working yet")]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GenerateClientExampleAccessTokenAsync(string realm, string clientId)
-        {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GenerateClientExampleAccessTokenAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
-        }
-
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetProtocolMappersInTokenGenerationAsync(string realm, string clientId)
-        {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GetProtocolMappersInTokenGenerationAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
-        }
-
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientGrantedScopeMappingsAsync(string realm, string clientId)
-        {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GetClientGrantedScopeMappingsAsync(realm, clientsId, realm).ConfigureAwait(false);
-                Assert.NotNull(result);
-                result = await _client.GetClientGrantedScopeMappingsAsync(realm, clientsId, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
-        }
-
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientNotGrantedScopeMappingsAsync(string realm, string clientId)
-        {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GetClientNotGrantedScopeMappingsAsync(realm, clientsId, realm).ConfigureAwait(false);
-                Assert.NotNull(result);
-                result = await _client.GetClientNotGrantedScopeMappingsAsync(realm, clientsId, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
-        }
-
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientProviderAsync(string realm, string clientId)
-        {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var providerInstances = await _client.GetIdentityProviderInstancesAsync(realm).ConfigureAwait(false);
-                string providerInstanceId = providerInstances.FirstOrDefault()?.ProviderId;
-                if (providerInstanceId != null)
-                {
-                    string result = await _client.GetClientProviderAsync(realm, clientsId, providerInstanceId).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                }
-            }
-        }
-
-        [SkippableTheory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientAuthorizationPermissionsInitializedAsync(string realm, string clientId)
+        [SkippableFact]
+        public async Task GetClientAuthorizationPermissionsInitializedAsync()
         {
             Skip.IfNot(IsServerFeatureEnabled("ADMIN_FINE_GRAINED_AUTHZ"), "Requires Keycloak feature ADMIN_FINE_GRAINED_AUTHZ (v1) to be enabled.");
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GetClientAuthorizationPermissionsInitializedAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.GroupClientUuidAsync();
+
+            var result = await _client.GetClientAuthorizationPermissionsInitializedAsync(realm, clientUuid);
+
+            Assert.False(result.Enabled);
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientOfflineSessionCountAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetClientOfflineSessionCountAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                int? result = await _client.GetClientOfflineSessionCountAsync(realm, clientsId);
-                Assert.True(result >= 0);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GetClientOfflineSessionCountAsync(realm, clientUuid);
+
+            Assert.Equal(0, result);
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientOfflineSessionsAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetClientOfflineSessionsAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GetClientOfflineSessionsAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GetClientOfflineSessionsAsync(realm, clientUuid);
+
+            Assert.Empty(result);
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetOptionalClientScopesAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetOptionalClientScopesAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GetOptionalClientScopesAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GetOptionalClientScopesAsync(realm, clientUuid);
+            string[] expectedScopeNames = ["address", "phone", "offline_access", "organization", "microprofile-jwt"];
+
+            Assert.Equivalent(expectedScopeNames, result.Select(x => x.Name), strict: true);
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GenerateClientRegistrationAccessTokenAsync(string realm, string clientId)
+        [Fact]
+        public async Task GenerateClientRegistrationAccessTokenAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GenerateClientRegistrationAccessTokenAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GenerateClientRegistrationAccessTokenAsync(realm, clientUuid);
+
+            Assert.Equal(clientUuid, result.Id);
+            Assert.Equal("keycloak-net-fixture-client", result.ClientId);
+            Assert.False(string.IsNullOrWhiteSpace(result.Secret));
         }
 
-        [Theory()]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetUserForServiceAccountAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetUserForServiceAccountAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GetUserForServiceAccountAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GetUserForServiceAccountAsync(realm, clientUuid);
+
+            Assert.Equal("service-account-keycloak-net-fixture-client", result.UserName);
+            Assert.True(result.Enabled);
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientSessionCountAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetClientSessionCountAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                int? result = await _client.GetClientSessionCountAsync(realm, clientsId);
-                Assert.True(result >= 0);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GetClientSessionCountAsync(realm, clientUuid);
+
+            Assert.Equal(0, result);
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task TestClientClusterNodesAvailableAsync(string realm, string clientId)
+        [Fact]
+        public async Task TestClientClusterNodesAvailableAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.TestClientClusterNodesAvailableAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.TestClientClusterNodesAvailableAsync(realm, clientUuid);
+
+            Assert.Null(result.FailedRequests);
+            Assert.Null(result.SuccessRequests);
         }
 
-        [Theory]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetClientUserSessionsAsync(string realm, string clientId)
+        [Fact]
+        public async Task GetClientUserSessionsAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            string clientsId = clients.FirstOrDefault(x => x.ClientId == clientId)?.Id;
-            if (clientsId != null)
-            {
-                var result = await _client.GetClientUserSessionsAsync(realm, clientsId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.FixtureClientUuidAsync();
+
+            var result = await _client.GetClientUserSessionsAsync(realm, clientUuid);
+
+            Assert.Empty(result);
         }
 
-        [Theory(Skip = "Pending to figure out test configuration")]
-        [InlineData("Insurance", "insurance-product")]
-        public async Task GetResourcesOwnedByClientAsync(string realm, string clientId)
+        [Fact(Skip = "Pending to figure out test configuration")]
+        public async Task GetResourcesOwnedByClientAsync()
         {
-            var result = await _client.GetResourcesOwnedByClientAsync(realm, clientId).ConfigureAwait(false);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetResourcesOwnedByClientAsync(realm, KeycloakTestFixture.FixtureClientId);
+
             Assert.NotNull(result);
         }
     }

@@ -7,7 +7,7 @@
  * changed ClientConfig to Dictionary<string, string>
  * removed signing
  * .NET 8 and .NET 10 support only
- * updated for keycloak version 25+
+ * updated for keycloak version 26+
  * added support for changing default `AdminClientId` which has default `admin-cli` value
  * added support for System.Text.Json in replacement of NewtonsoftJson.
 
@@ -34,9 +34,9 @@
 );
  ```
 
-C# client for [Keycloak](https://www.keycloak.org/) 6.x
+C# client for [Keycloak](https://www.keycloak.org/) 26.x
 
-See documentation at [https://www.keycloak.org/docs-api/6.0/rest-api/](https://www.keycloak.org/docs-api/6.0/rest-api/)
+See documentation at [https://www.keycloak.org/docs-api/latest/rest-api/](https://www.keycloak.org/docs-api/latest/rest-api/)
 
 ## Features
 * [X] Attack Detection
@@ -63,8 +63,20 @@ See documentation at [https://www.keycloak.org/docs-api/6.0/rest-api/](https://w
 
 ## Testing
 
-In order to run the tests, all it's needed is to have a running instance of Keycloak with (preferably) the `master` realm credentials admin/admin (as it's currently configured in the `/test/Keycloak.Net.Core.Tests/appsettings.json`) and create a new realm `Insurance` by importing the file in `/test/insurance-real-export.json`, which also has its admin user with the same credentials as mentioned before.
+The easiest way to run the tests is to use the fixture launcher:
 
-Then it's just as easy as running the tests.
+```bash
+./build/start-keycloak.sh --test --auto-cleanup
+```
 
-If for some reason you want to change the credentials, you need to make sure both realms have the same user and password as the tests use the same credentials for both `master` and `Insurance` realms.
+This starts Keycloak 26.7.0 in Docker, imports `/test/keycloak-net-fixture-realm-export.json`, runs the tests, and removes the container when the run completes.
+
+To start the fixture server without running tests:
+
+```bash
+./build/start-keycloak.sh
+```
+
+The fixture realm is `keycloak-net-fixture`. The tests use the credentials in `/test/Keycloak.Net.Core.Tests/appsettings.json`; the fixture export includes the matching realm admin user.
+
+If you prefer to run Keycloak manually, import `/test/keycloak-net-fixture-realm-export.json` into a Keycloak 26.7.0 instance before running the tests. The imported realm must be available at `keycloak-net-fixture`, and the credentials in `/test/Keycloak.Net.Core.Tests/appsettings.json` must match the realm admin user included in the export.

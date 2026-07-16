@@ -6,150 +6,169 @@ namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory]
-        [InlineData("master")]
-        public async Task GetAuthenticatorProvidersAsync(string realm)
+        [Fact]
+        public async Task GetAuthenticatorProvidersAsync()
         {
-            var result = await _client.GetAuthenticatorProvidersAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetAuthenticatorProvidersAsync(realm);
+            var providerIds = result.Select(x => x["id"].ToString()).ToArray();
+
+            Assert.Contains("auth-cookie", providerIds);
+            Assert.Contains("auth-password-form", providerIds);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetClientAuthenticatorProvidersAsync(string realm)
+        [Fact]
+        public async Task GetClientAuthenticatorProvidersAsync()
         {
-            var result = await _client.GetClientAuthenticatorProvidersAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetClientAuthenticatorProvidersAsync(realm);
+            var providerIds = result.Select(x => x["id"].ToString()).ToArray();
+
+            Assert.Contains("client-secret", providerIds);
+            Assert.Contains("client-jwt", providerIds);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetAuthenticatorProviderConfigurationDescriptionAsync(string realm)
+        [Fact]
+        public async Task GetAuthenticatorProviderConfigurationDescriptionAsync()
         {
-            var providers = await _client.GetAuthenticatorProvidersAsync(realm).ConfigureAwait(false);
-            string providerId = providers.FirstOrDefault()?.FirstOrDefault(x => x.Key == "id").Value.ToString();
-            if (providerId != null)
-            {
-                var result = await _client.GetAuthenticatorProviderConfigurationDescriptionAsync(realm, providerId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetAuthenticatorProviderConfigurationDescriptionAsync(realm, "auth-cookie");
+
+            Assert.Equal("auth-cookie", result.ProviderId);
+            Assert.Equal("Cookie", result.Name);
         }
 
-        [Theory(Skip = "Not working yet")]
-        [InlineData("master")]
-        public async Task GetAuthenticatorConfigurationAsync(string realm)
+        [Fact(Skip = "Requires a configured authenticator configuration ID to be meaningfully tested.")]
+        public async Task GetAuthenticatorConfigurationAsync()
         {
+            var realm = KeycloakTestFixture.Realm;
             string configurationId = ""; //TODO
             if (configurationId != null)
             {
-                var result = await _client.GetAuthenticatorConfigurationAsync(realm, configurationId).ConfigureAwait(false);
+                var result = await _client.GetAuthenticatorConfigurationAsync(realm, configurationId);
                 Assert.NotNull(result);
             }
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetAuthenticationExecutionAsync(string realm)
+        [Fact]
+        public async Task GetAuthenticationExecutionAsync()
         {
-            var flows = await _client.GetAuthenticationFlowsAsync(realm).ConfigureAwait(false);
-            string flowAlias = flows.FirstOrDefault()?.Alias;
-            if (flowAlias != null)
-            {
-                var executions = await _client.GetAuthenticationFlowExecutionsAsync(realm, flowAlias).ConfigureAwait(false);
-                string executionId = executions.FirstOrDefault()?.Id;
-                if (executionId != null)
-                {
-                    var result = await _client.GetAuthenticationExecutionAsync(realm, executionId).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                }
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var executions = await _client.GetAuthenticationFlowExecutionsAsync(realm, "browser");
+            var executionId = executions.Single(x => x.ProviderId == "auth-cookie").Id;
+
+            var result = await _client.GetAuthenticationExecutionAsync(realm, executionId);
+
+            Assert.Equal(executionId, result.Id);
+            Assert.Equal("auth-cookie", result.Authenticator);
+            Assert.Equal("ALTERNATIVE", result.Requirement);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetAuthenticationFlowsAsync(string realm)
+        [Fact]
+        public async Task GetAuthenticationFlowsAsync()
         {
-            var result = await _client.GetAuthenticationFlowsAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetAuthenticationFlowsAsync(realm);
+            var aliases = result.Select(x => x.Alias).ToArray();
+
+            Assert.Contains("browser", aliases);
+            Assert.Contains("direct grant", aliases);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetAuthenticationFlowExecutionsAsync(string realm)
+        [Fact]
+        public async Task GetAuthenticationFlowExecutionsAsync()
         {
-            var flows = await _client.GetAuthenticationFlowsAsync(realm).ConfigureAwait(false);
-            string flowAlias = flows.FirstOrDefault()?.Alias;
-            if (flowAlias != null)
-            {
-                var result = await _client.GetAuthenticationFlowExecutionsAsync(realm, flowAlias).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetAuthenticationFlowExecutionsAsync(realm, "browser");
+            var providerIds = result.Select(x => x.ProviderId).ToArray();
+
+            Assert.Contains("auth-cookie", providerIds);
+            Assert.Contains("auth-username-password-form", providerIds);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetAuthenticationFlowByIdAsync(string realm)
+        [Fact]
+        public async Task GetAuthenticationFlowByIdAsync()
         {
-            var flows = await _client.GetAuthenticationFlowsAsync(realm).ConfigureAwait(false);
-            string flowId = flows.FirstOrDefault()?.Id;
-            if (flowId != null)
-            {
-                var result = await _client.GetAuthenticationFlowByIdAsync(realm, flowId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var flows = await _client.GetAuthenticationFlowsAsync(realm);
+            var flowId = flows.Single(x => x.Alias == "browser").Id;
+
+            var result = await _client.GetAuthenticationFlowByIdAsync(realm, flowId);
+
+            Assert.Equal(flowId, result.Id);
+            Assert.Equal("browser", result.Alias);
+            Assert.Equal("basic-flow", result.ProviderId);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetFormActionProvidersAsync(string realm)
+        [Fact]
+        public async Task GetFormActionProvidersAsync()
         {
-            var result = await _client.GetFormActionProvidersAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetFormActionProvidersAsync(realm);
+            var providerIds = result.Select(x => x["id"].ToString()).ToArray();
+
+            Assert.Contains("registration-user-creation", providerIds);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetFormProvidersAsync(string realm)
+        [Fact]
+        public async Task GetFormProvidersAsync()
         {
-            var result = await _client.GetFormProvidersAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetFormProvidersAsync(realm);
+            var providerIds = result.Select(x => x["id"].ToString()).ToArray();
+
+            Assert.Contains("registration-page-form", providerIds);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetConfigurationDescriptionsForAllClientsAsync(string realm)
+        [Fact]
+        public async Task GetConfigurationDescriptionsForAllClientsAsync()
         {
-            var result = await _client.GetConfigurationDescriptionsForAllClientsAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetConfigurationDescriptionsForAllClientsAsync(realm);
+
+            Assert.Contains("client-secret", result.Keys);
+            Assert.Contains("client-jwt", result.Keys);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRequiredActionsAsync(string realm)
+        [Fact]
+        public async Task GetRequiredActionsAsync()
         {
-            var result = await _client.GetRequiredActionsAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetRequiredActionsAsync(realm);
+            var aliases = result.Select(x => x.Alias).ToArray();
+
+            Assert.Contains("UPDATE_PASSWORD", aliases);
+            Assert.Contains("VERIFY_EMAIL", aliases);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetRequiredActionByAliasAsync(string realm)
+        [Fact]
+        public async Task GetRequiredActionByAliasAsync()
         {
-            var requiredActions = await _client.GetRequiredActionsAsync(realm).ConfigureAwait(false);
-            string requiredActionAlias = requiredActions.FirstOrDefault()?.Alias;
-            if (requiredActionAlias != null)
-            {
-                var result = await _client.GetRequiredActionByAliasAsync(realm, requiredActionAlias).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetRequiredActionByAliasAsync(realm, "UPDATE_PASSWORD");
+
+            Assert.Equal("UPDATE_PASSWORD", result.Alias);
+            Assert.True(result.Enabled);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetUnregisteredRequiredActionsAsync(string realm)
+        [Fact]
+        public async Task GetUnregisteredRequiredActionsAsync()
         {
-            var result = await _client.GetUnregisteredRequiredActionsAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetUnregisteredRequiredActionsAsync(realm);
+
+            Assert.Empty(result);
         }
     }
 }

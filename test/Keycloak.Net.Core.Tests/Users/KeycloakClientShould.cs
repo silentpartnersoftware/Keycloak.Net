@@ -6,86 +6,87 @@ namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory]
-        [InlineData("master")]
-        public async Task GetUsersAsync(string realm)
+        [Fact]
+        public async Task GetUsersAsync()
         {
-            var result = await _client.GetUsersAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+
+            var result = await _client.GetUsersAsync(realm, username: KeycloakTestFixture.UserName, exact: true);
+            string[] expectedUserNames = ["keycloak-net-fixture-user"];
+
+            Assert.Equivalent(expectedUserNames, result.Select(x => x.UserName), strict: true);
+            Assert.Equal(userId, result.Single().Id);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetUsersCountAsync(string realm)
+        [Fact]
+        public async Task GetUsersCountAsync()
         {
-            int? result = await _client.GetUsersCountAsync(realm);
-            Assert.True(result >= 0);
+            var realm = KeycloakTestFixture.Realm;
+
+            var result = await _client.GetUsersCountAsync(realm, username: KeycloakTestFixture.UserName);
+
+            Assert.Equal(1, result);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetUserAsync(string realm)
+        [Fact]
+        public async Task GetUserAsync()
         {
-            var users = await _client.GetUsersAsync(realm).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                var result = await _client.GetUserAsync(realm, userId).ConfigureAwait(false);
-                Assert.NotNull(result);
-                Assert.Equal(userId, result.Id);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+
+            var result = await _client.GetUserAsync(realm, userId);
+
+            Assert.Equal(userId, result.Id);
+            Assert.Equal("keycloak-net-fixture-user", result.UserName);
+            Assert.True(result.Enabled);
         }
 
-        [Theory]
-        [InlineData("Insurance", "vermeulen")]
-        public async Task GetUserSocialLoginsAsync(string realm, string search)
+        [Fact]
+        public async Task GetUserSocialLoginsAsync()
         {
-            var users = await _client.GetUsersAsync(realm, search: search).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                var result = await _client.GetUserSocialLoginsAsync(realm, userId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+
+            var result = await _client.GetUserSocialLoginsAsync(realm, userId);
+
+            Assert.Empty(result);
         }
 
-        [Theory]
-        [InlineData("Insurance", "vermeulen")]
-        public async Task GetUserGroupsAsync(string realm, string search)
+        [Fact]
+        public async Task GetUserGroupsAsync()
         {
-            var users = await _client.GetUsersAsync(realm, search: search).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                var result = await _client.GetUserGroupsAsync(realm, userId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var groupId = await _fixture.GroupIdAsync();
+            var userId = await _fixture.UserIdAsync();
+
+            var result = await _client.GetUserGroupsAsync(realm, userId);
+            string[] expectedGroupNames = ["keycloak-net-fixture-group"];
+
+            Assert.Equivalent(expectedGroupNames, result.Select(x => x.Name), strict: true);
+            Assert.Equal(groupId, result.Single().Id);
         }
 
-        [Theory]
-        [InlineData("Insurance", "vermeulen")]
-        public async Task GetUserGroupsCountAsync(string realm, string search)
+        [Fact]
+        public async Task GetUserGroupsCountAsync()
         {
-            var users = await _client.GetUsersAsync(realm, search: search).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                int? result = await _client.GetUserGroupsCountAsync(realm, userId);
-                Assert.True(result >= 0);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+
+            var result = await _client.GetUserGroupsCountAsync(realm, userId);
+
+            Assert.Equal(1, result);
         }
 
-        [Theory]
-        [InlineData("Insurance", "vermeulen")]
-        public async Task GetUserSessionsAsync(string realm, string search)
+        [Fact]
+        public async Task GetUserSessionsAsync()
         {
-            var users = await _client.GetUsersAsync(realm, search: search).ConfigureAwait(false);
-            string userId = users.FirstOrDefault()?.Id;
-            if (userId != null)
-            {
-                var result = await _client.GetUserSessionsAsync(realm, userId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var userId = await _fixture.UserIdAsync();
+
+            var result = await _client.GetUserSessionsAsync(realm, userId);
+
+            Assert.Empty(result);
         }
     }
 }

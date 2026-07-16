@@ -6,25 +6,30 @@ namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory]
-        [InlineData("master")]
-        public async Task GetClientScopesAsync(string realm)
+        [Fact]
+        public async Task GetClientScopesAsync()
         {
-            var result = await _client.GetClientScopesAsync(realm).ConfigureAwait(false);
-            Assert.NotNull(result);
+            var realm = KeycloakTestFixture.Realm;
+            var clientScopeId = await _fixture.ClientScopeIdAsync();
+
+            var result = await _client.GetClientScopesAsync(realm);
+            var clientScope = result.Single(x => x.Name == KeycloakTestFixture.ClientScopeName);
+
+            Assert.Equal(clientScopeId, clientScope.Id);
         }
 
-        [Theory]
-        [InlineData("master")]
-        public async Task GetClientScopeAsync(string realm)
+        [Fact]
+        public async Task GetClientScopeAsync()
         {
-            var clientScopes = await _client.GetClientScopesAsync(realm).ConfigureAwait(false);
-            string clientScopeId = clientScopes.FirstOrDefault()?.Id;
-            if (clientScopeId != null)
-            {
-                var result = await _client.GetClientScopeAsync(realm, clientScopeId).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientScopeId = await _fixture.ClientScopeIdAsync();
+
+            var result = await _client.GetClientScopeAsync(realm, clientScopeId);
+
+            Assert.Equal(clientScopeId, result.Id);
+            Assert.Equal("keycloak-net-fixture-client-scope", result.Name);
+            Assert.Equal("Fixture client scope for Keycloak.Net tests.", result.Description);
+            Assert.Equal("openid-connect", result.Protocol);
         }
     }
 }

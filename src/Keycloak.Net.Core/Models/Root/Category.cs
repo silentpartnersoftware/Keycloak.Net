@@ -20,4 +20,6 @@ public enum Category
 	NameIdMapper,
 	[EnumMember(Value = "Audience mapper")]
 	AudienceMapper,
+	[EnumMember(Value = "AuthnContextClassRef mapper")]
+	AuthnContextClassRefMapper,
 }

@@ -6,20 +6,16 @@ namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
-        [Theory]
-        [InlineData("master")]
-        public async Task GetKeyInfoAsync(string realm)
+        [Fact]
+        public async Task GetKeyInfoAsync()
         {
-            var clients = await _client.GetClientsAsync(realm).ConfigureAwait(false);
-            (string clientId, string attribute) = clients
-                .Where(x => x.Attributes.Any())
-                .Select(client => (client.Id, client.Attributes.FirstOrDefault().Key))
-                .FirstOrDefault();
-            if (clientId != null)
-            {
-                var result = await _client.GetKeyInfoAsync(realm, clientId, attribute).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var realm = KeycloakTestFixture.Realm;
+            var clientUuid = await _fixture.GroupClientUuidAsync();
+
+            var result = await _client.GetKeyInfoAsync(realm, clientUuid, "jwt.credential");
+
+            Assert.Null(result.Kid);
+            Assert.Null(result._Certificate);
         }
     }
 }
