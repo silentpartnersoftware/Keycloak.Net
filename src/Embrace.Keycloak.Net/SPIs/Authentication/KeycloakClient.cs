@@ -85,4 +85,26 @@ public partial class KeycloakClient
             return await HandleErrorResponse<MicrosoftToken>(ex);
         }
     }
+
+    public async Task<Response<MicrosoftToken>> FetchSystemTokenAsync(string realm, string tenantId)
+    {
+        try
+        {
+            var response = await GetBaseUrl(realm)
+                .AppendPathSegment($"/realms/{realm}/spi-authentication/system-token")
+                .WithHeader(HttpConstants.ContentType, HttpConstants.FormUrlEncoded)
+                .PostUrlEncodedAsync(new List<KeyValuePair<string, string>>
+                {
+                    new("tenant_id", tenantId)
+                })
+                .ReceiveJson<MicrosoftToken>()
+                .ConfigureAwait(false);
+
+            return Response<MicrosoftToken>.Success(HttpStatusCode.OK, response);
+        }
+        catch (FlurlHttpException ex)
+        {
+            return await HandleErrorResponse<MicrosoftToken>(ex);
+        }
+    }
 }
