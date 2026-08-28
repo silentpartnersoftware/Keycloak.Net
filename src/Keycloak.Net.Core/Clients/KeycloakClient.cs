@@ -403,6 +403,58 @@ public partial class KeycloakClient
             .ConfigureAwait(false);
     }
 
+    public async Task<Token> ExchangeExternalTokenAsync(string realm,
+                                                        string clientId,
+                                                        string clientSecret,
+                                                        string subjectToken,
+                                                        string subjectIssuer,
+                                                        CancellationToken cancellationToken = default)
+    {
+        var parameters = new Dictionary<string, string>
+		{
+			{ "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
+			{ "client_id", clientId },
+			{ "client_secret", clientSecret },
+			{ "subject_token", subjectToken },
+			{ "subject_token_type", "urn:ietf:params:oauth:token-type:access_token" },
+			{ "subject_issuer", subjectIssuer },
+			{ "requested_token_type", "urn:ietf:params:oauth:token-type:access_token" }
+		};
+
+        return await GetBaseUrl(realm)
+            .AppendPathSegment($"/realms/{realm}/protocol/openid-connect/token")
+            .PostUrlEncodedAsync(parameters, cancellationToken: cancellationToken)
+            .ReceiveJson<Token>()
+            .ConfigureAwait(false);
+    }
+
+    public async Task<Token> ExchangeTokenForSubjectAsync(string realm,
+                                                          string clientId,
+                                                          string clientSecret,
+                                                          string subjectToken,
+                                                          string requestedSubject,
+                                                          string audience,
+                                                          CancellationToken cancellationToken = default)
+    {
+        var parameters = new Dictionary<string, string>
+		{
+			{ "grant_type", "urn:ietf:params:oauth:grant-type:token-exchange" },
+			{ "client_id", clientId },
+			{ "client_secret", clientSecret },
+			{ "subject_token", subjectToken },
+			{ "subject_token_type", "urn:ietf:params:oauth:token-type:access_token" },
+			{ "requested_token_type", "urn:ietf:params:oauth:token-type:access_token" },
+			{ "requested_subject", requestedSubject },
+			{ "audience", audience }
+		};
+
+        return await GetBaseUrl(realm)
+            .AppendPathSegment($"/realms/{realm}/protocol/openid-connect/token")
+            .PostUrlEncodedAsync(parameters, cancellationToken: cancellationToken)
+            .ReceiveJson<Token>()
+            .ConfigureAwait(false);
+    }
+
     public async Task<Token> GetTokenWithResourceOwnerPasswordCredentialsAsync(string realm,
 																			   string clientId,
 																			   string username,
