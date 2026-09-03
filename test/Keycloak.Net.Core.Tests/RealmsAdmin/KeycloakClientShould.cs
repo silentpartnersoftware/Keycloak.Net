@@ -1,11 +1,26 @@
 ﻿using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Keycloak.Net.Models.RealmsAdmin;
 using Xunit;
 
 namespace Keycloak.Net.Tests
 {
     public partial class KeycloakClientShould
     {
+        [Fact]
+        public void SerializeRealmFrontendUrlAttribute()
+        {
+            const string frontendUrl = "https://login.example.com";
+            var attributes = new Attributes { FrontendUrl = frontendUrl };
+
+            var json = JsonSerializer.Serialize(attributes);
+            var result = JsonSerializer.Deserialize<Attributes>(json);
+
+            Assert.Contains("\"frontendUrl\":\"https://login.example.com\"", json);
+            Assert.Equal(frontendUrl, result!.FrontendUrl);
+        }
+
         [Fact]
         public async Task GetRealmsAsync()
         {

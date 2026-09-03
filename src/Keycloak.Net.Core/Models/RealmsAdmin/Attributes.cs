@@ -2,6 +2,8 @@
 
 public class Attributes
 {
+	[JsonPropertyName("frontendUrl")]
+	public string FrontendUrl { get; set; }
 	[JsonPropertyName("_browser_headerxXSSProtection")]
 	public string BrowserHeaderxXssProtection { get; set; }
 	[JsonPropertyName("_browser_headerxFrameOptions")]
