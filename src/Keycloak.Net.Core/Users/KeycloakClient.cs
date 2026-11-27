@@ -173,6 +173,19 @@ public partial class KeycloakClient
         return response.ResponseMessage.IsSuccessStatusCode;
     }
 
+	/// <summary>Updates only the display label of an existing credential.</summary>
+	public async Task<bool> UpdateUserCredentialLabelAsync(string realm,
+														   string userId,
+														   string credentialId,
+														   string label,
+														   CancellationToken cancellationToken = default)
+	{
+		var response = await GetBaseUrl(realm).AppendPathSegment($"/admin/realms/{realm}/users/{userId}/credentials/{credentialId}/userLabel")
+											  .PutStringAsync(label, cancellationToken: cancellationToken)
+											  .ConfigureAwait(false);
+		return response.ResponseMessage.IsSuccessStatusCode;
+	}
+
 	public async Task<bool> DisableUserCredentialsAsync(string realm,
 														string userId,
 														IEnumerable<string> credentialTypes,
