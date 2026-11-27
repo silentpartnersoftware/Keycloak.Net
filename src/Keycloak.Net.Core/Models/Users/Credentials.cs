@@ -28,6 +28,8 @@ public class Credentials
 	public bool? Temporary { get; set; }
 	[JsonPropertyName("type")]
 	public string Type { get; set; }
+	[JsonPropertyName("userLabel")]
+	public string? UserLabel { get; set; }
 	[JsonPropertyName("value")]
 	public string Value { get; set; }
 }
